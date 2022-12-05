@@ -17,7 +17,7 @@ import com.henriquevieira.commonsui.textinput.CustomTextInput
 import com.henriquevieira.notes.features.main.viewmodel.MainViewModel
 
 @Composable
-fun MainScreen(mainViewModel: MainViewModel) {
+fun MainScreen(uiState: MainViewState) {
 
     ConstraintLayout(modifier = Modifier.fillMaxSize().background(Color.White)) {
         val (title, textField, button) = createRefs()
@@ -40,7 +40,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                 top.linkTo(title.bottom, 8.dp)
                 bottom.linkTo(button.top, 8.dp)
             },
-            inputType = CustomInputType.Yellow,
+            inputType = uiState.noteColor,
             text = text
         )
 
