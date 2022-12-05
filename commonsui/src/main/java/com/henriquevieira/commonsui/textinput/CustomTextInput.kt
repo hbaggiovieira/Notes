@@ -12,16 +12,48 @@ import com.henriquevieira.commonsui.ds.md_theme_light_primaryContainer
 @Composable
 fun CustomTextInput(
     modifier: Modifier = Modifier,
-    selectedColor: Color = md_theme_light_primaryContainer,
+    inputType: CustomInputType = CustomInputType.Primary,
     text: MutableState<String>,
     label: String? = null,
 ) {
+
+    val textFieldColors = when (inputType) {
+        CustomInputType.Primary -> {
+            TextFieldDefaults.textFieldColors(
+                textColor = Color.Black,
+                containerColor = md_theme_light_primaryContainer
+            )
+        }
+        CustomInputType.Red -> {
+            TextFieldDefaults.textFieldColors(
+                textColor = Color.White,
+                containerColor = Color.Red
+            )
+        }
+        CustomInputType.Green -> {
+            TextFieldDefaults.textFieldColors(
+                textColor = Color.Black,
+                containerColor = Color.Green
+            )
+        }
+        CustomInputType.Yellow -> {
+            TextFieldDefaults.textFieldColors(
+                textColor = Color.Black,
+                containerColor = Color.Yellow
+            )
+        }
+        CustomInputType.Blue -> {
+            TextFieldDefaults.textFieldColors(
+                textColor = Color.White,
+                containerColor = Color.Blue
+            )
+        }
+    }
+
     AppTheme {
         TextField(
             value = text.value,
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = selectedColor
-            ),
+            colors = textFieldColors,
             onValueChange = {
                 text.value = it
             },

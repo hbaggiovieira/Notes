@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.henriquevieira.commonsui.textinput.CustomInputType
 import com.henriquevieira.commonsui.textinput.CustomTextInput
 import com.henriquevieira.notes.features.main.viewmodel.MainViewModel
 
@@ -39,6 +40,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                 top.linkTo(title.bottom, 8.dp)
                 bottom.linkTo(button.top, 8.dp)
             },
+            inputType = CustomInputType.Yellow,
             text = text
         )
 
