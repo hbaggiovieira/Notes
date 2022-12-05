@@ -1,1 +1,0 @@
-/home/henrique/Dev/Notes3/buildSrc/build/classes/kotlin/main/Config$Brand.class:/home/henrique/Dev/Notes3/buildSrc/build/classes/kotlin/main/Config$FlavorDimensions.class:/home/henrique/Dev/Notes3/buildSrc/build/classes/kotlin/main/Config.class:/home/henrique/Dev/Notes3/buildSrc/build/classes/kotlin/main/Versions.class
