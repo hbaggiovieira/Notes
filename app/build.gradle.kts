@@ -77,48 +77,37 @@ dependencies {
 
     val composeBom = platform("androidx.compose:compose-bom:2022.10.00")
     implementation(composeBom)
-    androidTestImplementation(composeBom)
 
-    // Material Design 3
     implementation("androidx.compose.material3:material3")
-
-    // Android Studio Preview support
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-
-    // UI Tests
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-
-    // Optional - Integration with activities
     implementation("androidx.activity:activity-compose:1.6.1")
-    // Optional - Integration with ViewModels
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
 
     //DI - Hilt
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
     implementation("androidx.hilt:hilt-compiler:1.0.0")
-
-    // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle_version}")
-    // ViewModel utilities for Compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycle_version}")
 
     // Annotation processor
     kapt("androidx.lifecycle:lifecycle-compiler:${Versions.lifecycle_version}")
 
-    // optional - Test helpers for LiveData
-    testImplementation("androidx.arch.core:core-testing:${Versions.arch_version}")
-
     // optional - Test helpers for Lifecycle runtime
+    kaptTest("com.google.dagger:hilt-android-compiler:2.42")
+    kaptTest("com.google.dagger:hilt-compiler:2.42")
     testImplementation("androidx.lifecycle:lifecycle-runtime-testing:${Versions.lifecycle_version}")
-
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.arch.core:core-testing:${Versions.arch_version}")
     testImplementation("androidx.lifecycle:lifecycle-runtime-testing:${Versions.lifecycle_version}")
 
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.42")
+    androidTestImplementation(composeBom)
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
