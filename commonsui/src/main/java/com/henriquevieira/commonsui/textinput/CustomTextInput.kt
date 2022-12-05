@@ -1,10 +1,10 @@
 package com.henriquevieira.commonsui.textinput
 
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.henriquevieira.commonsui.ds.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -13,16 +13,18 @@ fun CustomTextInput(
     text: MutableState<String>,
     label: String? = null,
 ) {
-    TextField(
-        value = text.value,
-        onValueChange = {
-            text.value = it
-        },
-        label = {
-            label?.let {
-                Text(label)
-            }
-        },
-        modifier = modifier
-    )
+    AppTheme {
+        TextField(
+            value = text.value,
+            onValueChange = {
+                text.value = it
+            },
+            label = {
+                label?.let {
+                    Text(label)
+                }
+            },
+            modifier = modifier
+        )
+    }
 }

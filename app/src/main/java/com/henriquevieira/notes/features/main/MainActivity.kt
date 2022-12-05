@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.notes.features.main.ui.MainScreen
 import com.henriquevieira.notes.features.main.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,8 +25,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
-                MainScreen()
+            AppTheme {
+                MainScreen(mainViewModel)
             }
         }
     }

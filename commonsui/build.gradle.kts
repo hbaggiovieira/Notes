@@ -52,9 +52,10 @@ dependencies {
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("androidx.core:core-ktx:${Versions.coreKtx}")
 
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
     val composeBom = platform("androidx.compose:compose-bom:2022.10.00")
     implementation(composeBom)
-
     implementation("androidx.compose.material3:material3")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation("androidx.compose.ui:ui-tooling-preview")
