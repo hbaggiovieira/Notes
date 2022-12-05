@@ -18,15 +18,25 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-//    productFlavors {
-//        create(Config.Brand.brand_a) {
-//            dimension = Config.FlavorDimensions.flavor_a
-//        }
-//
-//        create(Config.Brand.brand_b) {
-//            dimension = Config.FlavorDimensions.flavor_b
-//        }
-//    }
+    flavorDimensions += Config.FlavorDimensions.BRAND
+    productFlavors {
+        create(Config.Brand.FREE) {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // If you are using only one dimension, this property is optional,
+            // and the plugin automatically assigns all the module's flavors to
+            // that dimension.
+            dimension = Config.FlavorDimensions.BRAND
+            applicationIdSuffix = ".${Config.Brand.FREE}"
+            versionNameSuffix = "-${Config.Brand.FREE}"
+            buildConfigField("String", "BRAND", "\"FREE\"")
+        }
+        create(Config.Brand.PREMIUM) {
+            dimension = Config.FlavorDimensions.BRAND
+            applicationIdSuffix = ".${Config.Brand.PREMIUM}"
+            versionNameSuffix = "-${Config.Brand.PREMIUM}"
+            buildConfigField("String", "BRAND", "\"PREMIUM\"")
+        }
+    }
 
     buildTypes {
         getByName("debug") {

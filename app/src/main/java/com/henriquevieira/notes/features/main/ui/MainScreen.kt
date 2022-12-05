@@ -32,7 +32,8 @@ fun MainScreen(mainViewModel: MainViewModel) {
         val text = remember { mutableStateOf("") }
 
         CustomTextInput(
-            modifier = Modifier.constrainAs(textField) {
+            modifier = Modifier.constrainAs(textField)
+            {
                 width = Dimension.matchParent
                 height = Dimension.fillToConstraints
                 top.linkTo(title.bottom, 8.dp)

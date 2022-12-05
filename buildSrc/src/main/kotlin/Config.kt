@@ -14,12 +14,11 @@ object Config {
     const val androidTestInstrumentation = "androidx.test.runner.AndroidJUnitRunner"
 
     object FlavorDimensions {
-        const val flavor_a = "productA"
-        const val flavor_b = "productB"
+        const val BRAND = "brand"
     }
 
     object Brand {
-        const val brand_a = "brandA"
-        const val brand_b = "brandB"
+        const val FREE = "free"
+        const val PREMIUM = "premium"
     }
 }
