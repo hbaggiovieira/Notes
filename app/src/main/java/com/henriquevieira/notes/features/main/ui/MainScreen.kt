@@ -6,21 +6,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.henriquevieira.commonsui.textinput.CustomTextInput
+import com.henriquevieira.notes.features.main.viewmodel.MainViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(mainViewModel: MainViewModel) {
 
     ConstraintLayout(modifier = Modifier.fillMaxSize().background(Color.White)) {
         val (title, textField, button) = createRefs()
@@ -33,20 +29,16 @@ fun MainScreen() {
             text = "Title"
         )
 
-        var text by rememberSaveable { mutableStateOf("Text") }
+        val text = remember { mutableStateOf("") }
 
-        TextField(
-            value = text,
-            onValueChange = {
-                text = it
-            },
-            label = { Text("Label") },
+        CustomTextInput(
             modifier = Modifier.constrainAs(textField) {
                 width = Dimension.matchParent
                 height = Dimension.fillToConstraints
                 top.linkTo(title.bottom, 8.dp)
                 bottom.linkTo(button.top, 8.dp)
-            }
+            },
+            text = text
         )
 
         Button(

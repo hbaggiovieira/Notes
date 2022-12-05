@@ -1,51 +1,32 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }
 
 android {
+
     defaultConfig {
-        compileSdk = Config.compileSdkVersion
-        buildToolsVersion = Config.buildToolsVersion
-        applicationId = "br.henriquevieira.notes"
-        minSdk = Config.minSdkVersion
-        targetSdk = Config.targetSdkVersion
-        versionCode = Config.versionCode
-        versionName = Config.versionName
-        testInstrumentationRunner = Config.androidTestInstrumentation
-        vectorDrawables.useSupportLibrary = true
+        defaultConfig {
+            namespace = "com.henriquevieira.commonsui"
+            compileSdk = Config.compileSdkVersion
+            minSdk = Config.minSdkVersion
+            targetSdk = Config.targetSdkVersion
+            testInstrumentationRunner = Config.androidTestInstrumentation
+            vectorDrawables.useSupportLibrary = true
+        }
     }
 
-//    productFlavors {
-//        create(Config.Brand.brand_a) {
-//            dimension = Config.FlavorDimensions.flavor_a
-//        }
-//
-//        create(Config.Brand.brand_b) {
-//            dimension = Config.FlavorDimensions.flavor_b
-//        }
-//    }
-
     buildTypes {
-        getByName("debug") {
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
-
-        getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
     }
-
     buildFeatures.apply {
         compose = true
     }
@@ -65,8 +46,7 @@ android {
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":commonsui")))
-
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}")
 
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")

@@ -16,5 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Notes"
 include(":app")
-
-
+include(":commonsui")
