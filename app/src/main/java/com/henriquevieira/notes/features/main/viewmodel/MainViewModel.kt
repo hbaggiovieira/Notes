@@ -29,11 +29,24 @@ class MainViewModel
         when (event) {
             is MainScreenEvent.OnSuccess -> {
                 handleColor(CustomInputType.Green)
-                _screen.emit(MainScreenEvent.OnSuccess)
             }
             is MainScreenEvent.OnError -> {
                 handleColor(CustomInputType.Red)
-                _screen.emit(MainScreenEvent.OnError)
+            }
+            is MainScreenEvent.OnPrimaryColorSelected -> {
+                handleColor(CustomInputType.Primary)
+            }
+            is MainScreenEvent.OnRedColorSelected -> {
+                handleColor(CustomInputType.Red)
+            }
+            is MainScreenEvent.OnGreenColorSelected -> {
+                handleColor(CustomInputType.Green)
+            }
+            is MainScreenEvent.OnYellowColorSelected -> {
+                handleColor(CustomInputType.Yellow)
+            }
+            is MainScreenEvent.OnBlueColorSelected -> {
+                handleColor(CustomInputType.Blue)
             }
         }
     }

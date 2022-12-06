@@ -31,14 +31,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                MainScreen(mainViewModel.uiState.collectAsState().value)
+                MainScreen(
+                    uiState = mainViewModel.uiState.collectAsState().value,
+                    onUiEvent = {
+                        mainViewModel.dispatch(event = it)
+                    }
+                )
             }
         }
         observe()
 
         //ToDo Initial Event
         mainViewModel.dispatch(
-            event = MainScreenEvent.OnError
+            event = MainScreenEvent.OnPrimaryColorSelected
         )
     }
 
@@ -47,10 +52,25 @@ class MainActivity : ComponentActivity() {
             mainViewModel.screen.collect {
                 when (it) {
                     is MainScreenEvent.OnSuccess -> {
-                        println("Success MainViewModel")
+
                     }
                     is MainScreenEvent.OnError -> {
-                        println("Error MainViewModel")
+
+                    }
+                    is MainScreenEvent.OnPrimaryColorSelected -> {
+
+                    }
+                    is MainScreenEvent.OnRedColorSelected -> {
+
+                    }
+                    is MainScreenEvent.OnGreenColorSelected -> {
+
+                    }
+                    is MainScreenEvent.OnYellowColorSelected -> {
+
+                    }
+                    is MainScreenEvent.OnBlueColorSelected -> {
+
                     }
                 }
             }
