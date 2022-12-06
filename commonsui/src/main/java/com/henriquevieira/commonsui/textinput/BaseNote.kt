@@ -10,43 +10,43 @@ import com.henriquevieira.commonsui.ds.md_theme_light_primaryContainer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTextInput(
+fun BaseNote(
     modifier: Modifier = Modifier,
-    inputType: CustomInputType = CustomInputType.Primary,
+    inputType: NoteTypes = NoteTypes.Primary,
     text: MutableState<String>,
     label: String? = null,
 ) {
 
     val textFieldColors = when (inputType) {
-        CustomInputType.Primary -> {
+        NoteTypes.Primary -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
                 containerColor = md_theme_light_primaryContainer
             )
         }
-        CustomInputType.Red -> {
+        NoteTypes.Red -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 cursorColor = Color.White,
                 containerColor = Color.Red
             )
         }
-        CustomInputType.Green -> {
+        NoteTypes.Green -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
                 containerColor = Color.Green
             )
         }
-        CustomInputType.Yellow -> {
+        NoteTypes.Yellow -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
                 containerColor = Color.Yellow
             )
         }
-        CustomInputType.Blue -> {
+        NoteTypes.Blue -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 cursorColor = Color.White,

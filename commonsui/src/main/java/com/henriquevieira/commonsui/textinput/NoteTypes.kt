@@ -1,6 +1,6 @@
 package com.henriquevieira.commonsui.textinput
 
-enum class CustomInputType {
+enum class NoteTypes {
     Primary,
     Red,
     Green,

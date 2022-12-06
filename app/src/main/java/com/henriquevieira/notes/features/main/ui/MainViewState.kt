@@ -1,8 +1,8 @@
 package com.henriquevieira.notes.features.main.ui
 
-import com.henriquevieira.commonsui.textinput.CustomInputType
+import com.henriquevieira.commonsui.textinput.NoteTypes
 
 data class MainViewState(
-    val noteColor: CustomInputType = CustomInputType.Primary,
+    val noteType: NoteTypes = NoteTypes.Primary,
     val contentText: String = ""
 )
