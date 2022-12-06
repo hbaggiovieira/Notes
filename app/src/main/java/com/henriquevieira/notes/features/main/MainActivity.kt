@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        mainViewModel.dispatch(MainScreenEvent.OnCreate)
+        mainViewModel.onCreate()
 
         observe()
     }
@@ -41,26 +41,23 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             mainViewModel.screen.collect {
                 when (it) {
-                    is MainScreenEvent.OnCreate -> {
-
-                    }
                     is MainScreenEvent.OnPrimaryColorSelected -> {
-
+                        val a = ""
                     }
                     is MainScreenEvent.OnRedColorSelected -> {
-
+                        val a = ""
                     }
                     is MainScreenEvent.OnGreenColorSelected -> {
-
+                        val a = ""
                     }
                     is MainScreenEvent.OnYellowColorSelected -> {
-
+                        val a = ""
                     }
                     is MainScreenEvent.OnBlueColorSelected -> {
-
+                        val a = ""
                     }
                     is MainScreenEvent.OnClickSaveButton -> {
-
+                        val a = ""
                     }
                     is MainScreenEvent.OnSaveSuccess -> {
                         Toast.makeText(this@MainActivity, "Save Success", Toast.LENGTH_SHORT)

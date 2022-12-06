@@ -1,7 +1,6 @@
 package com.henriquevieira.notes.features.main.viewmodel
 
 sealed class MainScreenEvent {
-    object OnCreate: MainScreenEvent()
     object OnPrimaryColorSelected: MainScreenEvent()
     object OnRedColorSelected: MainScreenEvent()
     object OnGreenColorSelected: MainScreenEvent()

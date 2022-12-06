@@ -28,35 +28,42 @@ class MainViewModel
 
     fun dispatch(event: MainScreenEvent) = viewModelScope.launch {
         when (event) {
-            is MainScreenEvent.OnCreate -> {
-                handleSavedColor()
-                handleSavedContentText()
-            }
             is MainScreenEvent.OnPrimaryColorSelected -> {
                 changeColorState(NoteTypes.Primary)
+                _screen.emit(MainScreenEvent.OnPrimaryColorSelected)
             }
             is MainScreenEvent.OnRedColorSelected -> {
                 changeColorState(NoteTypes.Red)
+                _screen.emit(MainScreenEvent.OnRedColorSelected)
             }
             is MainScreenEvent.OnGreenColorSelected -> {
                 changeColorState(NoteTypes.Green)
+                _screen.emit(MainScreenEvent.OnGreenColorSelected)
             }
             is MainScreenEvent.OnYellowColorSelected -> {
                 changeColorState(NoteTypes.Yellow)
+                _screen.emit(MainScreenEvent.OnYellowColorSelected)
             }
             is MainScreenEvent.OnBlueColorSelected -> {
                 changeColorState(NoteTypes.Blue)
+                _screen.emit(MainScreenEvent.OnBlueColorSelected)
             }
             is MainScreenEvent.OnClickSaveButton -> {
                 onClickSaveButton(event.contentText)
+                _screen.emit(MainScreenEvent.OnClickSaveButton(event.contentText))
             }
             is MainScreenEvent.OnSaveSuccess -> {
-
+                val a = ""
             }
             is MainScreenEvent.OnSaveError -> {
 
             }
         }
+    }
+
+    fun onCreate() {
+        handleSavedColor()
+        handleSavedContentText()
     }
 
     private fun onClickSaveButton(contentText: String) = viewModelScope.launch {
@@ -104,6 +111,6 @@ class MainViewModel
 
     companion object {
         private const val SELECTED_COLOR_DEFAULT = "Primary"
-        private const val CONTENT_TEXT_DEFAULT = "CONTENT_TEXT_DEFAULT"
+        private const val CONTENT_TEXT_DEFAULT = ""
     }
 }
