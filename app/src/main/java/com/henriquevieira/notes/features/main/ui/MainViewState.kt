@@ -4,5 +4,5 @@ import com.henriquevieira.commonsui.textinput.CustomInputType
 
 data class MainViewState(
     val noteColor: CustomInputType = CustomInputType.Primary,
-    val errorMessage: String = ""
+    val contentText: String = ""
 )

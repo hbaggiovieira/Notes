@@ -38,7 +38,7 @@ fun MainScreen(
             text = "Title"
         )
 
-        val text = remember { mutableStateOf("") }
+        val text = remember { mutableStateOf(uiState.contentText) }
 
         CustomTextInput(
             modifier = Modifier.constrainAs(textField)
@@ -74,7 +74,7 @@ fun MainScreen(
                 Text("ButtonText")
             },
             onClick = {
-                onUiEvent(MainScreenEvent.OnClickSaveButton)
+                onUiEvent(MainScreenEvent.OnClickSaveButton(text.value))
             }
         )
     }
