@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.textinput.BaseNote
 
 @Composable
@@ -55,7 +56,7 @@ fun MainScreen(
             text = text
         )
 
-        ColorButtons(modifier = Modifier
+        ButtonRow(modifier = Modifier
             .constrainAs(buttonRow) {
                 width = Dimension.matchParent
                 bottom.linkTo(button.top, 2.dp)
@@ -104,88 +105,57 @@ fun MainScreen(
 }
 
 @Composable
-private fun ColorButtons(
+private fun ButtonRow(
     modifier: Modifier,
     onUiEvent: (event: MainEvents) -> Unit,
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        IconButton(
-            onClick = {
-                onUiEvent(MainEvents.OnPrimaryColorSelected)
-            },
+        CustomCircleIconButton(
+            imageVector = Icons.Rounded.Done,
+            imageColor = Color.Black,
+            backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+            contentDescription = "Primary"
         ) {
-            Icon(
-                imageVector = Icons.Rounded.Done,
-                contentDescription = "Primary Background",
-                tint = Color.Black,
-                modifier = Modifier
-                    .background(shape = CircleShape,
-                        color = MaterialTheme.colorScheme.primaryContainer)
-                    .size(50.dp)
-            )
+            onUiEvent(MainEvents.OnPrimaryColorSelected)
         }
 
-        IconButton(
-            onClick = {
-                onUiEvent(MainEvents.OnRedColorSelected)
-            },
+        CustomCircleIconButton(
+            imageVector = Icons.Rounded.Done,
+            imageColor = Color.White,
+            backgroundColor = Color.Red,
+            contentDescription = "Red"
         ) {
-            Icon(
-                imageVector = Icons.Rounded.Done,
-                contentDescription = "Red",
-                tint = Color.White,
-                modifier = Modifier
-                    .background(shape = CircleShape, color = Color.Red)
-                    .size(50.dp)
-            )
+            onUiEvent(MainEvents.OnRedColorSelected)
         }
 
-        IconButton(
-            onClick = {
-                onUiEvent(MainEvents.OnGreenColorSelected)
-            },
+        CustomCircleIconButton(
+            imageVector = Icons.Rounded.Done,
+            imageColor = Color.Black,
+            backgroundColor = Color.Green,
+            contentDescription = "Green"
         ) {
-            Icon(
-                imageVector = Icons.Rounded.Done,
-                contentDescription = "Green",
-                tint = Color.Black,
-                modifier = Modifier
-                    .background(shape = CircleShape, color = Color.Green)
-                    .size(50.dp)
-            )
+            onUiEvent(MainEvents.OnGreenColorSelected)
         }
 
-        IconButton(
-            onClick = {
-                onUiEvent(MainEvents.OnYellowColorSelected)
-            },
+        CustomCircleIconButton(
+            imageVector = Icons.Rounded.Done,
+            imageColor = Color.Black,
+            backgroundColor = Color.Yellow,
+            contentDescription = "Yellow"
         ) {
-            Icon(
-                imageVector = Icons.Rounded.Done,
-                contentDescription = "Yellow",
-                tint = Color.Black,
-                modifier = Modifier
-                    .background(shape = CircleShape, color = Color.Yellow)
-                    .size(50.dp)
-            )
+            onUiEvent(MainEvents.OnYellowColorSelected)
         }
 
-        IconButton(
-            onClick = {
-                onUiEvent(MainEvents.OnBlueColorSelected)
-            },
+        CustomCircleIconButton(
+            imageVector = Icons.Rounded.Done,
+            imageColor = Color.White,
+            backgroundColor = Color.Blue,
+            contentDescription = "Blue"
         ) {
-            Icon(
-                imageVector = Icons.Rounded.Done,
-                contentDescription = "Blue",
-                tint = Color.White,
-                modifier = Modifier
-                    .background(shape = CircleShape, color = Color.Blue)
-                    .size(50.dp)
-            )
+            onUiEvent(MainEvents.OnBlueColorSelected)
         }
     }
 }
