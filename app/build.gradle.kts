@@ -84,6 +84,11 @@ android {
     }
 
     testOptions {
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
         unitTests.isIncludeAndroidResources = true
         unitTests.isReturnDefaultValues = true
         animationsDisabled = true

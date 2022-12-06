@@ -8,30 +8,40 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import javax.inject.Singleton
-//
-//@TestInstallIn(
-//    components = [SingletonComponent::class],
-//    replaces = [AppModule::class]
-//)
 
 @Module
-@InstallIn(SingletonComponent::class)
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [AppModule::class]
+)
 class FakeAppModule {
+
     @Singleton
     @Provides
     fun provideCustomSharedPreferences(): CustomSharedPreferences = mockk {
-        coEvery {
-            getString(any(), "")
-        }.coAnswers { TEST_CONTENT_TEXT }
 
-        coEvery {
+        every {
+            getString(CustomSharedPreferencesKeys.SELECTED_COLOR, any())
+        } returns ""
+
+        every {
+            getString(CustomSharedPreferencesKeys.CONTENT_TEXT, any())
+        } returns ""
+
+        every {
             putString(CustomSharedPreferencesKeys.CONTENT_TEXT, TEST_CONTENT_TEXT)
-        }.coAnswers { Unit }
+        } returns Unit
+
+        every {
+            putString(CustomSharedPreferencesKeys.SELECTED_COLOR, TEST_SELECTED_COLOR)
+        } returns Unit
     }
 
     companion object {
         const val TEST_CONTENT_TEXT = "Test content text"
+        const val TEST_SELECTED_COLOR = "Primary"
     }
 }
