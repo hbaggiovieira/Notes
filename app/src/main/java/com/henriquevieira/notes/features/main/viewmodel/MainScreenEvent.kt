@@ -8,5 +8,6 @@ sealed class MainScreenEvent {
     object OnBlueColorSelected: MainScreenEvent()
     object OnSaveSuccess: MainScreenEvent()
     object OnSaveError: MainScreenEvent()
+    object OnClickClearButton: MainScreenEvent()
     data class OnClickSaveButton(val contentText: String): MainScreenEvent()
 }

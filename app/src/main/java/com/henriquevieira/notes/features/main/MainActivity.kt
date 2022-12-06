@@ -42,33 +42,39 @@ class MainActivity : ComponentActivity() {
             mainViewModel.screen.collect {
                 when (it) {
                     is MainScreenEvent.OnPrimaryColorSelected -> {
-                        val a = ""
+                        showToast("Primary Color")
                     }
                     is MainScreenEvent.OnRedColorSelected -> {
-                        val a = ""
+                        showToast("Red Color")
                     }
                     is MainScreenEvent.OnGreenColorSelected -> {
-                        val a = ""
+                        showToast("Green Color")
                     }
                     is MainScreenEvent.OnYellowColorSelected -> {
-                        val a = ""
+                        showToast("Yellow Color")
                     }
                     is MainScreenEvent.OnBlueColorSelected -> {
-                        val a = ""
+                        showToast("Blue Color")
+                    }
+                    is MainScreenEvent.OnClickClearButton -> {
+                        showToast("Clear")
                     }
                     is MainScreenEvent.OnClickSaveButton -> {
-                        val a = ""
+                        showToast("Saving")
                     }
                     is MainScreenEvent.OnSaveSuccess -> {
-                        Toast.makeText(this@MainActivity, "Save Success", Toast.LENGTH_SHORT)
-                            .show()
+                        showToast("Save Success")
                     }
                     is MainScreenEvent.OnSaveError -> {
-                        Toast.makeText(this@MainActivity, "Save Error", Toast.LENGTH_SHORT)
-                            .show()
+                        showToast("Save Error")
                     }
                 }
             }
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT)
+            .show()
     }
 }

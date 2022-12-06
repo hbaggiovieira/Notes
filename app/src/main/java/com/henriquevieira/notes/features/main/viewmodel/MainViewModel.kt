@@ -48,12 +48,17 @@ class MainViewModel
                 changeColorState(NoteTypes.Blue)
                 _screen.emit(MainScreenEvent.OnBlueColorSelected)
             }
+            is MainScreenEvent.OnClickClearButton -> {
+                _uiState.value = _uiState.value.copy(
+                    contentText = CONTENT_TEXT_DEFAULT
+                )
+            }
             is MainScreenEvent.OnClickSaveButton -> {
                 onClickSaveButton(event.contentText)
                 _screen.emit(MainScreenEvent.OnClickSaveButton(event.contentText))
             }
             is MainScreenEvent.OnSaveSuccess -> {
-                val a = ""
+
             }
             is MainScreenEvent.OnSaveError -> {
 
@@ -74,7 +79,10 @@ class MainViewModel
         try {
             customSharedPreferences.putString(CustomSharedPreferencesKeys.SELECTED_COLOR,
                 uiState.value.noteType.toString())
-            customSharedPreferences.putString(CustomSharedPreferencesKeys.CONTENT_TEXT, uiState.value.contentText)
+
+            customSharedPreferences.putString(CustomSharedPreferencesKeys.CONTENT_TEXT,
+                uiState.value.contentText)
+
             _screen.emit(MainScreenEvent.OnSaveSuccess)
         } catch (e: Exception) {
             _screen.emit(MainScreenEvent.OnSaveError)
@@ -83,7 +91,9 @@ class MainViewModel
 
     private fun handleSavedColor() = viewModelScope.launch {
         val savedColor =
-            customSharedPreferences.getString(CustomSharedPreferencesKeys.SELECTED_COLOR, SELECTED_COLOR_DEFAULT)
+            customSharedPreferences.getString(CustomSharedPreferencesKeys.SELECTED_COLOR,
+                SELECTED_COLOR_DEFAULT)
+
         _uiState.value = _uiState.value.copy(
             noteType = when (savedColor) {
                 NoteTypes.Primary.toString() -> NoteTypes.Primary
@@ -97,7 +107,10 @@ class MainViewModel
     }
 
     private fun handleSavedContentText() = viewModelScope.launch {
-        val savedContentText = customSharedPreferences.getString(CustomSharedPreferencesKeys.CONTENT_TEXT, CONTENT_TEXT_DEFAULT)
+        val savedContentText =
+            customSharedPreferences.getString(CustomSharedPreferencesKeys.CONTENT_TEXT,
+                CONTENT_TEXT_DEFAULT)
+
         _uiState.value = _uiState.value.copy(
             contentText = savedContentText
         )

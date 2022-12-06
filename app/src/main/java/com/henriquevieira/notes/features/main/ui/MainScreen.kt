@@ -72,7 +72,7 @@ fun MainScreen(
                 bottom.linkTo(textField.bottom, 16.dp)
                 end.linkTo(textField.end, 16.dp)
             }, onClick = {
-            text.value = ""
+            onUiEvent(MainScreenEvent.OnClickClearButton)
         }) {
             Box(modifier = Modifier
                 .size(45.dp)
@@ -123,7 +123,8 @@ private fun ColorButtons(
                 contentDescription = "Primary Background",
                 tint = Color.Black,
                 modifier = Modifier
-                    .background(shape = CircleShape, color = MaterialTheme.colorScheme.primaryContainer)
+                    .background(shape = CircleShape,
+                        color = MaterialTheme.colorScheme.primaryContainer)
                     .size(50.dp)
             )
         }
