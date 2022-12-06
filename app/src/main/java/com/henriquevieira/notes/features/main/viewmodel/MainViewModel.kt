@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.CustomSharedPreferences
+import com.henriquevieira.notes.data.CustomSharedPreferencesKeys
 import com.henriquevieira.notes.features.main.ui.MainViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -64,9 +65,9 @@ class MainViewModel
         )
 
         try {
-            customSharedPreferences.putString(SELECTED_COLOR_KEY,
+            customSharedPreferences.putString(CustomSharedPreferencesKeys.SELECTED_COLOR,
                 uiState.value.noteType.toString())
-            customSharedPreferences.putString(CONTENT_TEXT_KEY, uiState.value.contentText)
+            customSharedPreferences.putString(CustomSharedPreferencesKeys.CONTENT_TEXT, uiState.value.contentText)
             _screen.emit(MainScreenEvent.OnSaveSuccess)
         } catch (e: Exception) {
             _screen.emit(MainScreenEvent.OnSaveError)
@@ -75,7 +76,7 @@ class MainViewModel
 
     private fun handleSavedColor() = viewModelScope.launch {
         val savedColor =
-            customSharedPreferences.getString(SELECTED_COLOR_KEY, SELECTED_COLOR_DEFAULT)
+            customSharedPreferences.getString(CustomSharedPreferencesKeys.SELECTED_COLOR, SELECTED_COLOR_DEFAULT)
         _uiState.value = _uiState.value.copy(
             noteType = when (savedColor) {
                 NoteTypes.Primary.toString() -> NoteTypes.Primary
@@ -89,7 +90,7 @@ class MainViewModel
     }
 
     private fun handleSavedContentText() = viewModelScope.launch {
-        val savedContentText = customSharedPreferences.getString(CONTENT_TEXT_KEY, CONTENT_TEXT_DEFAULT)
+        val savedContentText = customSharedPreferences.getString(CustomSharedPreferencesKeys.CONTENT_TEXT, CONTENT_TEXT_DEFAULT)
         _uiState.value = _uiState.value.copy(
             contentText = savedContentText
         )
@@ -102,10 +103,7 @@ class MainViewModel
     }
 
     companion object {
-        private const val SELECTED_COLOR_KEY = "SELECTED_COLOR_KEY"
         private const val SELECTED_COLOR_DEFAULT = "Primary"
-
-        private const val CONTENT_TEXT_KEY = "CONTENT_TEXT_KEY"
         private const val CONTENT_TEXT_DEFAULT = "CONTENT_TEXT_DEFAULT"
     }
 }
