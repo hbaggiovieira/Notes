@@ -73,7 +73,9 @@ fun MainScreen(
             content = {
                 Text("ButtonText")
             },
-            onClick = {}
+            onClick = {
+                onUiEvent(MainScreenEvent.OnClickSaveButton)
+            }
         )
     }
 }

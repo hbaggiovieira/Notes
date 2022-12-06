@@ -40,23 +40,12 @@ class MainActivity : ComponentActivity() {
             }
         }
         observe()
-
-        //ToDo Initial Event
-        mainViewModel.dispatch(
-            event = MainScreenEvent.OnPrimaryColorSelected
-        )
     }
 
     private fun observe() {
         lifecycleScope.launch {
             mainViewModel.screen.collect {
                 when (it) {
-                    is MainScreenEvent.OnSuccess -> {
-
-                    }
-                    is MainScreenEvent.OnError -> {
-
-                    }
                     is MainScreenEvent.OnPrimaryColorSelected -> {
 
                     }
@@ -70,6 +59,9 @@ class MainActivity : ComponentActivity() {
 
                     }
                     is MainScreenEvent.OnBlueColorSelected -> {
+
+                    }
+                    is MainScreenEvent.OnClickSaveButton -> {
 
                     }
                 }

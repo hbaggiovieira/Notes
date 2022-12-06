@@ -27,12 +27,6 @@ class MainViewModel
 
     fun dispatch(event: MainScreenEvent) = viewModelScope.launch {
         when (event) {
-            is MainScreenEvent.OnSuccess -> {
-                handleColor(CustomInputType.Green)
-            }
-            is MainScreenEvent.OnError -> {
-                handleColor(CustomInputType.Red)
-            }
             is MainScreenEvent.OnPrimaryColorSelected -> {
                 handleColor(CustomInputType.Primary)
             }
@@ -47,6 +41,9 @@ class MainViewModel
             }
             is MainScreenEvent.OnBlueColorSelected -> {
                 handleColor(CustomInputType.Blue)
+            }
+            is MainScreenEvent.OnClickSaveButton -> {
+                customSharedPreferences.putString("selectedColor", uiState.value.noteColor.toString())
             }
         }
     }
