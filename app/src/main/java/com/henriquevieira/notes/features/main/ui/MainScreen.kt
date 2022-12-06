@@ -72,7 +72,7 @@ fun MainScreen(
                 bottom.linkTo(textField.bottom, 16.dp)
                 end.linkTo(textField.end, 16.dp)
             }, onClick = {
-            onUiEvent(MainEvents.OnClickClearButton)
+            text.value = ""
         }) {
             Box(modifier = Modifier
                 .size(45.dp)

@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.CustomSharedPreferences
 import com.henriquevieira.notes.data.CustomSharedPreferencesKeys
-import com.henriquevieira.notes.features.main.ui.MainScreenStates
 import com.henriquevieira.notes.features.main.ui.MainEvents
+import com.henriquevieira.notes.features.main.ui.MainScreenStates
 import com.henriquevieira.notes.features.main.ui.MainViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -49,11 +49,6 @@ class MainViewModel
             }
             is MainEvents.OnBlueColorSelected -> {
                 changeColorState(NoteTypes.Blue)
-            }
-            is MainEvents.OnClickClearButton -> {
-                _uiState.value = _uiState.value.copy(
-                    contentText = CONTENT_TEXT_DEFAULT
-                )
             }
             is MainEvents.OnClickSaveButton -> {
                 onClickSaveButton(event.contentText)
