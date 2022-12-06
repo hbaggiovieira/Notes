@@ -71,7 +71,7 @@ fun MainScreen(
                     bottom.linkTo(parent.bottom)
                 },
             content = {
-                Text("ButtonText")
+                Text("Save")
             },
             onClick = {
                 onUiEvent(MainScreenEvent.OnClickSaveButton(text.value))

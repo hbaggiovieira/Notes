@@ -21,30 +21,35 @@ fun CustomTextInput(
         CustomInputType.Primary -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
+                cursorColor = Color.Black,
                 containerColor = md_theme_light_primaryContainer
             )
         }
         CustomInputType.Red -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
+                cursorColor = Color.White,
                 containerColor = Color.Red
             )
         }
         CustomInputType.Green -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
+                cursorColor = Color.Black,
                 containerColor = Color.Green
             )
         }
         CustomInputType.Yellow -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
+                cursorColor = Color.Black,
                 containerColor = Color.Yellow
             )
         }
         CustomInputType.Blue -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
+                cursorColor = Color.White,
                 containerColor = Color.Blue
             )
         }

@@ -69,7 +69,7 @@ class MainViewModel
             customSharedPreferences.putString(CONTENT_TEXT_KEY, uiState.value.contentText)
             _screen.emit(MainScreenEvent.OnSaveSuccess)
         } catch (e: Exception) {
-            throw e
+            _screen.emit(MainScreenEvent.OnSaveError)
         }
     }
 
