@@ -27,6 +27,9 @@ class MainViewModel
 
     fun dispatch(event: MainScreenEvent) = viewModelScope.launch {
         when (event) {
+            is MainScreenEvent.OnCreate -> {
+                handleSavedColor()
+            }
             is MainScreenEvent.OnPrimaryColorSelected -> {
                 handleColor(CustomInputType.Primary)
             }
@@ -46,6 +49,20 @@ class MainViewModel
                 customSharedPreferences.putString("selectedColor", uiState.value.noteColor.toString())
             }
         }
+    }
+
+    private fun handleSavedColor() = viewModelScope.launch {
+        val savedColor = customSharedPreferences.getString("selectedColor", "Primary")
+        _uiState.value = _uiState.value.copy(
+            noteColor = when (savedColor) {
+                CustomInputType.Primary.toString() -> CustomInputType.Primary
+                CustomInputType.Red.toString() -> CustomInputType.Red
+                CustomInputType.Green.toString() -> CustomInputType.Green
+                CustomInputType.Yellow.toString() -> CustomInputType.Yellow
+                CustomInputType.Blue.toString() -> CustomInputType.Blue
+                else -> CustomInputType.Primary
+            }
+        )
     }
 
     private fun handleColor(customInputType: CustomInputType) = viewModelScope.launch {

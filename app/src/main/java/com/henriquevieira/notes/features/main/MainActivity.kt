@@ -39,6 +39,9 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+
+        mainViewModel.dispatch(MainScreenEvent.OnCreate)
+
         observe()
     }
 
@@ -46,6 +49,9 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             mainViewModel.screen.collect {
                 when (it) {
+                    is MainScreenEvent.OnCreate -> {
+
+                    }
                     is MainScreenEvent.OnPrimaryColorSelected -> {
 
                     }
