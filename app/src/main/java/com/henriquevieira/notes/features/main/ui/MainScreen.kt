@@ -19,12 +19,11 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.textinput.BaseNote
-import com.henriquevieira.notes.features.main.viewmodel.MainScreenEvent
 
 @Composable
 fun MainScreen(
     uiState: MainViewState,
-    onUiEvent: (event: MainScreenEvent) -> Unit,
+    onUiEvent: (event: MainEvents) -> Unit,
 ) {
 
     ConstraintLayout(modifier = Modifier.fillMaxSize().background(Color.White)) {
@@ -72,7 +71,7 @@ fun MainScreen(
                 bottom.linkTo(textField.bottom, 16.dp)
                 end.linkTo(textField.end, 16.dp)
             }, onClick = {
-            onUiEvent(MainScreenEvent.OnClickClearButton)
+            onUiEvent(MainEvents.OnClickClearButton)
         }) {
             Box(modifier = Modifier
                 .size(45.dp)
@@ -98,7 +97,7 @@ fun MainScreen(
                 Text("Save")
             },
             onClick = {
-                onUiEvent(MainScreenEvent.OnClickSaveButton(text.value))
+                onUiEvent(MainEvents.OnClickSaveButton(text.value))
             }
         )
     }
@@ -107,7 +106,7 @@ fun MainScreen(
 @Composable
 private fun ColorButtons(
     modifier: Modifier,
-    onUiEvent: (event: MainScreenEvent) -> Unit,
+    onUiEvent: (event: MainEvents) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -115,7 +114,7 @@ private fun ColorButtons(
     ) {
         IconButton(
             onClick = {
-                onUiEvent(MainScreenEvent.OnPrimaryColorSelected)
+                onUiEvent(MainEvents.OnPrimaryColorSelected)
             },
         ) {
             Icon(
@@ -131,7 +130,7 @@ private fun ColorButtons(
 
         IconButton(
             onClick = {
-                onUiEvent(MainScreenEvent.OnRedColorSelected)
+                onUiEvent(MainEvents.OnRedColorSelected)
             },
         ) {
             Icon(
@@ -146,7 +145,7 @@ private fun ColorButtons(
 
         IconButton(
             onClick = {
-                onUiEvent(MainScreenEvent.OnGreenColorSelected)
+                onUiEvent(MainEvents.OnGreenColorSelected)
             },
         ) {
             Icon(
@@ -161,7 +160,7 @@ private fun ColorButtons(
 
         IconButton(
             onClick = {
-                onUiEvent(MainScreenEvent.OnYellowColorSelected)
+                onUiEvent(MainEvents.OnYellowColorSelected)
             },
         ) {
             Icon(
@@ -176,7 +175,7 @@ private fun ColorButtons(
 
         IconButton(
             onClick = {
-                onUiEvent(MainScreenEvent.OnBlueColorSelected)
+                onUiEvent(MainEvents.OnBlueColorSelected)
             },
         ) {
             Icon(

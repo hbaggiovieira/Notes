@@ -9,7 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.notes.features.main.ui.MainScreen
-import com.henriquevieira.notes.features.main.viewmodel.MainScreenEvent
+import com.henriquevieira.notes.features.main.ui.MainScreenStates
 import com.henriquevieira.notes.features.main.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,31 +41,10 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             mainViewModel.screen.collect {
                 when (it) {
-                    is MainScreenEvent.OnPrimaryColorSelected -> {
-                        showToast("Primary Color")
-                    }
-                    is MainScreenEvent.OnRedColorSelected -> {
-                        showToast("Red Color")
-                    }
-                    is MainScreenEvent.OnGreenColorSelected -> {
-                        showToast("Green Color")
-                    }
-                    is MainScreenEvent.OnYellowColorSelected -> {
-                        showToast("Yellow Color")
-                    }
-                    is MainScreenEvent.OnBlueColorSelected -> {
-                        showToast("Blue Color")
-                    }
-                    is MainScreenEvent.OnClickClearButton -> {
-                        showToast("Clear")
-                    }
-                    is MainScreenEvent.OnClickSaveButton -> {
-                        showToast("Saving")
-                    }
-                    is MainScreenEvent.OnSaveSuccess -> {
+                    is MainScreenStates.OnSaveSuccess -> {
                         showToast("Save Success")
                     }
-                    is MainScreenEvent.OnSaveError -> {
+                    is MainScreenStates.OnSaveError -> {
                         showToast("Save Error")
                     }
                 }

@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.CustomSharedPreferences
 import com.henriquevieira.notes.data.CustomSharedPreferencesKeys
+import com.henriquevieira.notes.features.main.ui.MainScreenStates
+import com.henriquevieira.notes.features.main.ui.MainEvents
 import com.henriquevieira.notes.features.main.ui.MainViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,55 +22,43 @@ class MainViewModel
     private val customSharedPreferences: CustomSharedPreferences,
 ) : ViewModel() {
 
-    private val _screen = MutableSharedFlow<MainScreenEvent>()
-    val screen: SharedFlow<MainScreenEvent> = _screen
+    private val _screen = MutableSharedFlow<MainScreenStates>()
+    val screen: SharedFlow<MainScreenStates> = _screen
 
     private val _uiState = MutableStateFlow(MainViewState())
     val uiState = _uiState.asStateFlow()
 
-    fun dispatch(event: MainScreenEvent) = viewModelScope.launch {
+    fun onCreate() {
+        handleSavedColor()
+        handleSavedContentText()
+    }
+
+    fun dispatch(event: MainEvents) = viewModelScope.launch {
         when (event) {
-            is MainScreenEvent.OnPrimaryColorSelected -> {
+            is MainEvents.OnPrimaryColorSelected -> {
                 changeColorState(NoteTypes.Primary)
-                _screen.emit(MainScreenEvent.OnPrimaryColorSelected)
             }
-            is MainScreenEvent.OnRedColorSelected -> {
+            is MainEvents.OnRedColorSelected -> {
                 changeColorState(NoteTypes.Red)
-                _screen.emit(MainScreenEvent.OnRedColorSelected)
             }
-            is MainScreenEvent.OnGreenColorSelected -> {
+            is MainEvents.OnGreenColorSelected -> {
                 changeColorState(NoteTypes.Green)
-                _screen.emit(MainScreenEvent.OnGreenColorSelected)
             }
-            is MainScreenEvent.OnYellowColorSelected -> {
+            is MainEvents.OnYellowColorSelected -> {
                 changeColorState(NoteTypes.Yellow)
-                _screen.emit(MainScreenEvent.OnYellowColorSelected)
             }
-            is MainScreenEvent.OnBlueColorSelected -> {
+            is MainEvents.OnBlueColorSelected -> {
                 changeColorState(NoteTypes.Blue)
-                _screen.emit(MainScreenEvent.OnBlueColorSelected)
             }
-            is MainScreenEvent.OnClickClearButton -> {
+            is MainEvents.OnClickClearButton -> {
                 _uiState.value = _uiState.value.copy(
                     contentText = CONTENT_TEXT_DEFAULT
                 )
             }
-            is MainScreenEvent.OnClickSaveButton -> {
+            is MainEvents.OnClickSaveButton -> {
                 onClickSaveButton(event.contentText)
-                _screen.emit(MainScreenEvent.OnClickSaveButton(event.contentText))
-            }
-            is MainScreenEvent.OnSaveSuccess -> {
-
-            }
-            is MainScreenEvent.OnSaveError -> {
-
             }
         }
-    }
-
-    fun onCreate() {
-        handleSavedColor()
-        handleSavedContentText()
     }
 
     private fun onClickSaveButton(contentText: String) = viewModelScope.launch {
@@ -83,9 +73,9 @@ class MainViewModel
             customSharedPreferences.putString(CustomSharedPreferencesKeys.CONTENT_TEXT,
                 uiState.value.contentText)
 
-            _screen.emit(MainScreenEvent.OnSaveSuccess)
+            _screen.emit(MainScreenStates.OnSaveSuccess)
         } catch (e: Exception) {
-            _screen.emit(MainScreenEvent.OnSaveError)
+            _screen.emit(MainScreenStates.OnSaveError)
         }
     }
 
