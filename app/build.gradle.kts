@@ -14,7 +14,7 @@ android {
         targetSdk = Config.targetSdkVersion
         versionCode = Config.versionCode
         versionName = Config.versionName
-        testInstrumentationRunner = Config.androidTestInstrumentation
+        testInstrumentationRunner = "com.henriquevieira.notes.CustomTestRunner"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -76,6 +76,24 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+        resources.excludes.add("META-INF/DEPENDENCIES")
+        resources.excludes.add("META-INF/gradle/*")
+    }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        unitTests.isReturnDefaultValues = true
+        animationsDisabled = true
+    }
+
+    tasks.withType<Test> {
+        testLogging {
+            events("standardOut", "started", "passed", "skipped", "failed")
+        }
+    }
 }
 
 dependencies {
@@ -95,32 +113,45 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.activity:activity-compose:1.6.1")
     implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
 
     //DI - Hilt
     implementation("com.google.dagger:hilt-android:2.44")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
-    implementation("androidx.hilt:hilt-compiler:1.0.0")
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     // Annotation processor
     kapt("androidx.lifecycle:lifecycle-compiler:${Versions.lifecycle_version}")
 
-    // optional - Test helpers for Lifecycle runtime
-    kaptTest("com.google.dagger:hilt-android-compiler:2.42")
-    kaptTest("com.google.dagger:hilt-compiler:2.42")
+    //Test
     testImplementation("androidx.lifecycle:lifecycle-runtime-testing:${Versions.lifecycle_version}")
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.arch.core:core-testing:${Versions.arch_version}")
     testImplementation("androidx.lifecycle:lifecycle-runtime-testing:${Versions.lifecycle_version}")
+    testImplementation("io.mockk:mockk:1.13.2")
+
 
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.42")
+    //Hilt
+    // For instrumented tests.
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.44")
+    // ...with Kotlin.
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.44")
+    // ...with Java.
+    androidTestImplementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    androidTestImplementation("io.mockk:mockk-android:1.13.2")
+    androidTestImplementation("io.mockk:mockk-agent:1.13.2")
+
     androidTestImplementation(composeBom)
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+
+    androidTestImplementation("androidx.test:core:1.5.0")
+    androidTestImplementation("androidx.test:core-ktx:1.5.0")
 }

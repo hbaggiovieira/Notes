@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CustomCircleIconButton(
+    modifier: Modifier = Modifier,
     imageVector: ImageVector,
     imageColor: Color = MaterialTheme.colorScheme.primary,
     backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer,
@@ -22,7 +23,7 @@ fun CustomCircleIconButton(
     onClick: () -> Unit,
 ) {
     IconButton(
-        modifier = Modifier
+        modifier = modifier
             .size(50.dp)
             .clip(CircleShape),
         onClick = {

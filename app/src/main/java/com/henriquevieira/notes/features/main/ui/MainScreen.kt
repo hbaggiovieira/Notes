@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,10 +32,12 @@ fun MainScreen(
         val (title, textField, buttonRow, buttonClear, button) = createRefs()
 
         Text(
-            modifier = Modifier.constrainAs(title) {
-                centerHorizontallyTo(parent)
-                top.linkTo(parent.top)
-            },
+            modifier = Modifier
+                .testTag("TITLE_TAG")
+                .constrainAs(title) {
+                    centerHorizontallyTo(parent)
+                    top.linkTo(parent.top)
+                },
             fontSize = 28.sp,
             color = MaterialTheme.colorScheme.primary,
             text = "My Notes",
@@ -44,14 +47,15 @@ fun MainScreen(
         val text = remember { mutableStateOf(uiState.contentText) }
 
         BaseNote(
-            modifier = Modifier.constrainAs(textField)
-            {
-                width = Dimension.matchParent
-                height = Dimension.fillToConstraints
-                top.linkTo(title.bottom)
-                bottom.linkTo(buttonRow.top)
-            }
-                .padding(8.dp),
+            modifier = Modifier
+                .padding(8.dp)
+                .testTag("TEXT_FIELD_TAG")
+                .constrainAs(textField) {
+                    width = Dimension.matchParent
+                    height = Dimension.fillToConstraints
+                    top.linkTo(title.bottom)
+                    bottom.linkTo(buttonRow.top)
+                },
             inputType = uiState.noteType,
             text = text
         )
@@ -66,6 +70,7 @@ fun MainScreen(
         )
 
         IconButton(modifier = Modifier
+            .testTag("CLEAR_TEXT_BUTTON_TAG")
             .constrainAs(buttonClear) {
                 width = Dimension.wrapContent
                 height = Dimension.wrapContent
@@ -90,6 +95,7 @@ fun MainScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
+                .testTag("SAVE_BUTTON_TAG")
                 .constrainAs(button) {
                     centerHorizontallyTo(parent)
                     bottom.linkTo(parent.bottom)
@@ -114,6 +120,7 @@ private fun ButtonRow(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         CustomCircleIconButton(
+            modifier = Modifier.testTag("PRIMARY_COLOR_BUTTON"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.Black,
             backgroundColor = MaterialTheme.colorScheme.primaryContainer,
@@ -123,6 +130,7 @@ private fun ButtonRow(
         }
 
         CustomCircleIconButton(
+            modifier = Modifier.testTag("RED_COLOR_BUTTON"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.White,
             backgroundColor = Color.Red,
@@ -132,6 +140,7 @@ private fun ButtonRow(
         }
 
         CustomCircleIconButton(
+            modifier = Modifier.testTag("GREEN_COLOR_BUTTON"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.Black,
             backgroundColor = Color.Green,
@@ -141,6 +150,7 @@ private fun ButtonRow(
         }
 
         CustomCircleIconButton(
+            modifier = Modifier.testTag("YELLOW_COLOR_BUTTON"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.Black,
             backgroundColor = Color.Yellow,
@@ -150,6 +160,7 @@ private fun ButtonRow(
         }
 
         CustomCircleIconButton(
+            modifier = Modifier.testTag("BLUE_COLOR_BUTTON"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.White,
             backgroundColor = Color.Blue,
