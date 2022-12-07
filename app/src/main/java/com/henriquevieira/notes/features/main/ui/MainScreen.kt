@@ -104,7 +104,7 @@ fun MainScreen(
                 Text("Save")
             },
             onClick = {
-                onUiEvent(MainEvents.OnClickSaveButton(text.value))
+                onUiEvent(MainEvents.OnClickSaveButton(uiState.noteModel))
             }
         )
     }
