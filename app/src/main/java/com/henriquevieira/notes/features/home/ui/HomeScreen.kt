@@ -28,9 +28,9 @@ fun HomeScreen(
     uiState: HomeViewState,
     onUiEvent: (event: HomeEvents) -> Unit,
 ) {
-    ConstraintLayout (
+    ConstraintLayout(
         modifier = Modifier.fillMaxSize()
-            ) {
+    ) {
         val (notesList, addButton) = createRefs()
 
         CustomList(
@@ -43,10 +43,13 @@ fun HomeScreen(
             notes = uiState.notesList
         )
 
-        AddButton(modifier = Modifier.constrainAs(addButton) {
-            centerHorizontallyTo(parent)
-            bottom.linkTo(parent.bottom)
-        })
+        AddButton(
+            modifier = Modifier.constrainAs(addButton) {
+                centerHorizontallyTo(parent)
+                bottom.linkTo(parent.bottom)
+            },
+            onUiEvent = onUiEvent
+        )
     }
 }
 
@@ -90,7 +93,10 @@ private fun CustomList(
 }
 
 @Composable
-private fun AddButton(modifier: Modifier = Modifier) {
+private fun AddButton(
+    modifier: Modifier = Modifier,
+    onUiEvent: (event: HomeEvents) -> Unit,
+) {
     CustomCircleIconButton(
         modifier = modifier.testTag("ADD_BUTTON_TAG"),
         imageVector = Icons.Rounded.Add,
@@ -98,6 +104,6 @@ private fun AddButton(modifier: Modifier = Modifier) {
         backgroundColor = MaterialTheme.colorScheme.primaryContainer,
         contentDescription = "Add button"
     ) {
-
+        onUiEvent(HomeEvents.OnAddClick)
     }
 }

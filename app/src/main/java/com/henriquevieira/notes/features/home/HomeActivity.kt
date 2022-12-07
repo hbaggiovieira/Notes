@@ -43,13 +43,15 @@ class HomeActivity : BaseActivity() {
         homeViewModel.screen.collect {
             when (it) {
                 is HomeScreenStates.OnCardClick -> {
+                    val activity = router.getAcitvityByRoute(Routes.Main) ?: HomeActivity()
                     val intent = Intent(this@HomeActivity,
-                        router.getAcitvityByRoute(Routes.Main)::class.java)
+                        activity::class.java)
 
                     intent.putExtra(SELECTED_NOTE_KEY, it.selectedNote)
 
                     startActivity(intent)
                 }
+
                 is HomeScreenStates.OnAddClick -> {
                     router.navigate(
                         route = Routes.Main

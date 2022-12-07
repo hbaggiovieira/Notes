@@ -69,8 +69,8 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun onAddClick() {
-
+    private fun onAddClick() = viewModelScope.launch {
+        _screen.emit(HomeScreenStates.OnAddClick)
     }
 
     private fun onCardClick(selectedNote: NoteModel) = viewModelScope.launch {

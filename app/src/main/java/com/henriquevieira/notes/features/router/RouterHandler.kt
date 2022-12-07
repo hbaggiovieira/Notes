@@ -16,9 +16,7 @@ class RouterHandler @Inject constructor(
     private val context: Context,
 ) : Router {
     override fun navigate(route: Routes, clearTask: Boolean, args: Bundle?) {
-        val activity = getAcitvityByRoute(route)
-
-        activity.let {
+        getAcitvityByRoute(route)?.let {
             val intent = Intent(context, it::class.java)
             intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
             if (clearTask) {
@@ -33,11 +31,11 @@ class RouterHandler @Inject constructor(
         }
     }
 
-    override fun getAcitvityByRoute(route: Routes): Activity {
+    override fun getAcitvityByRoute(route: Routes): Activity? {
         val activity = when (route) {
             is Routes.Main -> MainActivity()
             is Routes.Home -> HomeActivity()
-            else -> HomeActivity()
+            else -> null
         }
 
         return activity
