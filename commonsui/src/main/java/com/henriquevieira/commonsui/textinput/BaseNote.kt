@@ -5,19 +5,21 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.semantics
 import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.commonsui.ds.md_theme_light_primaryContainer
+import com.henriquevieira.commonsui.utils.noteType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseNote(
     modifier: Modifier = Modifier,
-    inputType: NoteTypes = NoteTypes.Primary,
+    noteTypes: NoteTypes = NoteTypes.Primary,
     text: MutableState<String>,
     label: String? = null,
 ) {
 
-    val textFieldColors = when (inputType) {
+    val textFieldColors = when (noteTypes) {
         NoteTypes.Primary -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
@@ -68,6 +70,9 @@ fun BaseNote(
                 }
             },
             modifier = modifier.fillMaxSize()
+                .semantics {
+                    noteType = noteTypes.toString()
+                }
         )
     }
 }

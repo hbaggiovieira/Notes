@@ -56,7 +56,7 @@ fun MainScreen(
                     top.linkTo(title.bottom)
                     bottom.linkTo(buttonRow.top)
                 },
-            inputType = uiState.noteType,
+            noteTypes = uiState.noteType,
             text = text
         )
 
@@ -120,7 +120,7 @@ private fun ButtonRow(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         CustomCircleIconButton(
-            modifier = Modifier.testTag("PRIMARY_COLOR_BUTTON"),
+            modifier = Modifier.testTag("PRIMARY_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.Black,
             backgroundColor = MaterialTheme.colorScheme.primaryContainer,
@@ -130,7 +130,7 @@ private fun ButtonRow(
         }
 
         CustomCircleIconButton(
-            modifier = Modifier.testTag("RED_COLOR_BUTTON"),
+            modifier = Modifier.testTag("RED_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.White,
             backgroundColor = Color.Red,
@@ -140,7 +140,7 @@ private fun ButtonRow(
         }
 
         CustomCircleIconButton(
-            modifier = Modifier.testTag("GREEN_COLOR_BUTTON"),
+            modifier = Modifier.testTag("GREEN_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.Black,
             backgroundColor = Color.Green,
@@ -150,7 +150,7 @@ private fun ButtonRow(
         }
 
         CustomCircleIconButton(
-            modifier = Modifier.testTag("YELLOW_COLOR_BUTTON"),
+            modifier = Modifier.testTag("YELLOW_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.Black,
             backgroundColor = Color.Yellow,
@@ -160,7 +160,7 @@ private fun ButtonRow(
         }
 
         CustomCircleIconButton(
-            modifier = Modifier.testTag("BLUE_COLOR_BUTTON"),
+            modifier = Modifier.testTag("BLUE_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.White,
             backgroundColor = Color.Blue,
