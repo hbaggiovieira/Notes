@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
-import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.core.router.Routes
@@ -47,7 +46,7 @@ class HomeActivity : BaseActivity() {
                     val intent = Intent(this@HomeActivity,
                         router.getAcitvityByRoute(Routes.Main)::class.java)
 
-                    intent.putExtra("selectedNote", it.selectedNote)
+                    intent.putExtra(SELECTED_NOTE_KEY, it.selectedNote)
 
                     startActivity(intent)
                 }
@@ -58,5 +57,9 @@ class HomeActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    companion object {
+        private const val SELECTED_NOTE_KEY = "selectedNote"
     }
 }

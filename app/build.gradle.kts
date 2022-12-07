@@ -110,7 +110,6 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("androidx.core:core-ktx:${Versions.coreKtx}")
-    implementation("com.google.code.gson:gson:2.10")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 
@@ -122,6 +121,17 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.6.1")
     implementation("androidx.navigation:navigation-compose:2.5.3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+
+    //Room
+    val room_version = "2.4.3"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+
 
     //DI - Hilt
     implementation("com.google.dagger:hilt-android:2.44")
@@ -138,6 +148,7 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:${Versions.arch_version}")
     testImplementation("androidx.lifecycle:lifecycle-runtime-testing:${Versions.lifecycle_version}")
     testImplementation("io.mockk:mockk:1.13.2")
+    testImplementation("androidx.room:room-testing:$room_version")
 
 
     debugImplementation("androidx.compose.ui:ui-test-manifest")

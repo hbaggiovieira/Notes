@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.notes.features.home.model.NoteModel
+import com.henriquevieira.notes.features.main.ui.MainEvents
 import com.henriquevieira.notes.features.main.ui.MainScreen
 import com.henriquevieira.notes.features.main.ui.MainScreenStates
 import com.henriquevieira.notes.features.main.viewmodel.MainViewModel
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val selectedNote = intent.extras?.getParcelable("selectedNote", NoteModel::class.java)
+        val selectedNote = intent.extras?.getParcelable(SELECTED_NOTE_KEY, NoteModel::class.java)
 
         setContent {
             AppTheme {
@@ -39,8 +40,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        mainViewModel.onCreate()
-        mainViewModel.loadSelectedNote(selectedNote ?: NoteModel())
+        mainViewModel.dispatch(event = MainEvents.OnNoteSelected(selectedNote ?: NoteModel()))
 
         observe()
     }
@@ -66,6 +66,6 @@ class MainActivity : ComponentActivity() {
     }
 
     companion object {
-        private const val ARGS = "ARGS"
+        private const val SELECTED_NOTE_KEY = "selectedNote"
     }
 }

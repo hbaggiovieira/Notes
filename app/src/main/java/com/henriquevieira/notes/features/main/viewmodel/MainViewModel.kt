@@ -29,11 +29,6 @@ class MainViewModel
     private val _uiState = MutableStateFlow(MainViewState())
     val uiState = _uiState.asStateFlow()
 
-    fun onCreate() {
-//        handleSavedColor()
-//        handleSavedContentText()
-    }
-
     fun dispatch(event: MainEvents) = viewModelScope.launch {
         when (event) {
             is MainEvents.OnPrimaryColorSelected -> {
@@ -52,22 +47,21 @@ class MainViewModel
                 changeColorState(NoteTypes.Blue)
             }
             is MainEvents.OnClickSaveButton -> {
-                onClickSaveButton(event.contentText)
+                onClickSaveButton(event.noteModel)
+            }
+            is MainEvents.OnNoteSelected -> {
+                loadSelectedNote(event.noteModel)
             }
         }
     }
 
-    private fun onClickSaveButton(contentText: String) = viewModelScope.launch {
+    private fun onClickSaveButton(noteModel: NoteModel) = viewModelScope.launch {
         _uiState.value = _uiState.value.copy(
-            contentText = contentText
+            noteModel = noteModel
         )
 
         try {
-            customSharedPreferences.putString(CustomSharedPreferencesKeys.SELECTED_COLOR,
-                uiState.value.noteType.toString())
-
-            customSharedPreferences.putString(CustomSharedPreferencesKeys.CONTENT_TEXT,
-                uiState.value.contentText)
+            //ToDO Save NoteModel
 
             _screen.emit(MainScreenStates.OnSaveSuccess)
         } catch (e: Exception) {
@@ -75,46 +69,22 @@ class MainViewModel
         }
     }
 
-    private fun getSelectedNote() {
-
-    }
-
-    private fun handleSavedColor() = viewModelScope.launch {
-        val savedColor =
-            customSharedPreferences.getString(CustomSharedPreferencesKeys.SELECTED_COLOR,
-                SELECTED_COLOR_DEFAULT)
-
-        _uiState.value = _uiState.value.copy(
-            noteType = when (savedColor) {
-                NoteTypes.Primary.toString() -> NoteTypes.Primary
-                NoteTypes.Red.toString() -> NoteTypes.Red
-                NoteTypes.Green.toString() -> NoteTypes.Green
-                NoteTypes.Yellow.toString() -> NoteTypes.Yellow
-                NoteTypes.Blue.toString() -> NoteTypes.Blue
-                else -> NoteTypes.Primary
-            }
-        )
-    }
-
-    fun loadSelectedNote(note: NoteModel) {
+    private fun loadSelectedNote(note: NoteModel) {
         _uiState.value = _uiState.value.copy(
             noteModel = note,
         )
     }
 
-    private fun handleSavedContentText() = viewModelScope.launch {
-        val savedContentText =
-            customSharedPreferences.getString(CustomSharedPreferencesKeys.CONTENT_TEXT,
-                CONTENT_TEXT_DEFAULT)
+    private fun changeColorState(noteType: NoteTypes) = viewModelScope.launch {
+        val note = _uiState.value.noteModel
 
         _uiState.value = _uiState.value.copy(
-            contentText = savedContentText
-        )
-    }
-
-    private fun changeColorState(noteTypes: NoteTypes) = viewModelScope.launch {
-        _uiState.value = _uiState.value.copy(
-            noteType = noteTypes
+            noteModel = NoteModel(
+                id = note.id,
+                title = note.title,
+                noteType = noteType,
+                contentText = note.contentText
+            )
         )
     }
 
