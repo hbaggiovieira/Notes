@@ -1,13 +1,16 @@
 package com.henriquevieira.notes.features.main
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.ds.AppTheme
+import com.henriquevieira.notes.features.home.model.NoteModel
 import com.henriquevieira.notes.features.main.ui.MainScreen
 import com.henriquevieira.notes.features.main.ui.MainScreenStates
 import com.henriquevieira.notes.features.main.viewmodel.MainViewModel
@@ -19,8 +22,12 @@ class MainActivity : ComponentActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val selectedNote = intent.extras?.getParcelable("selectedNote", NoteModel::class.java)
+
         setContent {
             AppTheme {
                 MainScreen(
@@ -33,6 +40,7 @@ class MainActivity : ComponentActivity() {
         }
 
         mainViewModel.onCreate()
+        mainViewModel.loadSelectedNote(selectedNote ?: NoteModel())
 
         observe()
     }
@@ -55,5 +63,9 @@ class MainActivity : ComponentActivity() {
     private fun showToast(message: String) {
         Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT)
             .show()
+    }
+
+    companion object {
+        private const val ARGS = "ARGS"
     }
 }

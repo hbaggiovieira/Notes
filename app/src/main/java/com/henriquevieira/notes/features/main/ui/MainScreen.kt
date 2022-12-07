@@ -40,11 +40,11 @@ fun MainScreen(
                 },
             fontSize = 28.sp,
             color = MaterialTheme.colorScheme.primary,
-            text = "My Notes",
+            text = uiState.noteModel.title,
             fontWeight = FontWeight.Bold
         )
 
-        val text = remember { mutableStateOf(uiState.contentText) }
+        val text = remember { mutableStateOf(uiState.noteModel.contentText) }
 
         BaseNote(
             modifier = Modifier
@@ -56,7 +56,7 @@ fun MainScreen(
                     top.linkTo(title.bottom)
                     bottom.linkTo(buttonRow.top)
                 },
-            noteTypes = uiState.noteType,
+            noteTypes = uiState.noteModel.noteType,
             text = text
         )
 

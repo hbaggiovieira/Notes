@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -109,6 +110,7 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("androidx.core:core-ktx:${Versions.coreKtx}")
+    implementation("com.google.code.gson:gson:2.10")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 

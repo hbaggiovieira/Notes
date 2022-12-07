@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.CustomSharedPreferences
 import com.henriquevieira.notes.data.CustomSharedPreferencesKeys
+import com.henriquevieira.notes.features.home.model.NoteModel
 import com.henriquevieira.notes.features.main.ui.MainEvents
 import com.henriquevieira.notes.features.main.ui.MainScreenStates
 import com.henriquevieira.notes.features.main.ui.MainViewState
@@ -29,8 +30,8 @@ class MainViewModel
     val uiState = _uiState.asStateFlow()
 
     fun onCreate() {
-        handleSavedColor()
-        handleSavedContentText()
+//        handleSavedColor()
+//        handleSavedContentText()
     }
 
     fun dispatch(event: MainEvents) = viewModelScope.launch {
@@ -74,6 +75,10 @@ class MainViewModel
         }
     }
 
+    private fun getSelectedNote() {
+
+    }
+
     private fun handleSavedColor() = viewModelScope.launch {
         val savedColor =
             customSharedPreferences.getString(CustomSharedPreferencesKeys.SELECTED_COLOR,
@@ -88,6 +93,12 @@ class MainViewModel
                 NoteTypes.Blue.toString() -> NoteTypes.Blue
                 else -> NoteTypes.Primary
             }
+        )
+    }
+
+    fun loadSelectedNote(note: NoteModel) {
+        _uiState.value = _uiState.value.copy(
+            noteModel = note,
         )
     }
 
