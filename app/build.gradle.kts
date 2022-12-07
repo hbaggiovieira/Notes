@@ -103,6 +103,7 @@ android {
 
 dependencies {
     implementation(project(mapOf("path" to ":commonsui")))
+    implementation(project(mapOf("path" to ":core")))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}")
 
