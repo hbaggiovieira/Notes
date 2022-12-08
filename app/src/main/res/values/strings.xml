@@ -3,6 +3,7 @@
     <string name="save_success_message">Save Success</string>
     <string name="save_error_message">Save Error</string>
     <string name="fetch_error_message">Fetch error</string>
+    <string name="load_note_error_message">Fetch error</string>
     <string name="delete_error_message">Delete error</string>
     <string name="delete_success_message">Deleted</string>
     <string name="save">Save</string>

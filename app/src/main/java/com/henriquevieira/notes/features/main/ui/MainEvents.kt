@@ -4,11 +4,11 @@ import com.henriquevieira.notes.data.model.Note
 
 
 sealed class MainEvents {
-    object OnPrimaryColorSelected : MainEvents()
-    object OnRedColorSelected : MainEvents()
-    object OnGreenColorSelected : MainEvents()
-    object OnYellowColorSelected : MainEvents()
-    object OnBlueColorSelected : MainEvents()
-    data class OnClickSaveButton(val note: Note) : MainEvents()
-    data class OnNoteSelected(val noteId: Int) : MainEvents()
+    object PrimaryColorSelected : MainEvents()
+    object RedColorSelected : MainEvents()
+    object GreenColorSelected : MainEvents()
+    object YellowColorSelected : MainEvents()
+    object BlueColorSelected : MainEvents()
+    data class ClickSaveButton(val note: Note) : MainEvents()
+    data class LoadSelectedNote(val noteId: Int?) : MainEvents()
 }

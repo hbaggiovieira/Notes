@@ -18,6 +18,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.card.CustomCard
+import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.commonsui.utils.ColorUtils
 import com.henriquevieira.notes.data.model.Note
 
@@ -62,8 +63,8 @@ private fun HomeCustomCard(
 ) {
     CustomCard(
         modifier = modifier.padding(vertical = 8.dp),
-        backgroundColor = ColorUtils.getBackgroundColorByType(note.noteType),
-        contentColor = ColorUtils.getContentColorByType(note.noteType),
+        backgroundColor = ColorUtils.getBackgroundColorByType(note.noteType ?: NoteTypes.Primary),
+        contentColor = ColorUtils.getContentColorByType(note.noteType ?: NoteTypes.Primary),
         onLongPress = {
             onLongPress?.invoke()
         },
@@ -75,7 +76,7 @@ private fun HomeCustomCard(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text(note.title)
+            Text(note.title ?: "")
         }
     }
 }
@@ -95,7 +96,7 @@ private fun CustomList(
                         onUiEvent(HomeEvents.CardLongPress(notes[index]))
                     },
                     onClick = {
-                        onUiEvent(HomeEvents.CardClick(notes[index].id))
+                        onUiEvent(HomeEvents.CardClick(notes[index].id ?: 0))
                     }
                 )
             }

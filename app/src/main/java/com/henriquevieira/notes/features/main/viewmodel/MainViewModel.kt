@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.model.Note
-import com.henriquevieira.notes.data.room.AppDatabase
+import com.henriquevieira.notes.domain.NoteUseCase
 import com.henriquevieira.notes.features.main.ui.MainEvents
 import com.henriquevieira.notes.features.main.ui.MainScreenStates
 import com.henriquevieira.notes.features.main.ui.MainViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -20,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel
 @Inject constructor(
-    private val appDatabase: AppDatabase,
+    private val noteUseCase: NoteUseCase,
 ) : ViewModel() {
 
     private val _screen = MutableSharedFlow<MainScreenStates>()
@@ -31,54 +30,64 @@ class MainViewModel
 
     fun dispatch(event: MainEvents) = viewModelScope.launch {
         when (event) {
-            is MainEvents.OnPrimaryColorSelected -> {
+            is MainEvents.PrimaryColorSelected -> {
                 changeColorState(NoteTypes.Primary)
             }
-            is MainEvents.OnRedColorSelected -> {
+            is MainEvents.RedColorSelected -> {
                 changeColorState(NoteTypes.Red)
             }
-            is MainEvents.OnGreenColorSelected -> {
+            is MainEvents.GreenColorSelected -> {
                 changeColorState(NoteTypes.Green)
             }
-            is MainEvents.OnYellowColorSelected -> {
+            is MainEvents.YellowColorSelected -> {
                 changeColorState(NoteTypes.Yellow)
             }
-            is MainEvents.OnBlueColorSelected -> {
+            is MainEvents.BlueColorSelected -> {
                 changeColorState(NoteTypes.Blue)
             }
-            is MainEvents.OnClickSaveButton -> {
+            is MainEvents.ClickSaveButton -> {
                 onClickSaveButton(event.note)
             }
-            is MainEvents.OnNoteSelected -> {
+            is MainEvents.LoadSelectedNote -> {
                 loadSelectedNote(event.noteId)
             }
         }
     }
 
-    private fun onClickSaveButton(note: Note) = viewModelScope.launch(Dispatchers.IO) {
-        _uiState.value = _uiState.value.copy(
-            note = note
-        )
-
+    private fun onClickSaveButton(note: Note) = viewModelScope.launch {
         try {
-            appDatabase.noteDao().saveNote(note)
+            _uiState.value = _uiState.value.copy(
+                note = note
+            )
 
-            _screen.emit(MainScreenStates.OnSaveSuccess)
+            if (note.id != null) {
+                noteUseCase.saveNote(note)
+                _screen.emit(MainScreenStates.OnSaveSuccess)
+            } else {
+                _screen.emit(MainScreenStates.OnSaveError)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
+
             _screen.emit(MainScreenStates.OnSaveError)
         }
     }
 
-    private fun loadSelectedNote(noteId: Int) = viewModelScope.launch(Dispatchers.IO) {
+    private fun loadSelectedNote(noteId: Int?) = viewModelScope.launch {
         try {
-            val note = appDatabase.noteDao().getById(noteId)
+            if (noteId != null) {
+                noteUseCase.getNoteById(noteId).collect {
+                    _uiState.value = _uiState.value.copy(
+                        note = it
+                    )
+                }
 
-            _uiState.value = _uiState.value.copy(
-                note = note,
-            )
+                _screen.emit(MainScreenStates.OnLoadNoteSuccess)
+            } else {
+                _screen.emit(MainScreenStates.OnLoadNoteError)
+            }
         } catch (e: Exception) {
-            _screen.emit(MainScreenStates.OnFetchError)
+            _screen.emit(MainScreenStates.OnLoadNoteError)
         }
     }
 

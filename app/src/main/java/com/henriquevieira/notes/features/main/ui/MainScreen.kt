@@ -21,6 +21,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.textinput.BaseNote
 import com.henriquevieira.commonsui.textinput.BaseNoteTitle
+import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.data.model.Note
 
@@ -57,7 +58,7 @@ fun MainScreen(
                     top.linkTo(title.bottom)
                     bottom.linkTo(buttonRow.top)
                 },
-            noteTypes = uiState.note.noteType,
+            noteTypes = uiState.note.noteType ?: NoteTypes.Primary,
             text = text
         )
 
@@ -106,7 +107,7 @@ fun MainScreen(
                 Text(stringResource(R.string.save))
             },
             onClick = {
-                onUiEvent(MainEvents.OnClickSaveButton(
+                onUiEvent(MainEvents.ClickSaveButton(
                     Note(
                         id = uiState.note.id,
                         title = titleText.value,
@@ -135,7 +136,7 @@ private fun ButtonRow(
             backgroundColor = MaterialTheme.colorScheme.primaryContainer,
             contentDescription = "Primary"
         ) {
-            onUiEvent(MainEvents.OnPrimaryColorSelected)
+            onUiEvent(MainEvents.PrimaryColorSelected)
         }
 
         CustomCircleIconButton(
@@ -145,7 +146,7 @@ private fun ButtonRow(
             backgroundColor = Color.Red,
             contentDescription = "Red"
         ) {
-            onUiEvent(MainEvents.OnRedColorSelected)
+            onUiEvent(MainEvents.RedColorSelected)
         }
 
         CustomCircleIconButton(
@@ -155,7 +156,7 @@ private fun ButtonRow(
             backgroundColor = Color.Green,
             contentDescription = "Green"
         ) {
-            onUiEvent(MainEvents.OnGreenColorSelected)
+            onUiEvent(MainEvents.GreenColorSelected)
         }
 
         CustomCircleIconButton(
@@ -165,7 +166,7 @@ private fun ButtonRow(
             backgroundColor = Color.Yellow,
             contentDescription = "Yellow"
         ) {
-            onUiEvent(MainEvents.OnYellowColorSelected)
+            onUiEvent(MainEvents.YellowColorSelected)
         }
 
         CustomCircleIconButton(
@@ -175,7 +176,7 @@ private fun ButtonRow(
             backgroundColor = Color.Blue,
             contentDescription = "Blue"
         ) {
-            onUiEvent(MainEvents.OnBlueColorSelected)
+            onUiEvent(MainEvents.BlueColorSelected)
         }
     }
 }

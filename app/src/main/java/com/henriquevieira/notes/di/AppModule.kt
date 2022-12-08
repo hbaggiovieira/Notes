@@ -7,6 +7,9 @@ import com.henriquevieira.notes.data.preferences.CustomSharedPreferences
 import com.henriquevieira.notes.data.preferences.CustomSharedPreferencesHandler
 import com.henriquevieira.notes.data.preferences.CustomSharedPreferencesKeys
 import com.henriquevieira.notes.data.room.AppDatabase
+import com.henriquevieira.notes.data.source.NoteDataSourceImpl
+import com.henriquevieira.notes.data.repository.NoteRepositoryImpl
+import com.henriquevieira.notes.domain.NoteRepository
 import com.henriquevieira.notes.features.router.RouterHandler
 import dagger.Module
 import dagger.Provides
@@ -18,6 +21,19 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
+    @Singleton
+    @Provides
+    fun provideNoteRepository(@ApplicationContext appContext: Context): NoteRepository =
+        NoteRepositoryImpl(
+            noteDataSource = NoteDataSourceImpl(
+                Room.databaseBuilder(
+                    appContext,
+                    AppDatabase::class.java,
+                    "notes"
+                ).build()
+            )
+        )
 
     @Singleton
     @Provides

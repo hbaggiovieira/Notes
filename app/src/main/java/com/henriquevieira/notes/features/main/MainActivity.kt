@@ -32,9 +32,13 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val selectedNoteId = intent.extras?.getInt(SELECTED_NOTE_KEY)
-
         this.onBackPressedDispatcher.addCallback(this, callback)
+
+        val selectedNoteId = intent.extras?.getInt(SELECTED_NOTE_KEY)
+        selectedNoteId?.let {
+            mainViewModel.dispatch(event = MainEvents.LoadSelectedNote(selectedNoteId))
+        }
+
 
         setContent {
             AppTheme {
@@ -47,9 +51,7 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        selectedNoteId?.let {
-            mainViewModel.dispatch(event = MainEvents.OnNoteSelected(selectedNoteId))
-        }
+
         observe()
     }
 
@@ -63,8 +65,11 @@ class MainActivity : BaseActivity() {
                     is MainScreenStates.OnSaveError -> {
                         showToast(getString(R.string.save_error_message))
                     }
-                    is MainScreenStates.OnFetchError -> {
-                        showToast(getString(R.string.fetch_error_message))
+                    is MainScreenStates.OnLoadNoteError -> {
+                        showToast(getString(R.string.load_note_error_message))
+                    }
+                    is MainScreenStates.OnLoadNoteSuccess -> {
+
                     }
                 }
             }

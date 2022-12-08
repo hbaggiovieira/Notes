@@ -6,14 +6,14 @@ import com.henriquevieira.notes.data.model.Note
 @Dao
 interface NoteDao {
     @Query("SELECT * FROM note")
-    fun getAll(): List<Note>
+    suspend fun getAll(): List<Note>
 
     @Query("SELECT * FROM note WHERE id = :id")
-    fun getById(id: Int): Note
+    suspend fun getById(id: Int): Note
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveNote(note: Note)
+    suspend fun saveNote(note: Note)
 
     @Delete
-    fun delete(note: Note)
+    suspend fun delete(note: Note)
 }

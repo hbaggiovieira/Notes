@@ -87,6 +87,10 @@ class HomeActivity : BaseActivity() {
                         Toast.LENGTH_SHORT).show()
                 }
 
+                is HomeScreenStates.OnFetchError -> {
+                    Toast.makeText(this@HomeActivity, getString(R.string.fetch_error_message), Toast.LENGTH_SHORT).show()
+                }
+
                 is HomeScreenStates.OnFetchSuccess -> {
                     Unit
                 }

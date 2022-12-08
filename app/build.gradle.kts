@@ -146,6 +146,8 @@ dependencies {
     testImplementation("androidx.lifecycle:lifecycle-runtime-testing:${Versions.lifecycle_version}")
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.arch.core:core-testing:${Versions.arch_version}")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2")
+    testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("androidx.lifecycle:lifecycle-runtime-testing:${Versions.lifecycle_version}")
     testImplementation("io.mockk:mockk:1.13.2")
     testImplementation("androidx.room:room-testing:$room_version")

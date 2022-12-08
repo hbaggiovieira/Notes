@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.henriquevieira.notes.data.model.Note
-import com.henriquevieira.notes.data.room.AppDatabase
 import com.henriquevieira.notes.features.home.ui.HomeEvents
 import com.henriquevieira.notes.features.home.ui.HomeScreenStates
 import com.henriquevieira.notes.features.home.ui.HomeViewState
+import com.henriquevieira.notes.domain.NoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val appDatabase: AppDatabase,
+    private val noteUseCase: NoteUseCase,
 ) : ViewModel() {
 
     private val _screen = MutableSharedFlow<HomeScreenStates>()
@@ -54,16 +54,21 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun fetchData() = viewModelScope.launch(Dispatchers.IO) {
-        list.clear()
-        list.addAll(appDatabase.noteDao().getAll())
+        try {
+            list.clear()
+            noteUseCase.getNotes().collect {
+                list.addAll(it)
+            }
 
-        launch(Dispatchers.Main) {
             _uiState.value = _uiState.value.copy(
                 notesList = list,
             )
 
             _screen.emit(HomeScreenStates.OnFetchSuccess)
+        } catch (e: Exception) {
+            _screen.emit(HomeScreenStates.OnFetchError)
         }
+
     }
 
     private fun onAddClick() = viewModelScope.launch {
@@ -82,7 +87,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onDeleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         try {
-            appDatabase.noteDao().delete(note)
+            noteUseCase.deleteNote(note)
 
             _screen.emit(HomeScreenStates.OnDeleteSuccess)
         } catch (e: Exception) {
