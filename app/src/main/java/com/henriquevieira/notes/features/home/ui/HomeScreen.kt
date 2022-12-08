@@ -40,14 +40,13 @@ fun HomeScreen(
                 height = Dimension.fillToConstraints
             },
             uiState = uiState,
-            onUiEvent = onUiEvent,
-            //ToDo GetFrom Database
+            onUiEvent = onUiEvent
         )
 
         AddButton(
             modifier = Modifier.constrainAs(addButton) {
                 centerHorizontallyTo(parent)
-                bottom.linkTo(parent.bottom)
+                bottom.linkTo(parent.bottom, 2.dp)
             },
             onUiEvent = onUiEvent
         )
@@ -59,11 +58,15 @@ private fun HomeCustomCard(
     modifier: Modifier = Modifier,
     note: Note,
     onClick: (() -> Unit)? = null,
+    onLongPress: (() -> Unit)? = null,
 ) {
     CustomCard(
         modifier = modifier.padding(vertical = 8.dp),
         backgroundColor = ColorUtils.getBackgroundColorByType(note.noteType),
         contentColor = ColorUtils.getContentColorByType(note.noteType),
+        onLongPress = {
+            onLongPress?.invoke()
+        },
         onClick = {
             onClick?.invoke()
         }
@@ -87,10 +90,14 @@ private fun CustomList(
         uiState.notesList?.let { notes ->
             items(uiState.notesList.size) { index ->
                 HomeCustomCard(
-                    note = notes[index]
-                ) {
-                    onUiEvent(HomeEvents.OnCardClick(notes[index]))
-                }
+                    note = notes[index],
+                    onLongPress = {
+                        onUiEvent(HomeEvents.CardLongPress(notes[index]))
+                    },
+                    onClick = {
+                        onUiEvent(HomeEvents.CardClick(notes[index].id))
+                    }
+                )
             }
         }
     }
@@ -108,6 +115,6 @@ private fun AddButton(
         backgroundColor = MaterialTheme.colorScheme.primaryContainer,
         contentDescription = "Add button"
     ) {
-        onUiEvent(HomeEvents.OnAddClick)
+        onUiEvent(HomeEvents.AddClick)
     }
 }

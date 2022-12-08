@@ -1,13 +1,10 @@
 package com.henriquevieira.notes.features.main
 
-import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.ds.AppTheme
@@ -33,11 +30,10 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val selectedNote = intent.extras?.getParcelable(SELECTED_NOTE_KEY, Note::class.java)
+        val selectedNoteId = intent.extras?.getInt(SELECTED_NOTE_KEY)
 
         this.onBackPressedDispatcher.addCallback(this, callback)
 
@@ -52,8 +48,9 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        mainViewModel.dispatch(event = MainEvents.OnNoteSelected(selectedNote ?: Note()))
-
+        selectedNoteId?.let {
+            mainViewModel.dispatch(event = MainEvents.OnNoteSelected(selectedNoteId))
+        }
         observe()
     }
 
@@ -66,6 +63,9 @@ class MainActivity : BaseActivity() {
                     }
                     is MainScreenStates.OnSaveError -> {
                         showToast("Save Error")
+                    }
+                    is MainScreenStates.OnFetchError -> {
+                        showToast("Fetch error")
                     }
                 }
             }

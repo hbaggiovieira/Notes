@@ -50,7 +50,7 @@ class MainViewModel
                 onClickSaveButton(event.note)
             }
             is MainEvents.OnNoteSelected -> {
-                loadSelectedNote(event.note)
+                loadSelectedNote(event.noteId)
             }
         }
     }
@@ -70,10 +70,16 @@ class MainViewModel
         }
     }
 
-    private fun loadSelectedNote(note: Note) {
-        _uiState.value = _uiState.value.copy(
-            note = note,
-        )
+    private fun loadSelectedNote(noteId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        try {
+            val note = appDatabase.noteDao().getById(noteId)
+
+            _uiState.value = _uiState.value.copy(
+                note = note,
+            )
+        } catch (e: Exception) {
+            _screen.emit(MainScreenStates.OnFetchError)
+        }
     }
 
     private fun changeColorState(noteType: NoteTypes) = viewModelScope.launch {

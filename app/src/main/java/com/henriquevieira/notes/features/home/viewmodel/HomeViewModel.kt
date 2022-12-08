@@ -1,9 +1,9 @@
 package com.henriquevieira.notes.features.home.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.data.room.AppDatabase
 import com.henriquevieira.notes.features.home.ui.HomeEvents
@@ -31,24 +31,32 @@ class HomeViewModel @Inject constructor(
 
     private val list = mutableStateListOf<Note>()
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            list.addAll(appDatabase.noteDao().getAll())
-        }
-    }
+    private val alertDialogState = mutableStateOf(false)
 
     fun dispatch(event: HomeEvents) = viewModelScope.launch {
         when (event) {
-            is HomeEvents.OnCardClick -> {
-                onCardClick(event.selectedNote)
+            is HomeEvents.CardClick -> {
+                onCardClick(event.noteId)
             }
-            is HomeEvents.OnAddClick -> {
+            is HomeEvents.AddClick -> {
                 onAddClick()
+            }
+            is HomeEvents.CardLongPress -> {
+                showDeleteDialog(event.note)
+            }
+            is HomeEvents.DeleteConfirm -> {
+                onDeleteNote(event.note)
+            }
+            is HomeEvents.FetchData -> {
+                fetchData()
             }
         }
     }
 
-    fun onCreate() = viewModelScope.launch {
+    private fun fetchData() = viewModelScope.launch(Dispatchers.IO) {
+        list.clear()
+        list.addAll(appDatabase.noteDao().getAll())
+
         _uiState.value = _uiState.value.copy(
             notesList = list,
         )
@@ -60,7 +68,27 @@ class HomeViewModel @Inject constructor(
         _screen.emit(HomeScreenStates.OnAddClick)
     }
 
-    private fun onCardClick(selectedNote: Note) = viewModelScope.launch {
-        _screen.emit(HomeScreenStates.OnCardClick(selectedNote))
+    private fun showDeleteDialog(note: Note) = viewModelScope.launch {
+        alertDialogState.value = true
+
+        _uiState.value = _uiState.value.copy(
+            alertDialogState = alertDialogState.value
+        )
+
+        _screen.emit(HomeScreenStates.OnShowAlertDialog(note))
+    }
+
+    private fun onDeleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
+        try {
+            appDatabase.noteDao().delete(note)
+
+            _screen.emit(HomeScreenStates.OnDeleteSuccess)
+        } catch (e: Exception) {
+            _screen.emit(HomeScreenStates.OnDeleteError)
+        }
+    }
+
+    private fun onCardClick(noteId: Int) = viewModelScope.launch {
+        _screen.emit(HomeScreenStates.OnCardClick(noteId))
     }
 }
