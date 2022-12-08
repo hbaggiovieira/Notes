@@ -88,9 +88,4 @@ class MainViewModel
             )
         )
     }
-
-    companion object {
-        private const val SELECTED_COLOR_DEFAULT = "Primary"
-        private const val CONTENT_TEXT_DEFAULT = ""
-    }
 }

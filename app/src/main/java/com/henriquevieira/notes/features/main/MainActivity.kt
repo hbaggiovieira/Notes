@@ -4,12 +4,15 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.ds.AppTheme
+import com.henriquevieira.core.router.Routes
+import com.henriquevieira.notes.base.activity.BaseActivity
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.features.main.ui.MainEvents
 import com.henriquevieira.notes.features.main.ui.MainScreen
@@ -19,15 +22,24 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : BaseActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
+
+    private val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            finish()
+            router.navigate(Routes.Home)
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val selectedNote = intent.extras?.getParcelable(SELECTED_NOTE_KEY, Note::class.java)
+
+        this.onBackPressedDispatcher.addCallback(this, callback)
 
         setContent {
             AppTheme {

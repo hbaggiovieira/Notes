@@ -1,6 +1,5 @@
 package com.henriquevieira.commonsui.textinput
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -11,7 +10,7 @@ import com.henriquevieira.commonsui.ds.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BaseTitle(
+fun BaseNoteTitle(
     modifier: Modifier = Modifier,
     text: MutableState<String>,
     label: String? = null,

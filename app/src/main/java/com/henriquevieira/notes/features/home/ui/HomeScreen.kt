@@ -34,7 +34,10 @@ fun HomeScreen(
         CustomList(
             modifier = Modifier.constrainAs(notesList) {
                 top.linkTo(parent.top)
-                width = Dimension.fillToConstraints
+                bottom.linkTo(addButton.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                height = Dimension.fillToConstraints
             },
             uiState = uiState,
             onUiEvent = onUiEvent,
@@ -91,16 +94,6 @@ private fun CustomList(
             }
         }
     }
-
-//    Column(modifier) {
-//        notes?.forEach {
-//            HomeCustomCard(
-//                note = it,
-//            ) {
-//                onUiEvent(HomeEvents.OnCardClick(it))
-//            }
-//        }
-//    }
 }
 
 @Composable

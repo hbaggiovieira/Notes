@@ -54,6 +54,8 @@ class HomeActivity : BaseActivity() {
                 }
 
                 is HomeScreenStates.OnAddClick -> {
+                    finish()
+
                     router.navigate(
                         route = Routes.Main
                     )

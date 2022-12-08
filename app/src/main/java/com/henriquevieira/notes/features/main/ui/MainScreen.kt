@@ -14,14 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.textinput.BaseNote
-import com.henriquevieira.commonsui.textinput.BaseTitle
+import com.henriquevieira.commonsui.textinput.BaseNoteTitle
 import com.henriquevieira.notes.data.model.Note
 
 @Composable
@@ -36,7 +34,7 @@ fun MainScreen(
         val text = remember { mutableStateOf(uiState.note.contentText) }
         val titleText = remember { mutableStateOf(uiState.note.title) }
 
-        BaseTitle(
+        BaseNoteTitle(
             modifier = Modifier
                 .testTag("TITLE_TAG")
                 .constrainAs(title) {
@@ -106,6 +104,7 @@ fun MainScreen(
             onClick = {
                 onUiEvent(MainEvents.OnClickSaveButton(
                     Note(
+                        id = uiState.note.id,
                         title = titleText.value,
                         contentText = text.value,
                         noteType = uiState.note.noteType
