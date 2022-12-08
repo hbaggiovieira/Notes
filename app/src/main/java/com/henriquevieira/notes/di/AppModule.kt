@@ -1,10 +1,12 @@
 package com.henriquevieira.notes.di
 
 import android.content.Context
+import androidx.room.Room
 import com.henriquevieira.core.router.Router
 import com.henriquevieira.notes.data.CustomSharedPreferences
 import com.henriquevieira.notes.data.CustomSharedPreferencesHandler
 import com.henriquevieira.notes.data.CustomSharedPreferencesKeys
+import com.henriquevieira.notes.data.room.AppDatabase
 import com.henriquevieira.notes.features.router.RouterHandler
 import dagger.Module
 import dagger.Provides
@@ -28,5 +30,15 @@ class AppModule {
     @Provides
     fun provideRouterHandler(@ApplicationContext appContext: Context): Router {
         return RouterHandler(appContext)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+        return Room.databaseBuilder(
+            appContext,
+            AppDatabase::class.java,
+            "notes"
+        ).build()
     }
 }

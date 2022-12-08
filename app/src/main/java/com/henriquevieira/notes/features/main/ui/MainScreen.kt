@@ -21,6 +21,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.textinput.BaseNote
+import com.henriquevieira.notes.data.model.Note
 
 @Composable
 fun MainScreen(
@@ -40,11 +41,11 @@ fun MainScreen(
                 },
             fontSize = 28.sp,
             color = MaterialTheme.colorScheme.primary,
-            text = uiState.noteModel.title,
+            text = uiState.note.title,
             fontWeight = FontWeight.Bold
         )
 
-        val text = remember { mutableStateOf(uiState.noteModel.contentText) }
+        val text = remember { mutableStateOf(uiState.note.contentText) }
 
         BaseNote(
             modifier = Modifier
@@ -56,7 +57,7 @@ fun MainScreen(
                     top.linkTo(title.bottom)
                     bottom.linkTo(buttonRow.top)
                 },
-            noteTypes = uiState.noteModel.noteType,
+            noteTypes = uiState.note.noteType,
             text = text
         )
 
@@ -104,7 +105,13 @@ fun MainScreen(
                 Text("Save")
             },
             onClick = {
-                onUiEvent(MainEvents.OnClickSaveButton(uiState.noteModel))
+                onUiEvent(MainEvents.OnClickSaveButton(
+                    Note(
+                        title = "Title",
+                        contentText = text.value,
+                        noteType = uiState.note.noteType
+                    )
+                ))
             }
         )
     }

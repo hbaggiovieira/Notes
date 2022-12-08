@@ -3,13 +3,13 @@ package com.henriquevieira.notes.features.main.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.henriquevieira.commonsui.textinput.NoteTypes
-import com.henriquevieira.notes.data.CustomSharedPreferences
-import com.henriquevieira.notes.data.CustomSharedPreferencesKeys
-import com.henriquevieira.notes.features.home.model.NoteModel
+import com.henriquevieira.notes.data.model.Note
+import com.henriquevieira.notes.data.room.AppDatabase
 import com.henriquevieira.notes.features.main.ui.MainEvents
 import com.henriquevieira.notes.features.main.ui.MainScreenStates
 import com.henriquevieira.notes.features.main.ui.MainViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel
 @Inject constructor(
-    private val customSharedPreferences: CustomSharedPreferences,
+    private val appDatabase: AppDatabase,
 ) : ViewModel() {
 
     private val _screen = MutableSharedFlow<MainScreenStates>()
@@ -47,39 +47,40 @@ class MainViewModel
                 changeColorState(NoteTypes.Blue)
             }
             is MainEvents.OnClickSaveButton -> {
-                onClickSaveButton(event.noteModel)
+                onClickSaveButton(event.note)
             }
             is MainEvents.OnNoteSelected -> {
-                loadSelectedNote(event.noteModel)
+                loadSelectedNote(event.note)
             }
         }
     }
 
-    private fun onClickSaveButton(noteModel: NoteModel) = viewModelScope.launch {
+    private fun onClickSaveButton(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         _uiState.value = _uiState.value.copy(
-            noteModel = noteModel
+            note = note
         )
 
         try {
-            //ToDO Save NoteModel
+            appDatabase.noteDao().saveNote(note)
 
             _screen.emit(MainScreenStates.OnSaveSuccess)
         } catch (e: Exception) {
+            e.printStackTrace()
             _screen.emit(MainScreenStates.OnSaveError)
         }
     }
 
-    private fun loadSelectedNote(note: NoteModel) {
+    private fun loadSelectedNote(note: Note) {
         _uiState.value = _uiState.value.copy(
-            noteModel = note,
+            note = note,
         )
     }
 
     private fun changeColorState(noteType: NoteTypes) = viewModelScope.launch {
-        val note = _uiState.value.noteModel
+        val note = _uiState.value.note
 
         _uiState.value = _uiState.value.copy(
-            noteModel = NoteModel(
+            note = Note(
                 id = note.id,
                 title = note.title,
                 noteType = noteType,

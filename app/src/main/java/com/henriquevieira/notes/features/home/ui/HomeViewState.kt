@@ -1,7 +1,8 @@
 package com.henriquevieira.notes.features.home.ui
 
-import com.henriquevieira.notes.features.home.model.NoteModel
+import com.henriquevieira.notes.data.model.Note
+
 
 data class HomeViewState(
-    val notesList: List<NoteModel>? = null
+    val notesList: List<Note>? = null
 )

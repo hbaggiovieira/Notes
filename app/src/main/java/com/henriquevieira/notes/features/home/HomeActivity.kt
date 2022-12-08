@@ -2,6 +2,7 @@ package com.henriquevieira.notes.features.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
@@ -56,6 +57,10 @@ class HomeActivity : BaseActivity() {
                     router.navigate(
                         route = Routes.Main
                     )
+                }
+
+                is HomeScreenStates.OnFetchSuccess -> {
+                    Toast.makeText(this@HomeActivity, "Fetch Success", Toast.LENGTH_SHORT).show()
                 }
             }
         }
