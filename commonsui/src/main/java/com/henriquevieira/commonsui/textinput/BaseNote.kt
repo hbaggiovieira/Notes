@@ -59,6 +59,10 @@ fun BaseNote(
 
     AppTheme {
         TextField(
+            modifier = modifier.fillMaxSize()
+                .semantics {
+                    noteType = noteTypes.toString()
+                },
             value = text.value,
             colors = textFieldColors,
             onValueChange = {
@@ -68,11 +72,7 @@ fun BaseNote(
                 label?.let {
                     Text(label)
                 }
-            },
-            modifier = modifier.fillMaxSize()
-                .semantics {
-                    noteType = noteTypes.toString()
-                }
+            }
         )
     }
 }

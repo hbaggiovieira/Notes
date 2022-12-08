@@ -9,8 +9,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.core.router.Routes
+import com.henriquevieira.notes.R
 import com.henriquevieira.notes.base.activity.BaseActivity
-import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.features.main.ui.MainEvents
 import com.henriquevieira.notes.features.main.ui.MainScreen
 import com.henriquevieira.notes.features.main.ui.MainScreenStates
@@ -58,13 +58,13 @@ class MainActivity : BaseActivity() {
             mainViewModel.screen.collect {
                 when (it) {
                     is MainScreenStates.OnSaveSuccess -> {
-                        showToast("Save Success")
+                        showToast(getString(R.string.save_success_message))
                     }
                     is MainScreenStates.OnSaveError -> {
-                        showToast("Save Error")
+                        showToast(getString(R.string.save_error_message))
                     }
                     is MainScreenStates.OnFetchError -> {
-                        showToast("Fetch error")
+                        showToast(getString(R.string.fetch_error_message))
                     }
                 }
             }

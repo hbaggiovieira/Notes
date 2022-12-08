@@ -3,9 +3,9 @@ package com.henriquevieira.notes.di
 import android.content.Context
 import androidx.room.Room
 import com.henriquevieira.core.router.Router
-import com.henriquevieira.notes.data.CustomSharedPreferences
-import com.henriquevieira.notes.data.CustomSharedPreferencesHandler
-import com.henriquevieira.notes.data.CustomSharedPreferencesKeys
+import com.henriquevieira.notes.data.preferences.CustomSharedPreferences
+import com.henriquevieira.notes.data.preferences.CustomSharedPreferencesHandler
+import com.henriquevieira.notes.data.preferences.CustomSharedPreferencesKeys
 import com.henriquevieira.notes.data.room.AppDatabase
 import com.henriquevieira.notes.features.router.RouterHandler
 import dagger.Module
@@ -22,7 +22,9 @@ class AppModule {
     @Singleton
     @Provides
     fun provideCustomSharedPreferencesHandler(@ApplicationContext appContext: Context): CustomSharedPreferences {
-        val sharedPreferences = appContext.getSharedPreferences(CustomSharedPreferencesKeys.PREFERENCES_NAME, Context.MODE_PRIVATE)
+        val sharedPreferences =
+            appContext.getSharedPreferences(CustomSharedPreferencesKeys.PREFERENCES_NAME,
+                Context.MODE_PRIVATE)
         return CustomSharedPreferencesHandler(sharedPreferences)
     }
 

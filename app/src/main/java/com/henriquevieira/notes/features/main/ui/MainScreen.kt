@@ -14,12 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.textinput.BaseNote
 import com.henriquevieira.commonsui.textinput.BaseNoteTitle
+import com.henriquevieira.notes.R
 import com.henriquevieira.notes.data.model.Note
 
 @Composable
@@ -42,7 +44,7 @@ fun MainScreen(
                     top.linkTo(parent.top)
                 },
             text = titleText,
-            placeHolder = "Title"
+            placeHolder = stringResource(R.string.title)
         )
 
         BaseNote(
@@ -76,6 +78,7 @@ fun MainScreen(
                 bottom.linkTo(textField.bottom, 16.dp)
                 end.linkTo(textField.end, 16.dp)
             }, onClick = {
+            titleText.value = ""
             text.value = ""
         }) {
             Box(modifier = Modifier
@@ -100,7 +103,7 @@ fun MainScreen(
                     bottom.linkTo(parent.bottom)
                 },
             content = {
-                Text("Save")
+                Text(stringResource(R.string.save))
             },
             onClick = {
                 onUiEvent(MainEvents.OnClickSaveButton(

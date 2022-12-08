@@ -24,6 +24,7 @@ fun BaseNoteTitle(
 
     AppTheme {
         TextField(
+            modifier = modifier,
             value = text.value,
             colors = textFieldColors,
             onValueChange = {
@@ -41,8 +42,7 @@ fun BaseNoteTitle(
                     ),
                     text = placeHolder
                 )
-            },
-            modifier = modifier
+            }
         )
     }
 }

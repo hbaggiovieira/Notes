@@ -9,5 +9,5 @@ sealed class HomeScreenStates {
     object OnFetchSuccess : HomeScreenStates()
     object OnDeleteError : HomeScreenStates()
     object OnDeleteSuccess : HomeScreenStates()
-    data class OnShowAlertDialog (val note: Note) : HomeScreenStates()
+    data class OnShowAlertDialog(val note: Note) : HomeScreenStates()
 }

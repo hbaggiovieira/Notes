@@ -26,11 +26,16 @@ class MainScreenTest {
     }
 
     @Test
-    fun testTitle() {
-        composeTestRule.onNodeWithTag(TITLE_TAG)
-            .assertIsDisplayed()
-            .assertTextEquals("My Notes")
-            .assertExists()
+    fun testTitleField() {
+        with(composeTestRule) {
+            onNodeWithTag(TITLE_TAG)
+                .assertIsDisplayed()
+                .performTextInput("Test Title")
+
+            onNodeWithTag(TITLE_TAG)
+                .assertTextEquals("Test Title")
+        }
+
     }
 
     @Test
@@ -65,7 +70,7 @@ class MainScreenTest {
             onNodeWithTag(CLEAR_TEXT_BUTTON_TAG)
                 .performClick()
 
-            onNodeWithTag(TEXT_FIELD_TAG)
+            onNodeWithTag(TITLE_TAG)
                 .assertTextEquals("")
                 .assertIsDisplayed()
         }

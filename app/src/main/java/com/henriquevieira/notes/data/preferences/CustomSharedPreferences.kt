@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.data
+package com.henriquevieira.notes.data.preferences
 
 interface CustomSharedPreferences {
     fun putString(key: String, value: String)

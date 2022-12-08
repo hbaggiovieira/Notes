@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.data
+package com.henriquevieira.notes.data.preferences
 
 import android.content.SharedPreferences
 

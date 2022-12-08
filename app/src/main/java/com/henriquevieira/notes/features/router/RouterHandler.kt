@@ -24,7 +24,7 @@ class RouterHandler @Inject constructor(
             }
 
             args?.let {
-                intent.putExtra("ARGS", args)
+                intent.putExtra(ARGS, args)
             }
 
             context.startActivity(intent)
@@ -39,5 +39,9 @@ class RouterHandler @Inject constructor(
         }
 
         return activity
+    }
+
+    companion object {
+        private const val ARGS = "ARGS"
     }
 }

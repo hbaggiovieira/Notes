@@ -11,23 +11,27 @@ fun CustomAlertDialog(
     isEnabled: MutableState<Boolean>,
     onConfirmClick: (() -> Unit)? = null,
     onDismissClick: (() -> Unit)? = null,
+    title: String = "",
+    text: String = "",
+    confirmButtonLabel: String = "",
+    dismissButtonLabel: String = "",
 ) {
     AlertDialog(
         onDismissRequest = {
             isEnabled.value = false
         },
         title = {
-            Text(text = "Delete Note?")
+            Text(text = title)
         },
         text = {
-            Text("Are you sure you want to delete this note?")
+            Text(text)
         },
         confirmButton = {
             Button(
                 onClick = {
                     onConfirmClick?.invoke()
                 }) {
-                Text("Ok")
+                Text(confirmButtonLabel)
             }
         },
         dismissButton = {
@@ -35,7 +39,7 @@ fun CustomAlertDialog(
                 onClick = {
                     onDismissClick?.invoke()
                 }) {
-                Text("Cancel")
+                Text(dismissButtonLabel)
             }
         }
     )

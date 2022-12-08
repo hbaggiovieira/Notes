@@ -1,14 +1,14 @@
 package com.henriquevieira.notes.di
 
-import com.henriquevieira.notes.data.CustomSharedPreferences
-import com.henriquevieira.notes.data.CustomSharedPreferencesKeys
+import com.henriquevieira.commonsui.textinput.NoteTypes
+import com.henriquevieira.core.router.Router
+import com.henriquevieira.notes.data.model.Note
+import com.henriquevieira.notes.data.room.AppDatabase
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import javax.inject.Singleton
 
@@ -21,23 +21,50 @@ class FakeAppModule {
 
     @Singleton
     @Provides
-    fun provideCustomSharedPreferences(): CustomSharedPreferences = mockk {
+    fun provideAppDatabase(): AppDatabase = mockk {
+        coEvery {
+            noteDao().getById(any())
+        }.coAnswers {
+            Note(
+                id = 0,
+                title = "Test Title 1",
+                contentText = "Test Content Text 1",
+                noteType = NoteTypes.Primary
+            )
+        }
 
-        every {
-            getString(CustomSharedPreferencesKeys.SELECTED_COLOR, any())
-        } returns ""
+        coEvery {
+            noteDao().saveNote(any())
+        }.coAnswers { Unit }
 
-        every {
-            getString(CustomSharedPreferencesKeys.CONTENT_TEXT, any())
-        } returns ""
+        coEvery {
+            noteDao().delete(any())
+        }.coAnswers { Unit }
 
-        every {
-            putString(CustomSharedPreferencesKeys.CONTENT_TEXT, TEST_CONTENT_TEXT)
-        } returns Unit
+        coEvery {
+            noteDao().getAll()
+        }.coAnswers {
+            listOf(
+                Note(
+                    id = 0,
+                    title = "Test Title 1",
+                    contentText = "Test Content Text 1",
+                    noteType = NoteTypes.Primary
+                ),
+                Note(
+                    id = 1,
+                    title = "Test Title 2",
+                    contentText = "Test Content Text 2",
+                    noteType = NoteTypes.Red
+                ),
+            )
+        }
+    }
 
-        every {
-            putString(CustomSharedPreferencesKeys.SELECTED_COLOR, TEST_SELECTED_COLOR)
-        } returns Unit
+    @Singleton
+    @Provides
+    fun provideRouter(): Router = mockk {
+        coEvery { navigate(any(), any(), any()) }.coAnswers { Unit }
     }
 
     companion object {
