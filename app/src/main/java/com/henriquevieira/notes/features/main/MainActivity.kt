@@ -25,8 +25,7 @@ class MainActivity : BaseActivity() {
 
     private val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            finish()
-            router.navigate(Routes.Home)
+            router.navigate(route = Routes.Home, clearTask = true)
         }
     }
 

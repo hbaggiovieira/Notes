@@ -57,11 +57,13 @@ class HomeViewModel @Inject constructor(
         list.clear()
         list.addAll(appDatabase.noteDao().getAll())
 
-        _uiState.value = _uiState.value.copy(
-            notesList = list,
-        )
+        launch(Dispatchers.Main) {
+            _uiState.value = _uiState.value.copy(
+                notesList = list,
+            )
 
-        _screen.emit(HomeScreenStates.OnFetchSuccess)
+            _screen.emit(HomeScreenStates.OnFetchSuccess)
+        }
     }
 
     private fun onAddClick() = viewModelScope.launch {
