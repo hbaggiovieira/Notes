@@ -17,14 +17,12 @@
         <activity
             android:name=".features.main.MainActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.Notes">
         </activity>
 
         <activity
             android:name=".features.home.HomeActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.Notes">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
