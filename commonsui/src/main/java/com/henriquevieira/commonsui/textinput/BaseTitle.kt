@@ -1,5 +1,8 @@
 package com.henriquevieira.commonsui.textinput
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -13,7 +16,7 @@ import com.henriquevieira.commonsui.ds.AppTheme
 fun BaseNoteTitle(
     modifier: Modifier = Modifier,
     text: MutableState<String>,
-    label: String? = null,
+    placeHolder: String = "",
 ) {
     val textFieldColors = TextFieldDefaults.textFieldColors(
         textColor = Color.Black,
@@ -31,10 +34,15 @@ fun BaseNoteTitle(
             textStyle = LocalTextStyle.current.copy(
                 textAlign = TextAlign.Center
             ),
-            label = {
-                label?.let {
-                    Text(label)
-                }
+            placeholder = {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    style = LocalTextStyle.current.copy(
+                        textAlign = TextAlign.Center,
+                        color = Color.DarkGray
+                    ),
+                    text = placeHolder
+                )
             },
             modifier = modifier
         )

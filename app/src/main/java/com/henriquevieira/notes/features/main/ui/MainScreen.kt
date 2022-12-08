@@ -38,10 +38,11 @@ fun MainScreen(
             modifier = Modifier
                 .testTag("TITLE_TAG")
                 .constrainAs(title) {
-                    centerHorizontallyTo(parent)
+                    width = Dimension.matchParent
                     top.linkTo(parent.top)
                 },
-            text = titleText
+            text = titleText,
+            placeHolder = "Title"
         )
 
         BaseNote(
