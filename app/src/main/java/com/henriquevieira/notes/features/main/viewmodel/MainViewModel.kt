@@ -9,6 +9,7 @@ import com.henriquevieira.notes.features.main.ui.MainEvents
 import com.henriquevieira.notes.features.main.ui.MainScreenStates
 import com.henriquevieira.notes.features.main.ui.MainViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -59,33 +60,23 @@ class MainViewModel
             _uiState.value = _uiState.value.copy(
                 note = note
             )
-
-            if (note.id != null) {
-                noteUseCase.saveNote(note)
-                _screen.emit(MainScreenStates.OnSaveSuccess)
-            } else {
-                _screen.emit(MainScreenStates.OnSaveError)
-            }
+            noteUseCase.saveNote(note)
+            _screen.emit(MainScreenStates.OnSaveSuccess)
         } catch (e: Exception) {
             e.printStackTrace()
-
             _screen.emit(MainScreenStates.OnSaveError)
         }
     }
 
-    private fun loadSelectedNote(noteId: Int?) = viewModelScope.launch {
+    private fun loadSelectedNote(noteId: Int) = viewModelScope.launch(Dispatchers.IO) {
         try {
-            if (noteId != null) {
-                noteUseCase.getNoteById(noteId).collect {
-                    _uiState.value = _uiState.value.copy(
-                        note = it
-                    )
-                }
-
-                _screen.emit(MainScreenStates.OnLoadNoteSuccess)
-            } else {
-                _screen.emit(MainScreenStates.OnLoadNoteError)
+            noteUseCase.getNoteById(noteId).collect {
+                _uiState.value = _uiState.value.copy(
+                    note = it
+                )
             }
+
+            _screen.emit(MainScreenStates.OnLoadNoteSuccess)
         } catch (e: Exception) {
             _screen.emit(MainScreenStates.OnLoadNoteError)
         }

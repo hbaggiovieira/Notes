@@ -10,5 +10,5 @@ sealed class MainEvents {
     object YellowColorSelected : MainEvents()
     object BlueColorSelected : MainEvents()
     data class ClickSaveButton(val note: Note) : MainEvents()
-    data class LoadSelectedNote(val noteId: Int?) : MainEvents()
+    data class LoadSelectedNote(val noteId: Int) : MainEvents()
 }

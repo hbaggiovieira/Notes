@@ -15,7 +15,7 @@ import com.henriquevieira.commonsui.utils.noteType
 fun BaseNote(
     modifier: Modifier = Modifier,
     noteTypes: NoteTypes = NoteTypes.Primary,
-    text: MutableState<String?>,
+    text: MutableState<String>,
     label: String? = null,
 ) {
 

@@ -13,7 +13,7 @@ import com.henriquevieira.commonsui.ds.AppTheme
 @Composable
 fun BaseNoteTitle(
     modifier: Modifier = Modifier,
-    text: MutableState<String?>,
+    text: MutableState<String>,
     placeHolder: String = "",
 ) {
     val textFieldColors = TextFieldDefaults.textFieldColors(
@@ -25,7 +25,7 @@ fun BaseNoteTitle(
     AppTheme {
         TextField(
             modifier = modifier,
-            value = text.value ?: "",
+            value = text.value,
             colors = textFieldColors,
             onValueChange = {
                 text.value = it

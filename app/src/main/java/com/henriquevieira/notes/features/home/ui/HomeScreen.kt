@@ -96,7 +96,7 @@ private fun CustomList(
                         onUiEvent(HomeEvents.CardLongPress(notes[index]))
                     },
                     onClick = {
-                        onUiEvent(HomeEvents.CardClick(notes[index].id ?: 0))
+                        onUiEvent(HomeEvents.CardClick(notes[index].id))
                     }
                 )
             }

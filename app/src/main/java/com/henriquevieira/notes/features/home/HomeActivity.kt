@@ -53,14 +53,14 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun observe() = lifecycleScope.launch {
-        homeViewModel.screen.collect {
-            when (it) {
+        homeViewModel.screen.collect { state ->
+            when (state) {
                 is HomeScreenStates.OnCardClick -> {
                     val activity = router.getAcitvityByRoute(Routes.Main) ?: HomeActivity()
                     val intent = Intent(this@HomeActivity,
                         activity::class.java)
 
-                    intent.putExtra(SELECTED_NOTE_KEY, it.noteId)
+                    intent.putExtra(SELECTED_NOTE_KEY, state.noteId)
 
                     startActivity(intent)
                 }
@@ -98,7 +98,7 @@ class HomeActivity : BaseActivity() {
                 is HomeScreenStates.OnShowAlertDialog -> {
                     isShowDialog.value = true
 
-                    note.value = it.note
+                    note.value = state.note
                 }
             }
         }
