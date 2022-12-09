@@ -10,6 +10,7 @@ import com.henriquevieira.notes.features.home.ui.HomeEvents
 import com.henriquevieira.notes.features.home.ui.HomeScreenStates
 import com.henriquevieira.notes.features.home.ui.HomeViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -52,7 +53,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun fetchData() = viewModelScope.launch {
+    private fun fetchData() = viewModelScope.launch(Dispatchers.IO) {
         try {
             list.clear()
             noteUseCase.getNotes().collect {
@@ -83,7 +84,7 @@ class HomeViewModel @Inject constructor(
         _screen.emit(HomeScreenStates.OnShowAlertDialog(note))
     }
 
-    private fun onDeleteNote(note: Note) = viewModelScope.launch {
+    private fun onDeleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         try {
             noteUseCase.deleteNote(note)
 

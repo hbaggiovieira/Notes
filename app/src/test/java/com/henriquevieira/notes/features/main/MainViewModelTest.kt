@@ -166,9 +166,11 @@ class MainViewModelTest {
             mainViewModel.dispatch(MainEvents.ClickSaveButton(VALID_TEST_NOTE))
         }
 
-        val screen = screenFlow.replayCache.last()
+        screenFlow.onCompletion {
+            val screen = screenFlow.replayCache.last()
 
-        Truth.assertThat(screen).isEqualTo(MainScreenStates.OnSaveSuccess)
+            Truth.assertThat(screen).isEqualTo(MainScreenStates.OnSaveSuccess)
+        }
     }
 
     @Test
@@ -183,9 +185,11 @@ class MainViewModelTest {
             mainViewModel.dispatch(MainEvents.ClickSaveButton(INVALID_TEST_NOTE))
         }
 
-        val screen = screenFlow.replayCache.last()
+        screenFlow.onCompletion {
+            val screen = screenFlow.replayCache.last()
 
-        Truth.assertThat(screen).isEqualTo(MainScreenStates.OnSaveError)
+            Truth.assertThat(screen).isEqualTo(MainScreenStates.OnSaveError)
+        }
     }
 
     companion object {

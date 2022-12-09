@@ -63,14 +63,15 @@ class HomeActivity : BaseActivity() {
                     intent.putExtra(SELECTED_NOTE_KEY, state.noteId)
 
                     startActivity(intent)
+                    finish()
                 }
 
                 is HomeScreenStates.OnAddClick -> {
-                    finish()
-
                     router.navigate(
                         route = Routes.Main
                     )
+
+                    finish()
                 }
 
                 is HomeScreenStates.OnDeleteError -> {

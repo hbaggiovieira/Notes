@@ -55,7 +55,7 @@ class MainViewModel
         }
     }
 
-    private fun onClickSaveButton(note: Note) = viewModelScope.launch {
+    private fun onClickSaveButton(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         try {
             _uiState.value = _uiState.value.copy(
                 note = note
@@ -68,7 +68,7 @@ class MainViewModel
         }
     }
 
-    private fun loadSelectedNote(noteId: Int) = viewModelScope.launch {
+    private fun loadSelectedNote(noteId: Int) = viewModelScope.launch(Dispatchers.IO) {
         try {
             noteUseCase.getNoteById(noteId).collect {
                 _uiState.value = _uiState.value.copy(
