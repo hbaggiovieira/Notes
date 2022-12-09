@@ -6,7 +6,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import com.henriquevieira.commonsui.ds.AppTheme
+import com.henriquevieira.commonsui.ds.color_dark_red
+import com.henriquevieira.commonsui.ds.color_mid_yellow
 import com.henriquevieira.commonsui.ds.md_theme_light_primaryContainer
 import com.henriquevieira.commonsui.utils.noteType
 
@@ -31,7 +34,7 @@ fun BaseNote(
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 cursorColor = Color.White,
-                containerColor = Color.Red
+                containerColor = color_dark_red
             )
         }
         NoteTypes.Green -> {
@@ -45,7 +48,7 @@ fun BaseNote(
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
-                containerColor = Color.Yellow
+                containerColor = color_mid_yellow
             )
         }
         NoteTypes.Blue -> {
@@ -63,8 +66,11 @@ fun BaseNote(
                 .semantics {
                     noteType = noteTypes.toString()
                 },
-            value = text.value ?: "",
+            value = text.value,
             colors = textFieldColors,
+            textStyle = LocalTextStyle.current.copy(
+                fontWeight = FontWeight.Bold
+            ),
             onValueChange = {
                 text.value = it
             },

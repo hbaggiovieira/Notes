@@ -6,7 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import com.henriquevieira.commonsui.ds.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,14 +33,17 @@ fun BaseNoteTitle(
                 text.value = it
             },
             textStyle = LocalTextStyle.current.copy(
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                fontSize = 28.sp
             ),
             placeholder = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     style = LocalTextStyle.current.copy(
                         textAlign = TextAlign.Center,
-                        color = Color.DarkGray
+                        color = Color.DarkGray,
+                        fontSize = 28.sp
                     ),
                     text = placeHolder
                 )

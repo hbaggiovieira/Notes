@@ -67,8 +67,8 @@ private fun HomeCustomCard(
 ) {
     CustomCard(
         modifier = modifier.padding(vertical = 8.dp),
-        backgroundColor = ColorUtils.getBackgroundColorByType(note.noteType ?: NoteTypes.Primary),
-        contentColor = ColorUtils.getContentColorByType(note.noteType ?: NoteTypes.Primary),
+        backgroundColor = ColorUtils.getBackgroundColorByType(note.noteType),
+        contentColor = ColorUtils.getContentColorByType(note.noteType),
         onLongPress = {
             onLongPress?.invoke()
         },
@@ -80,7 +80,7 @@ private fun HomeCustomCard(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text(note.title ?: "")
+            Text(note.title)
         }
     }
 }
@@ -118,7 +118,7 @@ private fun AddButton(
         imageVector = Icons.Rounded.Add,
         imageColor = Color.Black,
         backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-        contentDescription = "Add button"
+        contentDescription = "Add"
     ) {
         onUiEvent(HomeEvents.AddClick)
     }

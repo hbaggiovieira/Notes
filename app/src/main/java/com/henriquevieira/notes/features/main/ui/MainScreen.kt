@@ -12,13 +12,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.requestFocus
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.button.CustomCircleIconButton
+import com.henriquevieira.commonsui.ds.color_dark_red
+import com.henriquevieira.commonsui.ds.color_mid_yellow
 import com.henriquevieira.commonsui.textinput.BaseNote
 import com.henriquevieira.commonsui.textinput.BaseNoteTitle
 import com.henriquevieira.commonsui.textinput.NoteTypes
@@ -50,6 +57,10 @@ fun MainScreen(
 
         BaseNote(
             modifier = Modifier
+                .semantics {
+                    this.contentDescription = text.value.ifEmpty { "Note" }
+                }
+                .focusTarget()
                 .padding(8.dp)
                 .testTag("TEXT_FIELD_TAG")
                 .constrainAs(textField) {
@@ -58,7 +69,7 @@ fun MainScreen(
                     top.linkTo(title.bottom)
                     bottom.linkTo(buttonRow.top)
                 },
-            noteTypes = uiState.note.noteType ?: NoteTypes.Primary,
+            noteTypes = uiState.note.noteType,
             text = text
         )
 
@@ -143,7 +154,7 @@ private fun ButtonRow(
             modifier = Modifier.testTag("RED_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.White,
-            backgroundColor = Color.Red,
+            backgroundColor = color_dark_red,
             contentDescription = "Red"
         ) {
             onUiEvent(MainEvents.RedColorSelected)
@@ -163,7 +174,7 @@ private fun ButtonRow(
             modifier = Modifier.testTag("YELLOW_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.Black,
-            backgroundColor = Color.Yellow,
+            backgroundColor = color_mid_yellow,
             contentDescription = "Yellow"
         ) {
             onUiEvent(MainEvents.YellowColorSelected)
