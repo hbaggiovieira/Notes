@@ -32,16 +32,26 @@ class MainViewModelTest {
 
     private val repository: NoteRepository = mockk<NoteRepository>().apply {
         coEvery {
-            getNoteById(any())
-        }.coAnswers { flowOf(VALID_TEST_NOTE) }
+            getNoteById(VALID_TEST_NOTE.id)
+        }.coAnswers {
+            flowOf(VALID_TEST_NOTE)
+        }
 
         coEvery {
-            saveNote(any())
-        } returns Unit
+            getNoteById(INVALID_TEST_NOTE.id)
+        }.throws(Exception())
+
+        coEvery {
+            saveNote(VALID_TEST_NOTE)
+        }.coAnswers { Unit }
+
+        coEvery {
+            saveNote(INVALID_TEST_NOTE)
+        }.throws(Exception())
 
         coEvery {
             deleteNote(any())
-        } returns Unit
+        }.coAnswers { Unit }
     }
 
     private val mainViewModel = MainViewModel(
@@ -106,7 +116,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `Given a valid note THEN the screen OnLoadNoteSuccess must be emmited`() {
+    fun `Given a valid note THEN the screen OnLoadNoteSuccess must be emitted`() {
         val screenFlow = mainViewModel.screen.shareIn(
             CoroutineScope(Dispatchers.Unconfined),
             started = SharingStarted.Eagerly,
@@ -123,7 +133,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `Given a invalid note THEN the screen OnLoadNoteError must be emmited`() {
+    fun `Given a invalid note THEN the screen OnLoadNoteError must be emitted`() {
         val screenFlow = mainViewModel.screen.shareIn(
             CoroutineScope(Dispatchers.Unconfined),
             started = SharingStarted.Eagerly,
@@ -175,7 +185,7 @@ class MainViewModelTest {
 
     companion object {
         private val VALID_TEST_NOTE = Note(
-            id = 0,
+            id = 1,
             title = "Test Title 1",
             contentText = "Test Content Text 1",
             noteType = NoteTypes.Primary

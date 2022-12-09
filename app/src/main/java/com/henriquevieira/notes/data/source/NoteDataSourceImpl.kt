@@ -10,7 +10,7 @@ class NoteDataSourceImpl
 @Inject constructor(
     private val appDatabase: AppDatabase,
 ) : NoteDataSource {
-    override fun getNotes(): Flow<List<Note>> = flow {
+    override suspend fun getNotes(): Flow<List<Note>> = flow {
         val result = appDatabase.noteDao().getAll()
         emit(result)
     }
@@ -19,7 +19,7 @@ class NoteDataSourceImpl
         appDatabase.noteDao().saveNote(note)
     }
 
-    override fun getNoteById(noteId: Int): Flow<Note> = flow {
+    override suspend fun getNoteById(noteId: Int): Flow<Note> = flow {
         val result = appDatabase.noteDao().getById(noteId)
         emit(result)
     }

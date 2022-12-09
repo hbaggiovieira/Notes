@@ -5,12 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.henriquevieira.notes.data.model.Note
+import com.henriquevieira.notes.domain.NoteUseCase
 import com.henriquevieira.notes.features.home.ui.HomeEvents
 import com.henriquevieira.notes.features.home.ui.HomeScreenStates
 import com.henriquevieira.notes.features.home.ui.HomeViewState
-import com.henriquevieira.notes.domain.NoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -53,7 +52,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun fetchData() = viewModelScope.launch(Dispatchers.IO) {
+    private fun fetchData() = viewModelScope.launch {
         try {
             list.clear()
             noteUseCase.getNotes().collect {
@@ -85,7 +84,7 @@ class HomeViewModel @Inject constructor(
         _screen.emit(HomeScreenStates.OnShowAlertDialog(note))
     }
 
-    private fun onDeleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
+    private fun onDeleteNote(note: Note) = viewModelScope.launch {
         try {
             noteUseCase.deleteNote(note)
 

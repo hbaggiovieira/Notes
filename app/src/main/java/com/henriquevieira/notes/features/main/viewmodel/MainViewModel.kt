@@ -68,7 +68,7 @@ class MainViewModel
         }
     }
 
-    private fun loadSelectedNote(noteId: Int) = viewModelScope.launch(Dispatchers.IO) {
+    private fun loadSelectedNote(noteId: Int) = viewModelScope.launch {
         try {
             noteUseCase.getNoteById(noteId).collect {
                 _uiState.value = _uiState.value.copy(
