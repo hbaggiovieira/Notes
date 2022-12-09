@@ -67,7 +67,6 @@ class HomeViewModel @Inject constructor(
         } catch (e: Exception) {
             _screen.emit(HomeScreenStates.OnFetchError)
         }
-
     }
 
     private fun onAddClick() = viewModelScope.launch {
