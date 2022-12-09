@@ -17,27 +17,24 @@ android {
         versionName = Config.versionName
         testInstrumentationRunner = "com.henriquevieira.notes.CustomTestRunner"
         vectorDrawables.useSupportLibrary = true
+        signingConfig = signingConfigs.getByName("debug")
     }
 
-    flavorDimensions += Config.FlavorDimensions.BRAND
-    productFlavors {
-        create(Config.Brand.FREE) {
-            // Assigns this product flavor to the "version" flavor dimension.
-            // If you are using only one dimension, this property is optional,
-            // and the plugin automatically assigns all the module's flavors to
-            // that dimension.
-            dimension = Config.FlavorDimensions.BRAND
-            applicationIdSuffix = ".${Config.Brand.FREE}"
-            versionNameSuffix = "-${Config.Brand.FREE}"
-            buildConfigField("String", "BRAND", "\"FREE\"")
-        }
-        create(Config.Brand.PREMIUM) {
-            dimension = Config.FlavorDimensions.BRAND
-            applicationIdSuffix = ".${Config.Brand.PREMIUM}"
-            versionNameSuffix = "-${Config.Brand.PREMIUM}"
-            buildConfigField("String", "BRAND", "\"PREMIUM\"")
-        }
-    }
+//    flavorDimensions += Config.FlavorDimensions.BRAND
+//    productFlavors {
+//        create(Config.Brand.FREE) {
+//            dimension = Config.FlavorDimensions.BRAND
+//            applicationIdSuffix = ".${Config.Brand.FREE}"
+//            versionNameSuffix = "-${Config.Brand.FREE}"
+//            buildConfigField("String", "BRAND", "\"FREE\"")
+//        }
+//        create(Config.Brand.PREMIUM) {
+//            dimension = Config.FlavorDimensions.BRAND
+//            applicationIdSuffix = ".${Config.Brand.PREMIUM}"
+//            versionNameSuffix = "-${Config.Brand.PREMIUM}"
+//            buildConfigField("String", "BRAND", "\"PREMIUM\"")
+//        }
+//    }
 
     buildTypes {
         getByName("debug") {

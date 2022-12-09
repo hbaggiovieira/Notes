@@ -3,6 +3,8 @@ package com.henriquevieira.commonsui.utils
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.henriquevieira.commonsui.ds.color_dark_red
+import com.henriquevieira.commonsui.ds.color_mid_yellow
 import com.henriquevieira.commonsui.textinput.NoteTypes
 
 class ColorUtils {
@@ -13,13 +15,13 @@ class ColorUtils {
                 MaterialTheme.colorScheme.primaryContainer
             }
             NoteTypes.Red -> {
-                Color.Red
+                color_dark_red
             }
             NoteTypes.Green -> {
                 Color.Green
             }
             NoteTypes.Yellow -> {
-                Color.Yellow
+                color_mid_yellow
             }
             NoteTypes.Blue -> {
                 Color.Blue
