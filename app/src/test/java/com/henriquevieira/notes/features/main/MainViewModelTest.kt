@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
@@ -127,9 +128,11 @@ class MainViewModelTest {
             mainViewModel.dispatch(MainEvents.LoadSelectedNote(VALID_TEST_NOTE.id))
         }
 
-        val screen = screenFlow.replayCache.last()
+        screenFlow.onCompletion {
+            val screen = screenFlow.replayCache.last()
 
-        Truth.assertThat(screen).isEqualTo(MainScreenStates.OnLoadNoteSuccess)
+            Truth.assertThat(screen).isEqualTo(MainScreenStates.OnLoadNoteSuccess)
+        }
     }
 
     @Test
@@ -144,9 +147,11 @@ class MainViewModelTest {
             mainViewModel.dispatch(MainEvents.LoadSelectedNote(INVALID_TEST_NOTE.id))
         }
 
-        val screen = screenFlow.replayCache.last()
+        screenFlow.onCompletion {
+            val screen = screenFlow.replayCache.last()
 
-        Truth.assertThat(screen).isEqualTo(MainScreenStates.OnLoadNoteError)
+            Truth.assertThat(screen).isEqualTo(MainScreenStates.OnLoadNoteError)
+        }
     }
 
     @Test
