@@ -10,7 +10,7 @@ android {
     defaultConfig {
         compileSdk = Config.compileSdkVersion
         buildToolsVersion = Config.buildToolsVersion
-        applicationId = "br.henriquevieira.notes"
+        applicationId = "com.henriquevieira.notes"
         minSdk = Config.minSdkVersion
         targetSdk = Config.targetSdkVersion
         versionCode = Config.versionCode

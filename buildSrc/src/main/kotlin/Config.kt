@@ -9,7 +9,7 @@ object Config {
     const val versionCode = 1
     const val versionName = "0.1"
 
-    const val applicationId = "br.henriquevieira.notes"
+    const val applicationId = "com.henriquevieira.notes"
 
     const val androidTestInstrumentation = "androidx.test.runner.AndroidJUnitRunner"
 
