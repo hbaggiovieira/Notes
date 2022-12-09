@@ -33,22 +33,26 @@ fun HomeScreen(
         val (notesList, addButton) = createRefs()
 
         CustomList(
-            modifier = Modifier.constrainAs(notesList) {
-                top.linkTo(parent.top)
-                bottom.linkTo(addButton.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                height = Dimension.fillToConstraints
-            },
+            modifier = Modifier
+                .testTag("NOTES_LIST_TAG")
+                .constrainAs(notesList) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(addButton.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    height = Dimension.fillToConstraints
+                },
             uiState = uiState,
             onUiEvent = onUiEvent
         )
 
         AddButton(
-            modifier = Modifier.constrainAs(addButton) {
-                centerHorizontallyTo(parent)
-                bottom.linkTo(parent.bottom, 2.dp)
-            },
+            modifier = Modifier
+                .testTag("ADD_BUTTON_TAG")
+                .constrainAs(addButton) {
+                    centerHorizontallyTo(parent)
+                    bottom.linkTo(parent.bottom, 2.dp)
+                },
             onUiEvent = onUiEvent
         )
     }

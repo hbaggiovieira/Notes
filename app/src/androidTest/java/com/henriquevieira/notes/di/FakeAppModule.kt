@@ -3,13 +3,14 @@ package com.henriquevieira.notes.di
 import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.core.router.Router
 import com.henriquevieira.notes.data.model.Note
-import com.henriquevieira.notes.data.room.AppDatabase
+import com.henriquevieira.notes.domain.NoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Singleton
 
 @Module
@@ -21,54 +22,52 @@ class FakeAppModule {
 
     @Singleton
     @Provides
-    fun provideAppDatabase(): AppDatabase = mockk {
+    fun provideNoteRepository(): NoteRepository = mockk {
         coEvery {
-            noteDao().getById(any())
+            getNoteById(any())
         }.coAnswers {
-            Note(
+            flowOf(Note(
                 id = 0,
                 title = "Test Title 1",
                 contentText = "Test Content Text 1",
                 noteType = NoteTypes.Primary
-            )
+            ))
         }
 
         coEvery {
-            noteDao().saveNote(any())
+            saveNote(any())
         }.coAnswers { Unit }
 
         coEvery {
-            noteDao().delete(any())
+            deleteNote(any())
         }.coAnswers { Unit }
 
         coEvery {
-            noteDao().getAll()
+            getNotes()
         }.coAnswers {
-            listOf(
-                Note(
-                    id = 0,
-                    title = "Test Title 1",
-                    contentText = "Test Content Text 1",
-                    noteType = NoteTypes.Primary
-                ),
-                Note(
-                    id = 1,
-                    title = "Test Title 2",
-                    contentText = "Test Content Text 2",
-                    noteType = NoteTypes.Red
-                ),
+            flowOf(
+                listOf(
+                    Note(
+                        id = 0,
+                        title = "Test Title 1",
+                        contentText = "Test Content Text 1",
+                        noteType = NoteTypes.Primary
+                    ),
+                    Note(
+                        id = 1,
+                        title = "Test Title 2",
+                        contentText = "Test Content Text 2",
+                        noteType = NoteTypes.Red
+                    ),
+                )
             )
         }
     }
+
 
     @Singleton
     @Provides
     fun provideRouter(): Router = mockk {
         coEvery { navigate(any(), any(), any()) }.coAnswers { Unit }
-    }
-
-    companion object {
-        const val TEST_CONTENT_TEXT = "Test content text"
-        const val TEST_SELECTED_COLOR = "Primary"
     }
 }
