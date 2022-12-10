@@ -31,7 +31,7 @@ class RouterHandler @Inject constructor(
         }
     }
 
-    override fun getAcitvityByRoute(route: Routes): Activity? {
+    private fun getAcitvityByRoute(route: Routes): Activity? {
         val activity = when (route) {
             is Routes.Main -> MainActivity()
             is Routes.Home -> HomeActivity()

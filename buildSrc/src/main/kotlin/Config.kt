@@ -13,6 +13,7 @@ object Config {
 
     const val androidTestInstrumentation = "androidx.test.runner.AndroidJUnitRunner"
 
+    //ToDo Apply Flavors
     object FlavorDimensions {
         const val BRAND = "brand"
     }

@@ -33,10 +33,10 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         this.onBackPressedDispatcher.addCallback(this, callback)
 
-        val selectedNoteId = intent.extras?.getInt(SELECTED_NOTE_KEY)
+        val args = intent.getBundleExtra(ARGS)
+        val selectedNoteId = args?.getInt(SELECTED_NOTE_KEY)
         selectedNoteId?.let {
             mainViewModel.dispatch(event = MainEvents.LoadSelectedNote(selectedNoteId))
         }
@@ -84,6 +84,7 @@ class MainActivity : BaseActivity() {
     }
 
     companion object {
+        private const val ARGS = "ARGS"
         private const val SELECTED_NOTE_KEY = "selectedNote"
     }
 }

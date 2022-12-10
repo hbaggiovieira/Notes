@@ -1,6 +1,5 @@
 package com.henriquevieira.notes.features.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -9,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.res.stringResource
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.dialog.CustomAlertDialog
 import com.henriquevieira.commonsui.ds.AppTheme
@@ -56,13 +56,12 @@ class HomeActivity : BaseActivity() {
         homeViewModel.screen.collect { state ->
             when (state) {
                 is HomeScreenStates.OnCardClick -> {
-                    val activity = router.getAcitvityByRoute(Routes.Main) ?: HomeActivity()
-                    val intent = Intent(this@HomeActivity,
-                        activity::class.java)
+                    val bundle = bundleOf(SELECTED_NOTE_KEY to state.noteId)
+                    router.navigate(
+                        route = Routes.Main,
+                        args = bundle
+                    )
 
-                    intent.putExtra(SELECTED_NOTE_KEY, state.noteId)
-
-                    startActivity(intent)
                     finish()
                 }
 
@@ -89,7 +88,9 @@ class HomeActivity : BaseActivity() {
                 }
 
                 is HomeScreenStates.OnFetchError -> {
-                    Toast.makeText(this@HomeActivity, getString(R.string.fetch_error_message), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@HomeActivity,
+                        getString(R.string.fetch_error_message),
+                        Toast.LENGTH_SHORT).show()
                 }
 
                 is HomeScreenStates.OnFetchSuccess -> {
@@ -122,8 +123,6 @@ class HomeActivity : BaseActivity() {
                     isShowDialog.value = false
                 }
             )
-        } else {
-            val a = ""
         }
     }
 

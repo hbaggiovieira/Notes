@@ -12,13 +12,20 @@ android {
     }
 
     buildTypes {
-        debug {
+        getByName("debug") {
             isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
-        release {
+
+        getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -31,7 +38,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:${Versions.coreKtx}")
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation("junit:junit:${Versions.Test.jUnit}")
 }
