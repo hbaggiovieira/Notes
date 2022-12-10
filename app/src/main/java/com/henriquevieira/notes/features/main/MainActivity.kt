@@ -1,7 +1,6 @@
 package com.henriquevieira.notes.features.main
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -11,6 +10,7 @@ import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.core.router.Routes
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.base.activity.BaseActivity
+import com.henriquevieira.notes.extensions.showToast
 import com.henriquevieira.notes.features.main.ui.MainEvents
 import com.henriquevieira.notes.features.main.ui.MainScreen
 import com.henriquevieira.notes.features.main.ui.MainScreenStates
@@ -76,11 +76,6 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT)
-            .show()
     }
 
     companion object {
