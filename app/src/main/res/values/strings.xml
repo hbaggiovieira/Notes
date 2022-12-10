@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Notes</string>
+    <string name="app_name">BasicNotes</string>
     <string name="save_success_message">Save Success</string>
     <string name="save_error_message">Save Error</string>
     <string name="fetch_error_message">Fetch error</string>

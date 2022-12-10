@@ -63,8 +63,6 @@ class HomeViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(
                 notesList = list,
             )
-
-            _screen.emit(HomeScreenStates.OnFetchSuccess)
         } catch (e: Exception) {
             _screen.emit(HomeScreenStates.OnFetchError)
         }

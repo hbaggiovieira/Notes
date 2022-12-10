@@ -1,14 +1,13 @@
 package com.henriquevieira.notes.features.home
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.res.stringResource
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.dialog.CustomAlertDialog
 import com.henriquevieira.commonsui.ds.AppTheme
@@ -16,6 +15,7 @@ import com.henriquevieira.core.router.Routes
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.base.activity.BaseActivity
 import com.henriquevieira.notes.data.model.Note
+import com.henriquevieira.notes.extensions.showToast
 import com.henriquevieira.notes.features.home.ui.HomeEvents
 import com.henriquevieira.notes.features.home.ui.HomeScreen
 import com.henriquevieira.notes.features.home.ui.HomeScreenStates
@@ -56,44 +56,30 @@ class HomeActivity : BaseActivity() {
         homeViewModel.screen.collect { state ->
             when (state) {
                 is HomeScreenStates.OnCardClick -> {
-                    val activity = router.getAcitvityByRoute(Routes.Main) ?: HomeActivity()
-                    val intent = Intent(this@HomeActivity,
-                        activity::class.java)
+                    val bundle = bundleOf(SELECTED_NOTE_KEY to state.noteId)
+                    router.navigate(route = Routes.Main, args = bundle)
 
-                    intent.putExtra(SELECTED_NOTE_KEY, state.noteId)
-
-                    startActivity(intent)
                     finish()
                 }
 
                 is HomeScreenStates.OnAddClick -> {
-                    router.navigate(
-                        route = Routes.Main
-                    )
+                    router.navigate(route = Routes.Main)
 
                     finish()
                 }
 
                 is HomeScreenStates.OnDeleteError -> {
-                    Toast.makeText(this@HomeActivity,
-                        getString(R.string.delete_error_message),
-                        Toast.LENGTH_SHORT).show()
+                    showToast(getString(R.string.delete_error_message))
                 }
                 is HomeScreenStates.OnDeleteSuccess -> {
 
                     homeViewModel.dispatch(HomeEvents.FetchData)
 
-                    Toast.makeText(this@HomeActivity,
-                        getString(R.string.delete_success_message),
-                        Toast.LENGTH_SHORT).show()
+                    showToast(getString(R.string.delete_success_message))
                 }
 
                 is HomeScreenStates.OnFetchError -> {
-                    Toast.makeText(this@HomeActivity, getString(R.string.fetch_error_message), Toast.LENGTH_SHORT).show()
-                }
-
-                is HomeScreenStates.OnFetchSuccess -> {
-                    Unit
+                    showToast(getString(R.string.fetch_error_message))
                 }
 
                 is HomeScreenStates.OnShowAlertDialog -> {
@@ -122,8 +108,6 @@ class HomeActivity : BaseActivity() {
                     isShowDialog.value = false
                 }
             )
-        } else {
-            val a = ""
         }
     }
 
