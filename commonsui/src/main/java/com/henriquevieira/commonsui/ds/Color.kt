@@ -1,8 +1,8 @@
 package com.henriquevieira.commonsui.ds
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFFA83725)
-val md_theme_light_onPrimary = Color(0xFFFFFFFF)
+val md_theme_light_primary = Color(0xFFd6c998)
+val md_theme_light_onPrimary = Color.Black
 val md_theme_light_primaryContainer = Color(0xFFFFDAD4)
 val md_theme_light_onPrimaryContainer = Color(0xFF3F0300)
 val md_theme_light_secondary = Color(0xFF775650)
@@ -63,6 +63,11 @@ val md_theme_dark_surfaceTint = Color(0xFFFFB4A6)
 val md_theme_dark_outlineVariant = Color(0xFF534340)
 val md_theme_dark_scrim = Color(0xFF000000)
 
+val color_card_default = Color(0xFFd6c998)
+val color_card_yellow = Color(0xFFf5f258)
+val color_card_green = Color(0xFF59ab1a)
+val color_card_blue = Color(0xFF054785)
+val color_card_red = Color(0xFFba2b2b)
 val color_dark_red = Color(0xFF8e1417)
 val color_mid_yellow = Color(0xFFC7c422)
 

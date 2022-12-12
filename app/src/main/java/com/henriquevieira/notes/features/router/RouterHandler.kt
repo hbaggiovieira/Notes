@@ -9,7 +9,7 @@ import android.os.Bundle
 import com.henriquevieira.core.router.Router
 import com.henriquevieira.core.router.Routes
 import com.henriquevieira.notes.features.home.HomeActivity
-import com.henriquevieira.notes.features.main.NoteActivity
+import com.henriquevieira.notes.features.note.NoteActivity
 import javax.inject.Inject
 
 class RouterHandler @Inject constructor(

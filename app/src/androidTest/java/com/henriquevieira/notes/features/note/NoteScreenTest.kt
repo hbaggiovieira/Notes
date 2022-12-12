@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.features.main
+package com.henriquevieira.notes.features.note
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule

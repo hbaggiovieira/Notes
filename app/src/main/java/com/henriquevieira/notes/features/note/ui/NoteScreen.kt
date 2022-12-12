@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.features.main.ui
+package com.henriquevieira.notes.features.note.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -6,7 +6,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,8 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.button.CustomCircleIconButton
-import com.henriquevieira.commonsui.ds.color_dark_red
-import com.henriquevieira.commonsui.ds.color_mid_yellow
+import com.henriquevieira.commonsui.ds.*
 import com.henriquevieira.commonsui.textinput.BaseNote
 import com.henriquevieira.commonsui.textinput.BaseNoteTitle
 import com.henriquevieira.notes.R
@@ -141,7 +143,7 @@ private fun ButtonRow(
             modifier = Modifier.testTag("PRIMARY_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.Black,
-            backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+            backgroundColor = color_card_default,
             contentDescription = "Primary"
         ) {
             onUiEvent(NoteEvents.PrimaryColorSelected)
@@ -151,7 +153,7 @@ private fun ButtonRow(
             modifier = Modifier.testTag("RED_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.White,
-            backgroundColor = color_dark_red,
+            backgroundColor = color_card_red,
             contentDescription = "Red"
         ) {
             onUiEvent(NoteEvents.RedColorSelected)
@@ -161,7 +163,7 @@ private fun ButtonRow(
             modifier = Modifier.testTag("GREEN_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.Black,
-            backgroundColor = Color.Green,
+            backgroundColor = color_card_green,
             contentDescription = "Green"
         ) {
             onUiEvent(NoteEvents.GreenColorSelected)
@@ -171,7 +173,7 @@ private fun ButtonRow(
             modifier = Modifier.testTag("YELLOW_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.Black,
-            backgroundColor = color_mid_yellow,
+            backgroundColor = color_card_yellow,
             contentDescription = "Yellow"
         ) {
             onUiEvent(NoteEvents.YellowColorSelected)
@@ -181,7 +183,7 @@ private fun ButtonRow(
             modifier = Modifier.testTag("BLUE_COLOR_BUTTON_TAG"),
             imageVector = Icons.Rounded.Done,
             imageColor = Color.White,
-            backgroundColor = Color.Blue,
+            backgroundColor = color_card_blue,
             contentDescription = "Blue"
         ) {
             onUiEvent(NoteEvents.BlueColorSelected)

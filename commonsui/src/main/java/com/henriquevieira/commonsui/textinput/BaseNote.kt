@@ -7,10 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import com.henriquevieira.commonsui.ds.AppTheme
-import com.henriquevieira.commonsui.ds.color_dark_red
-import com.henriquevieira.commonsui.ds.color_mid_yellow
-import com.henriquevieira.commonsui.ds.md_theme_light_primaryContainer
+import com.henriquevieira.commonsui.ds.*
 import com.henriquevieira.commonsui.utils.noteType
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,35 +24,35 @@ fun BaseNote(
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
-                containerColor = md_theme_light_primaryContainer
+                containerColor = color_card_default
             )
         }
         NoteTypes.Red -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 cursorColor = Color.White,
-                containerColor = color_dark_red
+                containerColor = color_card_red
             )
         }
         NoteTypes.Green -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
-                containerColor = Color.Green
+                containerColor = color_card_green
             )
         }
         NoteTypes.Yellow -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
-                containerColor = color_mid_yellow
+                containerColor = color_card_yellow
             )
         }
         NoteTypes.Blue -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 cursorColor = Color.White,
-                containerColor = Color.Blue
+                containerColor = color_card_blue
             )
         }
     }

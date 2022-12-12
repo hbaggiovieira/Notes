@@ -1,10 +1,8 @@
 package com.henriquevieira.commonsui.utils
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.henriquevieira.commonsui.ds.color_dark_red
-import com.henriquevieira.commonsui.ds.color_mid_yellow
+import com.henriquevieira.commonsui.ds.*
 import com.henriquevieira.commonsui.textinput.NoteTypes
 
 class ColorUtils {
@@ -12,38 +10,32 @@ class ColorUtils {
         @Composable
         fun getBackgroundColorByType(noteType: NoteTypes) = when (noteType) {
             NoteTypes.Primary -> {
-                MaterialTheme.colorScheme.primaryContainer
+                color_card_default
             }
             NoteTypes.Red -> {
-                color_dark_red
+                color_card_red
             }
             NoteTypes.Green -> {
-                Color.Green
+                color_card_green
             }
             NoteTypes.Yellow -> {
-                color_mid_yellow
+                color_card_yellow
             }
             NoteTypes.Blue -> {
-                Color.Blue
+                color_card_blue
             }
         }
 
         @Composable
         fun getContentColorByType(noteType: NoteTypes) = when (noteType) {
-            NoteTypes.Primary -> {
-                Color.Black
-            }
             NoteTypes.Red -> {
                 Color.White
             }
-            NoteTypes.Green -> {
-                Color.Black
-            }
-            NoteTypes.Yellow -> {
-                Color.Black
-            }
             NoteTypes.Blue -> {
                 Color.White
+            }
+            else -> {
+                Color.Black
             }
         }
     }

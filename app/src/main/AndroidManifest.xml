@@ -15,7 +15,7 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".features.main.NoteActivity"
+            android:name=".features.note.NoteActivity"
             android:exported="false"
             android:theme="@style/Theme.Notes">
         </activity>

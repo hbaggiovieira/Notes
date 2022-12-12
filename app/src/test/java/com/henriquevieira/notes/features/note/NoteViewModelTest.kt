@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.features.main
+package com.henriquevieira.notes.features.note
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
@@ -6,9 +6,9 @@ import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteRepository
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.main.ui.NoteEvents
-import com.henriquevieira.notes.features.main.ui.NoteScreenStates
-import com.henriquevieira.notes.features.main.viewmodel.NoteViewModel
+import com.henriquevieira.notes.features.note.ui.NoteEvents
+import com.henriquevieira.notes.features.note.ui.NoteScreenStates
+import com.henriquevieira.notes.features.note.viewmodel.NoteViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope

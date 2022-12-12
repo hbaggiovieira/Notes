@@ -1,13 +1,13 @@
-package com.henriquevieira.notes.features.main.viewmodel
+package com.henriquevieira.notes.features.note.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.main.ui.NoteEvents
-import com.henriquevieira.notes.features.main.ui.NoteScreenStates
-import com.henriquevieira.notes.features.main.ui.NoteViewState
+import com.henriquevieira.notes.features.note.ui.NoteEvents
+import com.henriquevieira.notes.features.note.ui.NoteScreenStates
+import com.henriquevieira.notes.features.note.ui.NoteViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

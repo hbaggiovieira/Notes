@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.features.main.ui
+package com.henriquevieira.notes.features.note.ui
 
 sealed class NoteScreenStates {
     object OnSaveSuccess : NoteScreenStates()
