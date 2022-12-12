@@ -26,12 +26,6 @@ android {
         registerFeatureToggles()
     }
 
-    //ToDo Apply Flavors
-//    flavorDimensions += Config.FlavorDimensions.BRAND
-//    productFlavors {
-//
-//    }
-
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
@@ -57,6 +51,23 @@ android {
             )
             customBuildConfigField("FEATURE_MODULE_NAMES",
                 FeatureToggleConfig.getReleaseFeatureToggles())
+        }
+    }
+
+    flavorDimensions += Config.FlavorDimensions.BRAND
+    productFlavors {
+        create(Config.Brand.FREE) {
+            dimension = Config.FlavorDimensions.BRAND
+            applicationIdSuffix = ".${Config.Brand.FREE}"
+            versionNameSuffix = "-${Config.Brand.FREE}"
+        }
+
+        productFlavors {
+            create(Config.Brand.PREMIUM) {
+                dimension = Config.FlavorDimensions.BRAND
+                applicationIdSuffix = ".${Config.Brand.PREMIUM}"
+                versionNameSuffix = "-${Config.Brand.PREMIUM}"
+            }
         }
     }
 
