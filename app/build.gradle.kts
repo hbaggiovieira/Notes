@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.ApplicationBuildType
+import com.android.build.api.dsl.ApplicationDefaultConfig
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -20,23 +23,13 @@ android {
         testInstrumentationRunner = "com.henriquevieira.notes.CustomTestRunner"
         vectorDrawables.useSupportLibrary = true
         signingConfig = signingConfigs.getByName("debug")
+        registerFeatureToggles()
     }
 
     //ToDo Apply Flavors
 //    flavorDimensions += Config.FlavorDimensions.BRAND
 //    productFlavors {
-//        create(Config.Brand.FREE) {
-//            dimension = Config.FlavorDimensions.BRAND
-//            applicationIdSuffix = ".${Config.Brand.FREE}"
-//            versionNameSuffix = "-${Config.Brand.FREE}"
-//            buildConfigField("String", "BRAND", "\"FREE\"")
-//        }
-//        create(Config.Brand.PREMIUM) {
-//            dimension = Config.FlavorDimensions.BRAND
-//            applicationIdSuffix = ".${Config.Brand.PREMIUM}"
-//            versionNameSuffix = "-${Config.Brand.PREMIUM}"
-//            buildConfigField("String", "BRAND", "\"PREMIUM\"")
-//        }
+//
 //    }
 
     buildTypes {
@@ -49,6 +42,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            customBuildConfigField("FEATURE_MODULE_NAMES",
+                FeatureToggleConfig.getDebugFeatureToggles())
         }
 
         getByName("release") {
@@ -60,6 +55,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            customBuildConfigField("FEATURE_MODULE_NAMES",
+                FeatureToggleConfig.getReleaseFeatureToggles())
         }
     }
 
@@ -103,6 +100,26 @@ android {
         }
     }
 }
+
+/**
+ * CUSTOM METHODS
+ **/
+fun ApplicationDefaultConfig.registerFeatureToggles() {
+    FeatureToggleConfig.getAllFeatureToggles().forEach {
+        buildConfigField("String", it, "\"$it\"")
+    }
+}
+
+fun ApplicationBuildType.customBuildConfigField(type: String, name: Array<String>) {
+    val strValue = name.joinToString(
+        prefix = "{",
+        separator = ",",
+        postfix = "}",
+        transform = { "\"$it\"" }
+    )
+    buildConfigField("String[]", type, strValue)
+}
+
 
 dependencies {
     implementation(project(mapOf("path" to ":commonsui")))

@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.dialog.CustomAlertDialog
 import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.core.router.Routes
+import com.henriquevieira.notes.BuildConfig
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.base.activity.BaseActivity
 import com.henriquevieira.notes.data.model.Note
@@ -20,6 +21,7 @@ import com.henriquevieira.notes.features.home.ui.HomeEvents
 import com.henriquevieira.notes.features.home.ui.HomeScreen
 import com.henriquevieira.notes.features.home.ui.HomeScreenStates
 import com.henriquevieira.notes.features.home.viewmodel.HomeViewModel
+import com.henriquevieira.notes.toggle.FeatureToggleUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -56,16 +58,20 @@ class HomeActivity : BaseActivity() {
         homeViewModel.screen.collect { state ->
             when (state) {
                 is HomeScreenStates.OnCardClick -> {
-                    val bundle = bundleOf(SELECTED_NOTE_KEY to state.noteId)
-                    router.navigate(route = Routes.Main, args = bundle)
+                    if (FeatureToggleUtils.validateBuildToggle(BuildConfig.FEATURE_MAIN)) {
+                        val bundle = bundleOf(SELECTED_NOTE_KEY to state.noteId)
+                        router.navigate(route = Routes.Main, args = bundle)
 
-                    finish()
+                        finish()
+                    }
                 }
 
                 is HomeScreenStates.OnAddClick -> {
-                    router.navigate(route = Routes.Main)
+                    if (FeatureToggleUtils.validateBuildToggle(BuildConfig.FEATURE_MAIN)) {
+                        router.navigate(route = Routes.Main)
 
-                    finish()
+                        finish()
+                    }
                 }
 
                 is HomeScreenStates.OnDeleteError -> {
