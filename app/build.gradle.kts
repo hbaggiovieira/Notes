@@ -7,9 +7,9 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
-
-//ToDo config FeatureToggle
 
 android {
     defaultConfig {
@@ -129,6 +129,12 @@ dependencies {
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("androidx.core:core-ktx:${Versions.coreKtx}")
     implementation("com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist_systemuicontroller}")
+
+    //Firebase
+    val firebaseBom = platform("com.google.firebase:firebase-bom:${Versions.Firebase.bom}")
+    implementation(firebaseBom)
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-crashlytics")
 
     //Compose
     val composeBom = platform("androidx.compose:compose-bom:${Versions.Compose.bom}")

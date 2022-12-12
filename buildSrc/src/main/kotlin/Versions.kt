@@ -1,12 +1,17 @@
 object Versions {
     const val gradle = "7.2.1"
     const val kotlin = "1.7.20"
+    const val gms = "4.3.14"
 
     const val accompanist_systemuicontroller = "0.27.0"
     const val coreKtx = "1.9.0"
     const val appcompat = "1.5.1"
     const val lifecycle_version = "2.5.1"
     const val arch_version = "2.1.0"
+
+    object Firebase {
+        const val bom = "31.1.1"
+    }
 
     object Compose {
         const val kotlinCompiler = "1.3.2"
