@@ -6,9 +6,9 @@ import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteRepository
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.main.ui.MainEvents
-import com.henriquevieira.notes.features.main.ui.MainScreenStates
-import com.henriquevieira.notes.features.main.viewmodel.MainViewModel
+import com.henriquevieira.notes.features.main.ui.NoteEvents
+import com.henriquevieira.notes.features.main.ui.NoteScreenStates
+import com.henriquevieira.notes.features.main.viewmodel.NoteViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +26,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class MainViewModelTest {
+class NoteViewModelTest {
 
     @get: Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -55,7 +55,7 @@ class MainViewModelTest {
         }.coAnswers { Unit }
     }
 
-    private val mainViewModel = MainViewModel(
+    private val noteViewModel = NoteViewModel(
         NoteUseCase(repository)
     )
 
@@ -74,121 +74,121 @@ class MainViewModelTest {
     @Test
     fun `When primary color selected THEN noteType must be Primary`() {
         runBlocking {
-            mainViewModel.dispatch(MainEvents.PrimaryColorSelected)
+            noteViewModel.dispatch(NoteEvents.PrimaryColorSelected)
         }
 
-        Truth.assertThat(mainViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Primary)
+        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Primary)
     }
 
     @Test
     fun `When red color selected THEN noteType must be Red`() {
         runBlocking {
-            mainViewModel.dispatch(MainEvents.RedColorSelected)
+            noteViewModel.dispatch(NoteEvents.RedColorSelected)
         }
 
-        Truth.assertThat(mainViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Red)
+        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Red)
     }
 
     @Test
     fun `When green color selected THEN noteType must be Green`() {
         runBlocking {
-            mainViewModel.dispatch(MainEvents.GreenColorSelected)
+            noteViewModel.dispatch(NoteEvents.GreenColorSelected)
         }
 
-        Truth.assertThat(mainViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Green)
+        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Green)
     }
 
     @Test
     fun `When yellow color selected THEN noteType must be Yellow`() {
         runBlocking {
-            mainViewModel.dispatch(MainEvents.YellowColorSelected)
+            noteViewModel.dispatch(NoteEvents.YellowColorSelected)
         }
 
-        Truth.assertThat(mainViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Yellow)
+        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Yellow)
     }
 
     @Test
     fun `When blue color selected THEN noteType must be Blue`() {
         runBlocking {
-            mainViewModel.dispatch(MainEvents.BlueColorSelected)
+            noteViewModel.dispatch(NoteEvents.BlueColorSelected)
         }
 
-        Truth.assertThat(mainViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Blue)
+        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Blue)
     }
 
     @Test
     fun `Given a valid note THEN the screen OnLoadNoteSuccess must be emitted`() {
-        val screenFlow = mainViewModel.screen.shareIn(
+        val screenFlow = noteViewModel.screen.shareIn(
             CoroutineScope(Dispatchers.Unconfined),
             started = SharingStarted.Eagerly,
             replay = 1
         )
 
         runBlocking {
-            mainViewModel.dispatch(MainEvents.LoadSelectedNote(VALID_TEST_NOTE.id))
+            noteViewModel.dispatch(NoteEvents.LoadSelectedNote(VALID_TEST_NOTE.id))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(MainScreenStates.OnLoadNoteSuccess)
+            Truth.assertThat(screen).isEqualTo(NoteScreenStates.OnLoadNoteSuccess)
         }
     }
 
     @Test
     fun `Given a invalid note THEN the screen OnLoadNoteError must be emitted`() {
-        val screenFlow = mainViewModel.screen.shareIn(
+        val screenFlow = noteViewModel.screen.shareIn(
             CoroutineScope(Dispatchers.Unconfined),
             started = SharingStarted.Eagerly,
             replay = 1
         )
 
         runBlocking {
-            mainViewModel.dispatch(MainEvents.LoadSelectedNote(INVALID_TEST_NOTE.id))
+            noteViewModel.dispatch(NoteEvents.LoadSelectedNote(INVALID_TEST_NOTE.id))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(MainScreenStates.OnLoadNoteError)
+            Truth.assertThat(screen).isEqualTo(NoteScreenStates.OnLoadNoteError)
         }
     }
 
     @Test
     fun `When save button click with valid note THEN the screen OnSaveSuccess must be emitted`() {
-        val screenFlow = mainViewModel.screen.shareIn(
+        val screenFlow = noteViewModel.screen.shareIn(
             CoroutineScope(Dispatchers.Unconfined),
             started = SharingStarted.Eagerly,
             replay = 1
         )
 
         runBlocking {
-            mainViewModel.dispatch(MainEvents.ClickSaveButton(VALID_TEST_NOTE))
+            noteViewModel.dispatch(NoteEvents.ClickSaveButton(VALID_TEST_NOTE))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(MainScreenStates.OnSaveSuccess)
+            Truth.assertThat(screen).isEqualTo(NoteScreenStates.OnSaveSuccess)
         }
     }
 
     @Test
     fun `When save button click with invalid note THEN the screen OnSaveError must be emitted`() {
-        val screenFlow = mainViewModel.screen.shareIn(
+        val screenFlow = noteViewModel.screen.shareIn(
             CoroutineScope(Dispatchers.Unconfined),
             started = SharingStarted.Eagerly,
             replay = 1
         )
 
         runBlocking {
-            mainViewModel.dispatch(MainEvents.ClickSaveButton(INVALID_TEST_NOTE))
+            noteViewModel.dispatch(NoteEvents.ClickSaveButton(INVALID_TEST_NOTE))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(MainScreenStates.OnSaveError)
+            Truth.assertThat(screen).isEqualTo(NoteScreenStates.OnSaveError)
         }
     }
 

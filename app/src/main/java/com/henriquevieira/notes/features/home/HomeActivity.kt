@@ -60,7 +60,7 @@ class HomeActivity : BaseActivity() {
                 is HomeScreenStates.OnCardClick -> {
                     if (FeatureToggleUtils.validateBuildToggle(BuildConfig.FEATURE_MAIN)) {
                         val bundle = bundleOf(SELECTED_NOTE_KEY to state.noteId)
-                        router.navigate(route = Routes.Main, args = bundle)
+                        router.navigate(route = Routes.Note, args = bundle)
 
                         finish()
                     }
@@ -68,7 +68,7 @@ class HomeActivity : BaseActivity() {
 
                 is HomeScreenStates.OnAddClick -> {
                     if (FeatureToggleUtils.validateBuildToggle(BuildConfig.FEATURE_MAIN)) {
-                        router.navigate(route = Routes.Main)
+                        router.navigate(route = Routes.Note)
 
                         finish()
                     }
