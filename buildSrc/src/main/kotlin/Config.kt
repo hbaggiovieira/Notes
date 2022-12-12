@@ -9,11 +9,10 @@ object Config {
     const val versionCode = 5
     const val versionName = "0.5"
 
-    const val applicationId = "com.henriquevieira.notes.free"
+    const val applicationId = "com.henriquevieira.notes"
 
     const val androidTestInstrumentation = "androidx.test.runner.AndroidJUnitRunner"
 
-    //ToDo Apply Flavors
     object FlavorDimensions {
         const val BRAND = "brand"
     }
