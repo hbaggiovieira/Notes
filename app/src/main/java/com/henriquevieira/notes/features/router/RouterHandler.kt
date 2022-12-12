@@ -9,7 +9,7 @@ import android.os.Bundle
 import com.henriquevieira.core.router.Router
 import com.henriquevieira.core.router.Routes
 import com.henriquevieira.notes.features.home.HomeActivity
-import com.henriquevieira.notes.features.main.MainActivity
+import com.henriquevieira.notes.features.main.NoteActivity
 import javax.inject.Inject
 
 class RouterHandler @Inject constructor(
@@ -33,7 +33,7 @@ class RouterHandler @Inject constructor(
 
     private fun getAcitvityByRoute(route: Routes): Activity? {
         val activity = when (route) {
-            is Routes.Main -> MainActivity()
+            is Routes.Note -> NoteActivity()
             is Routes.Home -> HomeActivity()
             else -> null
         }

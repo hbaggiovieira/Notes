@@ -12,13 +12,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.requestFocus
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -28,14 +26,13 @@ import com.henriquevieira.commonsui.ds.color_dark_red
 import com.henriquevieira.commonsui.ds.color_mid_yellow
 import com.henriquevieira.commonsui.textinput.BaseNote
 import com.henriquevieira.commonsui.textinput.BaseNoteTitle
-import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.data.model.Note
 
 @Composable
-fun MainScreen(
-    uiState: MainViewState,
-    onUiEvent: (event: MainEvents) -> Unit,
+fun NoteScreen(
+    uiState: NoteViewState,
+    onUiEvent: (event: NoteEvents) -> Unit,
 ) {
 
     ConstraintLayout(modifier = Modifier.fillMaxSize().background(Color.White)) {
@@ -118,7 +115,7 @@ fun MainScreen(
                 Text(stringResource(R.string.save))
             },
             onClick = {
-                onUiEvent(MainEvents.ClickSaveButton(
+                onUiEvent(NoteEvents.ClickSaveButton(
                     Note(
                         id = uiState.note.id,
                         title = titleText.value,
@@ -134,7 +131,7 @@ fun MainScreen(
 @Composable
 private fun ButtonRow(
     modifier: Modifier,
-    onUiEvent: (event: MainEvents) -> Unit,
+    onUiEvent: (event: NoteEvents) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -147,7 +144,7 @@ private fun ButtonRow(
             backgroundColor = MaterialTheme.colorScheme.primaryContainer,
             contentDescription = "Primary"
         ) {
-            onUiEvent(MainEvents.PrimaryColorSelected)
+            onUiEvent(NoteEvents.PrimaryColorSelected)
         }
 
         CustomCircleIconButton(
@@ -157,7 +154,7 @@ private fun ButtonRow(
             backgroundColor = color_dark_red,
             contentDescription = "Red"
         ) {
-            onUiEvent(MainEvents.RedColorSelected)
+            onUiEvent(NoteEvents.RedColorSelected)
         }
 
         CustomCircleIconButton(
@@ -167,7 +164,7 @@ private fun ButtonRow(
             backgroundColor = Color.Green,
             contentDescription = "Green"
         ) {
-            onUiEvent(MainEvents.GreenColorSelected)
+            onUiEvent(NoteEvents.GreenColorSelected)
         }
 
         CustomCircleIconButton(
@@ -177,7 +174,7 @@ private fun ButtonRow(
             backgroundColor = color_mid_yellow,
             contentDescription = "Yellow"
         ) {
-            onUiEvent(MainEvents.YellowColorSelected)
+            onUiEvent(NoteEvents.YellowColorSelected)
         }
 
         CustomCircleIconButton(
@@ -187,7 +184,7 @@ private fun ButtonRow(
             backgroundColor = Color.Blue,
             contentDescription = "Blue"
         ) {
-            onUiEvent(MainEvents.BlueColorSelected)
+            onUiEvent(NoteEvents.BlueColorSelected)
         }
     }
 }

@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.main.ui.MainEvents
-import com.henriquevieira.notes.features.main.ui.MainScreenStates
-import com.henriquevieira.notes.features.main.ui.MainViewState
+import com.henriquevieira.notes.features.main.ui.NoteEvents
+import com.henriquevieira.notes.features.main.ui.NoteScreenStates
+import com.henriquevieira.notes.features.main.ui.NoteViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,38 +18,38 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel
+class NoteViewModel
 @Inject constructor(
     private val noteUseCase: NoteUseCase,
 ) : ViewModel() {
 
-    private val _screen = MutableSharedFlow<MainScreenStates>()
-    val screen: SharedFlow<MainScreenStates> = _screen
+    private val _screen = MutableSharedFlow<NoteScreenStates>()
+    val screen: SharedFlow<NoteScreenStates> = _screen
 
-    private val _uiState = MutableStateFlow(MainViewState())
+    private val _uiState = MutableStateFlow(NoteViewState())
     val uiState = _uiState.asStateFlow()
 
-    fun dispatch(event: MainEvents) = viewModelScope.launch {
+    fun dispatch(event: NoteEvents) = viewModelScope.launch {
         when (event) {
-            is MainEvents.PrimaryColorSelected -> {
+            is NoteEvents.PrimaryColorSelected -> {
                 changeColorState(NoteTypes.Primary)
             }
-            is MainEvents.RedColorSelected -> {
+            is NoteEvents.RedColorSelected -> {
                 changeColorState(NoteTypes.Red)
             }
-            is MainEvents.GreenColorSelected -> {
+            is NoteEvents.GreenColorSelected -> {
                 changeColorState(NoteTypes.Green)
             }
-            is MainEvents.YellowColorSelected -> {
+            is NoteEvents.YellowColorSelected -> {
                 changeColorState(NoteTypes.Yellow)
             }
-            is MainEvents.BlueColorSelected -> {
+            is NoteEvents.BlueColorSelected -> {
                 changeColorState(NoteTypes.Blue)
             }
-            is MainEvents.ClickSaveButton -> {
+            is NoteEvents.ClickSaveButton -> {
                 onClickSaveButton(event.note)
             }
-            is MainEvents.LoadSelectedNote -> {
+            is NoteEvents.LoadSelectedNote -> {
                 loadSelectedNote(event.noteId)
             }
         }
@@ -61,10 +61,10 @@ class MainViewModel
                 note = note
             )
             noteUseCase.saveNote(note)
-            _screen.emit(MainScreenStates.OnSaveSuccess)
+            _screen.emit(NoteScreenStates.OnSaveSuccess)
         } catch (e: Exception) {
             e.printStackTrace()
-            _screen.emit(MainScreenStates.OnSaveError)
+            _screen.emit(NoteScreenStates.OnSaveError)
         }
     }
 
@@ -76,9 +76,9 @@ class MainViewModel
                 )
             }
 
-            _screen.emit(MainScreenStates.OnLoadNoteSuccess)
+            _screen.emit(NoteScreenStates.OnLoadNoteSuccess)
         } catch (e: Exception) {
-            _screen.emit(MainScreenStates.OnLoadNoteError)
+            _screen.emit(NoteScreenStates.OnLoadNoteError)
         }
     }
 
