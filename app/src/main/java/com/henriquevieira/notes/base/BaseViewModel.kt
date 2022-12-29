@@ -19,7 +19,7 @@ abstract class BaseViewModel <A, R, S> : ViewModel(){
 
     abstract fun dispatch(action: A)
 
-    protected fun emitScreenState(screenResult: R) = viewModelScope.launch {
+    protected fun emitResult(screenResult: R) = viewModelScope.launch {
         _screen.emit(screenResult)
     }
 

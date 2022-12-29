@@ -35,12 +35,12 @@ class HomeViewModel @Inject constructor(
             ))
 
         } catch (e: Exception) {
-            emitScreenState(HomeResults.OnFetchError)
+            emitResult(HomeResults.OnFetchError)
         }
     }
 
     private fun onAddClick() = viewModelScope.launch {
-        emitScreenState(HomeResults.OnAddClick)
+        emitResult(HomeResults.OnAddClick)
     }
 
     private fun showDeleteDialog(note: Note) = viewModelScope.launch {
@@ -50,20 +50,20 @@ class HomeViewModel @Inject constructor(
             alertDialogState = alertDialogState.value
         ))
 
-        emitScreenState(HomeResults.OnShowAlertDialog(note))
+        emitResult(HomeResults.OnShowAlertDialog(note))
     }
 
     private fun onDeleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         try {
             noteUseCase.deleteNote(note)
-            emitScreenState(HomeResults.OnDeleteSuccess)
+            emitResult(HomeResults.OnDeleteSuccess)
         } catch (e: Exception) {
-            emitScreenState(HomeResults.OnDeleteError)
+            emitResult(HomeResults.OnDeleteError)
         }
     }
 
     private fun onCardClick(noteId: Int) = viewModelScope.launch {
-        emitScreenState(HomeResults.OnCardClick(noteId))
+        emitResult(HomeResults.OnCardClick(noteId))
     }
 
     override val initialState: HomeStates
