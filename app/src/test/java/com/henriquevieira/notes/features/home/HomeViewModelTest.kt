@@ -6,8 +6,8 @@ import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteRepository
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.home.ui.HomeEvents
-import com.henriquevieira.notes.features.home.ui.HomeScreenStates
+import com.henriquevieira.notes.features.home.ui.HomeActions
+import com.henriquevieira.notes.features.home.ui.HomeResults
 import com.henriquevieira.notes.features.home.viewmodel.HomeViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -15,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.runBlocking
@@ -56,33 +55,6 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `When fetchData is called THEN OnFetchSuccess must be emitted`() {
-        val screenFlow = viewModel.screen.shareIn(
-            CoroutineScope(Dispatchers.Unconfined),
-            started = SharingStarted.Eagerly,
-            replay = 1
-        )
-
-        repository.apply {
-            coEvery {
-                getNotes()
-            }.coAnswers {
-                flowOf(listOf(VALID_TEST_NOTE, VALID_TEST_NOTE_2))
-            }
-        }
-
-        runBlocking {
-            viewModel.dispatch(HomeEvents.FetchData)
-        }
-
-        screenFlow.onCompletion {
-            val screen = screenFlow.replayCache.last()
-
-            Truth.assertThat(screen).isEqualTo(HomeScreenStates.OnFetchSuccess)
-        }
-    }
-
-    @Test
     fun `When fetchData throws exception THEN OnFetchError must be emitted`() {
         val screenFlow = viewModel.screen.shareIn(
             CoroutineScope(Dispatchers.Unconfined),
@@ -97,13 +69,13 @@ class HomeViewModelTest {
         }
 
         runBlocking {
-            viewModel.dispatch(HomeEvents.FetchData)
+            viewModel.dispatch(HomeActions.FetchData)
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeScreenStates.OnFetchError)
+            Truth.assertThat(screen).isEqualTo(HomeResults.OnFetchError)
         }
     }
 
@@ -116,13 +88,13 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeEvents.AddClick)
+            viewModel.dispatch(HomeActions.AddClick)
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeScreenStates.OnAddClick)
+            Truth.assertThat(screen).isEqualTo(HomeResults.OnAddClick)
         }
     }
 
@@ -135,7 +107,7 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeEvents.CardClick(
+            viewModel.dispatch(HomeActions.CardClick(
                 VALID_TEST_NOTE.id
             ))
         }
@@ -143,7 +115,7 @@ class HomeViewModelTest {
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeScreenStates.OnCardClick(VALID_TEST_NOTE.id))
+            Truth.assertThat(screen).isEqualTo(HomeResults.OnCardClick(VALID_TEST_NOTE.id))
         }
     }
 
@@ -156,13 +128,13 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeEvents.CardLongPress(VALID_TEST_NOTE))
+            viewModel.dispatch(HomeActions.CardLongPress(VALID_TEST_NOTE))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeScreenStates.OnShowAlertDialog(VALID_TEST_NOTE))
+            Truth.assertThat(screen).isEqualTo(HomeResults.OnShowAlertDialog(VALID_TEST_NOTE))
         }
     }
 
@@ -175,13 +147,13 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeEvents.DeleteConfirm(VALID_TEST_NOTE))
+            viewModel.dispatch(HomeActions.DeleteConfirm(VALID_TEST_NOTE))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeScreenStates.OnDeleteSuccess)
+            Truth.assertThat(screen).isEqualTo(HomeResults.OnDeleteSuccess)
         }
     }
 
@@ -194,13 +166,13 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeEvents.DeleteConfirm(INVALID_TEST_NOTE))
+            viewModel.dispatch(HomeActions.DeleteConfirm(INVALID_TEST_NOTE))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeScreenStates.OnDeleteError)
+            Truth.assertThat(screen).isEqualTo(HomeResults.OnDeleteError)
         }
     }
 

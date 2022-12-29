@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,21 +13,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.card.CustomCard
-import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.commonsui.utils.ColorUtils
 import com.henriquevieira.notes.data.model.Note
 
 @Composable
 fun HomeScreen(
-    uiState: HomeViewState,
-    onUiEvent: (event: HomeEvents) -> Unit,
+    uiState: HomeStates,
+    onUiEvent: (event: HomeActions) -> Unit,
 ) {
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
@@ -94,8 +91,8 @@ private fun HomeCustomCard(
 @Composable
 private fun CustomList(
     modifier: Modifier = Modifier,
-    uiState: HomeViewState,
-    onUiEvent: (event: HomeEvents) -> Unit,
+    uiState: HomeStates,
+    onUiEvent: (event: HomeActions) -> Unit,
 ) {
     LazyColumn(modifier) {
         uiState.notesList?.let { notes ->
@@ -103,10 +100,10 @@ private fun CustomList(
                 HomeCustomCard(
                     note = notes[index],
                     onLongPress = {
-                        onUiEvent(HomeEvents.CardLongPress(notes[index]))
+                        onUiEvent(HomeActions.CardLongPress(notes[index]))
                     },
                     onClick = {
-                        onUiEvent(HomeEvents.CardClick(notes[index].id))
+                        onUiEvent(HomeActions.CardClick(notes[index].id))
                     }
                 )
             }
@@ -117,7 +114,7 @@ private fun CustomList(
 @Composable
 private fun AddButton(
     modifier: Modifier = Modifier,
-    onUiEvent: (event: HomeEvents) -> Unit,
+    onUiEvent: (event: HomeActions) -> Unit,
 ) {
     CustomCircleIconButton(
         modifier = modifier.testTag("ADD_BUTTON_TAG"),
@@ -126,6 +123,6 @@ private fun AddButton(
         backgroundColor = MaterialTheme.colorScheme.primaryContainer,
         contentDescription = "Add"
     ) {
-        onUiEvent(HomeEvents.AddClick)
+        onUiEvent(HomeActions.AddClick)
     }
 }
