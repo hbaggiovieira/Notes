@@ -3,7 +3,7 @@ package com.henriquevieira.notes.features.home.viewmodel
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.henriquevieira.notes.base.BaseViewModel
+import com.henriquevieira.notes.base.viewmodel.BaseViewModel
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteUseCase
 import com.henriquevieira.notes.features.home.ui.HomeActions

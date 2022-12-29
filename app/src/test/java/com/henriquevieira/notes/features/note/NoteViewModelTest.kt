@@ -6,8 +6,8 @@ import com.henriquevieira.commonsui.textinput.NoteTypes
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteRepository
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.note.ui.NoteEvents
-import com.henriquevieira.notes.features.note.ui.NoteScreenStates
+import com.henriquevieira.notes.features.note.ui.NoteActions
+import com.henriquevieira.notes.features.note.ui.NoteResults
 import com.henriquevieira.notes.features.note.viewmodel.NoteViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -74,7 +74,7 @@ class NoteViewModelTest {
     @Test
     fun `When primary color selected THEN noteType must be Primary`() {
         runBlocking {
-            noteViewModel.dispatch(NoteEvents.PrimaryColorSelected)
+            noteViewModel.dispatch(NoteActions.PrimaryColorSelected)
         }
 
         Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Primary)
@@ -83,7 +83,7 @@ class NoteViewModelTest {
     @Test
     fun `When red color selected THEN noteType must be Red`() {
         runBlocking {
-            noteViewModel.dispatch(NoteEvents.RedColorSelected)
+            noteViewModel.dispatch(NoteActions.RedColorSelected)
         }
 
         Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Red)
@@ -92,7 +92,7 @@ class NoteViewModelTest {
     @Test
     fun `When green color selected THEN noteType must be Green`() {
         runBlocking {
-            noteViewModel.dispatch(NoteEvents.GreenColorSelected)
+            noteViewModel.dispatch(NoteActions.GreenColorSelected)
         }
 
         Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Green)
@@ -101,7 +101,7 @@ class NoteViewModelTest {
     @Test
     fun `When yellow color selected THEN noteType must be Yellow`() {
         runBlocking {
-            noteViewModel.dispatch(NoteEvents.YellowColorSelected)
+            noteViewModel.dispatch(NoteActions.YellowColorSelected)
         }
 
         Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Yellow)
@@ -110,7 +110,7 @@ class NoteViewModelTest {
     @Test
     fun `When blue color selected THEN noteType must be Blue`() {
         runBlocking {
-            noteViewModel.dispatch(NoteEvents.BlueColorSelected)
+            noteViewModel.dispatch(NoteActions.BlueColorSelected)
         }
 
         Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Blue)
@@ -125,13 +125,13 @@ class NoteViewModelTest {
         )
 
         runBlocking {
-            noteViewModel.dispatch(NoteEvents.LoadSelectedNote(VALID_TEST_NOTE.id))
+            noteViewModel.dispatch(NoteActions.LoadSelectedNote(VALID_TEST_NOTE.id))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(NoteScreenStates.OnLoadNoteSuccess)
+            Truth.assertThat(screen).isEqualTo(NoteResults.OnLoadNoteSuccess)
         }
     }
 
@@ -144,13 +144,13 @@ class NoteViewModelTest {
         )
 
         runBlocking {
-            noteViewModel.dispatch(NoteEvents.LoadSelectedNote(INVALID_TEST_NOTE.id))
+            noteViewModel.dispatch(NoteActions.LoadSelectedNote(INVALID_TEST_NOTE.id))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(NoteScreenStates.OnLoadNoteError)
+            Truth.assertThat(screen).isEqualTo(NoteResults.OnLoadNoteError)
         }
     }
 
@@ -163,13 +163,13 @@ class NoteViewModelTest {
         )
 
         runBlocking {
-            noteViewModel.dispatch(NoteEvents.ClickSaveButton(VALID_TEST_NOTE))
+            noteViewModel.dispatch(NoteActions.ClickSaveButton(VALID_TEST_NOTE))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(NoteScreenStates.OnSaveSuccess)
+            Truth.assertThat(screen).isEqualTo(NoteResults.OnSaveSuccess)
         }
     }
 
@@ -182,13 +182,13 @@ class NoteViewModelTest {
         )
 
         runBlocking {
-            noteViewModel.dispatch(NoteEvents.ClickSaveButton(INVALID_TEST_NOTE))
+            noteViewModel.dispatch(NoteActions.ClickSaveButton(INVALID_TEST_NOTE))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(NoteScreenStates.OnSaveError)
+            Truth.assertThat(screen).isEqualTo(NoteResults.OnSaveError)
         }
     }
 

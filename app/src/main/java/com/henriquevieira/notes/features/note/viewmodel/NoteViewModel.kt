@@ -1,19 +1,15 @@
 package com.henriquevieira.notes.features.note.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.henriquevieira.commonsui.textinput.NoteTypes
+import com.henriquevieira.notes.base.viewmodel.BaseViewModel
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.note.ui.NoteEvents
-import com.henriquevieira.notes.features.note.ui.NoteScreenStates
-import com.henriquevieira.notes.features.note.ui.NoteViewState
+import com.henriquevieira.notes.features.note.ui.NoteActions
+import com.henriquevieira.notes.features.note.ui.NoteResults
+import com.henriquevieira.notes.features.note.ui.NoteStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,77 +17,75 @@ import javax.inject.Inject
 class NoteViewModel
 @Inject constructor(
     private val noteUseCase: NoteUseCase,
-) : ViewModel() {
+) : BaseViewModel<NoteActions, NoteResults, NoteStates>() {
 
-    private val _screen = MutableSharedFlow<NoteScreenStates>()
-    val screen: SharedFlow<NoteScreenStates> = _screen
 
-    private val _uiState = MutableStateFlow(NoteViewState())
-    val uiState = _uiState.asStateFlow()
-
-    fun dispatch(event: NoteEvents) = viewModelScope.launch {
-        when (event) {
-            is NoteEvents.PrimaryColorSelected -> {
+    override fun dispatch(action: NoteActions) {
+        when (action) {
+            is NoteActions.PrimaryColorSelected -> {
                 changeColorState(NoteTypes.Primary)
             }
-            is NoteEvents.RedColorSelected -> {
+            is NoteActions.RedColorSelected -> {
                 changeColorState(NoteTypes.Red)
             }
-            is NoteEvents.GreenColorSelected -> {
+            is NoteActions.GreenColorSelected -> {
                 changeColorState(NoteTypes.Green)
             }
-            is NoteEvents.YellowColorSelected -> {
+            is NoteActions.YellowColorSelected -> {
                 changeColorState(NoteTypes.Yellow)
             }
-            is NoteEvents.BlueColorSelected -> {
+            is NoteActions.BlueColorSelected -> {
                 changeColorState(NoteTypes.Blue)
             }
-            is NoteEvents.ClickSaveButton -> {
-                onClickSaveButton(event.note)
+            is NoteActions.ClickSaveButton -> {
+                onClickSaveButton(action.note)
             }
-            is NoteEvents.LoadSelectedNote -> {
-                loadSelectedNote(event.noteId)
+            is NoteActions.LoadSelectedNote -> {
+                loadSelectedNote(action.noteId)
             }
         }
     }
 
     private fun onClickSaveButton(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         try {
-            _uiState.value = _uiState.value.copy(
+            updateUiState(uiState.value.copy(
                 note = note
-            )
+            ))
             noteUseCase.saveNote(note)
-            _screen.emit(NoteScreenStates.OnSaveSuccess)
+            emitResult(NoteResults.OnSaveSuccess)
         } catch (e: Exception) {
             e.printStackTrace()
-            _screen.emit(NoteScreenStates.OnSaveError)
+            emitResult(NoteResults.OnSaveError)
         }
     }
 
     private fun loadSelectedNote(noteId: Int) = viewModelScope.launch(Dispatchers.IO) {
         try {
             noteUseCase.getNoteById(noteId).collect {
-                _uiState.value = _uiState.value.copy(
+                updateUiState(uiState.value.copy(
                     note = it
-                )
+                ))
             }
 
-            _screen.emit(NoteScreenStates.OnLoadNoteSuccess)
+            emitResult(NoteResults.OnLoadNoteSuccess)
         } catch (e: Exception) {
-            _screen.emit(NoteScreenStates.OnLoadNoteError)
+            emitResult(NoteResults.OnLoadNoteError)
         }
     }
 
     private fun changeColorState(noteType: NoteTypes) = viewModelScope.launch {
-        val note = _uiState.value.note
+        val note = uiState.value.note
 
-        _uiState.value = _uiState.value.copy(
+        updateUiState(uiState.value.copy(
             note = Note(
                 id = note.id,
                 title = note.title,
                 noteType = noteType,
                 contentText = note.contentText
             )
-        )
+        ))
     }
+
+    override val initialState: NoteStates
+        get() = NoteStates()
 }

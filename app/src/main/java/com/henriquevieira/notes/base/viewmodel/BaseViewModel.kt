@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.base
+package com.henriquevieira.notes.base.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -33,8 +33,8 @@ import com.henriquevieira.notes.data.model.Note
 
 @Composable
 fun NoteScreen(
-    uiState: NoteViewState,
-    onUiEvent: (event: NoteEvents) -> Unit,
+    uiState: NoteStates,
+    onUiEvent: (event: NoteActions) -> Unit,
 ) {
 
     ConstraintLayout(modifier = Modifier.fillMaxSize().background(Color.White)) {
@@ -117,7 +117,7 @@ fun NoteScreen(
                 Text(stringResource(R.string.save))
             },
             onClick = {
-                onUiEvent(NoteEvents.ClickSaveButton(
+                onUiEvent(NoteActions.ClickSaveButton(
                     Note(
                         id = uiState.note.id,
                         title = titleText.value,
@@ -133,7 +133,7 @@ fun NoteScreen(
 @Composable
 private fun ButtonRow(
     modifier: Modifier,
-    onUiEvent: (event: NoteEvents) -> Unit,
+    onUiEvent: (event: NoteActions) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -146,7 +146,7 @@ private fun ButtonRow(
             backgroundColor = color_card_default,
             contentDescription = "Primary"
         ) {
-            onUiEvent(NoteEvents.PrimaryColorSelected)
+            onUiEvent(NoteActions.PrimaryColorSelected)
         }
 
         CustomCircleIconButton(
@@ -156,7 +156,7 @@ private fun ButtonRow(
             backgroundColor = color_card_red,
             contentDescription = "Red"
         ) {
-            onUiEvent(NoteEvents.RedColorSelected)
+            onUiEvent(NoteActions.RedColorSelected)
         }
 
         CustomCircleIconButton(
@@ -166,7 +166,7 @@ private fun ButtonRow(
             backgroundColor = color_card_green,
             contentDescription = "Green"
         ) {
-            onUiEvent(NoteEvents.GreenColorSelected)
+            onUiEvent(NoteActions.GreenColorSelected)
         }
 
         CustomCircleIconButton(
@@ -176,7 +176,7 @@ private fun ButtonRow(
             backgroundColor = color_card_yellow,
             contentDescription = "Yellow"
         ) {
-            onUiEvent(NoteEvents.YellowColorSelected)
+            onUiEvent(NoteActions.YellowColorSelected)
         }
 
         CustomCircleIconButton(
@@ -186,7 +186,7 @@ private fun ButtonRow(
             backgroundColor = color_card_blue,
             contentDescription = "Blue"
         ) {
-            onUiEvent(NoteEvents.BlueColorSelected)
+            onUiEvent(NoteActions.BlueColorSelected)
         }
     }
 }
