@@ -18,8 +18,8 @@ import com.henriquevieira.notes.base.activity.BaseActivity
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.extensions.showToast
 import com.henriquevieira.notes.features.home.ui.HomeActions
-import com.henriquevieira.notes.features.home.ui.HomeScreen
 import com.henriquevieira.notes.features.home.ui.HomeResults
+import com.henriquevieira.notes.features.home.ui.HomeScreen
 import com.henriquevieira.notes.features.home.viewmodel.HomeViewModel
 import com.henriquevieira.notes.toggle.FeatureToggleUtils
 import dagger.hilt.android.AndroidEntryPoint

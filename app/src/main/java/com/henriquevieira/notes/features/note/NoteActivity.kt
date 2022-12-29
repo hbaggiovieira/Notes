@@ -15,6 +15,7 @@ import com.henriquevieira.notes.features.note.ui.NoteActions
 import com.henriquevieira.notes.features.note.ui.NoteScreen
 import com.henriquevieira.notes.features.note.ui.NoteResults
 import com.henriquevieira.notes.features.note.viewmodel.NoteViewModel
+import com.henriquevieira.notes.features.review.InAppReview
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -41,7 +42,6 @@ class NoteActivity : BaseActivity() {
             noteViewModel.dispatch(action = NoteActions.LoadSelectedNote(selectedNoteId))
         }
 
-
         setContent {
             AppTheme {
                 NoteScreen(
@@ -53,7 +53,6 @@ class NoteActivity : BaseActivity() {
             }
         }
 
-
         observe()
     }
 
@@ -63,6 +62,7 @@ class NoteActivity : BaseActivity() {
                 when (it) {
                     is NoteResults.OnSaveSuccess -> {
                         showToast(getString(R.string.save_success_message))
+                        InAppReview(this@NoteActivity).requestInAppReview()
                     }
                     is NoteResults.OnSaveError -> {
                         showToast(getString(R.string.save_error_message))

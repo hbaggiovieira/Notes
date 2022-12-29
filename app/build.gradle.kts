@@ -141,6 +141,10 @@ dependencies {
     implementation("androidx.core:core-ktx:${Versions.coreKtx}")
     implementation("com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist_systemuicontroller}")
 
+    //AppReview
+    implementation("com.google.android.play:review:${Versions.review}")
+    implementation("com.google.android.play:review-ktx:${Versions.review}")
+
     //Firebase
     val firebaseBom = platform("com.google.firebase:firebase-bom:${Versions.Firebase.bom}")
     implementation(firebaseBom)
