@@ -73,7 +73,7 @@ class NoteViewModelTest {
     @Test
     fun `When primary color selected THEN noteType must be Primary`() {
         runBlocking {
-            noteViewModel.dispatch(NoteActions.PrimaryColorSelected)
+            noteViewModel.dispatch(NoteActions.NoteTypeClick(NoteType.Primary))
         }
 
         Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteType.Primary)
@@ -82,7 +82,7 @@ class NoteViewModelTest {
     @Test
     fun `When red color selected THEN noteType must be Red`() {
         runBlocking {
-            noteViewModel.dispatch(NoteActions.RedColorSelected)
+            noteViewModel.dispatch(NoteActions.NoteTypeClick(NoteType.Red))
         }
 
         Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteType.Red)
@@ -91,7 +91,7 @@ class NoteViewModelTest {
     @Test
     fun `When green color selected THEN noteType must be Green`() {
         runBlocking {
-            noteViewModel.dispatch(NoteActions.GreenColorSelected)
+            noteViewModel.dispatch(NoteActions.NoteTypeClick(NoteType.Green))
         }
 
         Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteType.Green)
@@ -100,7 +100,7 @@ class NoteViewModelTest {
     @Test
     fun `When yellow color selected THEN noteType must be Yellow`() {
         runBlocking {
-            noteViewModel.dispatch(NoteActions.YellowColorSelected)
+            noteViewModel.dispatch(NoteActions.NoteTypeClick(NoteType.Yellow))
         }
 
         Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteType.Yellow)
@@ -109,7 +109,7 @@ class NoteViewModelTest {
     @Test
     fun `When blue color selected THEN noteType must be Blue`() {
         runBlocking {
-            noteViewModel.dispatch(NoteActions.BlueColorSelected)
+            noteViewModel.dispatch(NoteActions.NoteTypeClick(NoteType.Blue))
         }
 
         Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteType.Blue)
