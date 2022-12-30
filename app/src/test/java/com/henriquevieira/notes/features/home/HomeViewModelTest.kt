@@ -2,7 +2,7 @@ package com.henriquevieira.notes.features.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
-import com.henriquevieira.commonsui.textinput.NoteTypes
+import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteRepository
 import com.henriquevieira.notes.domain.NoteUseCase
@@ -183,14 +183,14 @@ class HomeViewModelTest {
             id = 1,
             title = "Test Title 1",
             contentText = "Test Content Text 1",
-            noteType = NoteTypes.Primary
+            noteType = NoteType.Primary
         )
 
         private val VALID_TEST_NOTE_2 = Note(
             id = 1,
             title = "Test Title 1",
             contentText = "Test Content Text 1",
-            noteType = NoteTypes.Primary
+            noteType = NoteType.Primary
         )
 
         private val INVALID_TEST_NOTE = Note()

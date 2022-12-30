@@ -2,7 +2,7 @@ package com.henriquevieira.notes.features.note
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
-import com.henriquevieira.commonsui.textinput.NoteTypes
+import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteRepository
 import com.henriquevieira.notes.domain.NoteUseCase
@@ -16,7 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
@@ -77,7 +76,7 @@ class NoteViewModelTest {
             noteViewModel.dispatch(NoteActions.PrimaryColorSelected)
         }
 
-        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Primary)
+        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteType.Primary)
     }
 
     @Test
@@ -86,7 +85,7 @@ class NoteViewModelTest {
             noteViewModel.dispatch(NoteActions.RedColorSelected)
         }
 
-        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Red)
+        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteType.Red)
     }
 
     @Test
@@ -95,7 +94,7 @@ class NoteViewModelTest {
             noteViewModel.dispatch(NoteActions.GreenColorSelected)
         }
 
-        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Green)
+        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteType.Green)
     }
 
     @Test
@@ -104,7 +103,7 @@ class NoteViewModelTest {
             noteViewModel.dispatch(NoteActions.YellowColorSelected)
         }
 
-        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Yellow)
+        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteType.Yellow)
     }
 
     @Test
@@ -113,7 +112,7 @@ class NoteViewModelTest {
             noteViewModel.dispatch(NoteActions.BlueColorSelected)
         }
 
-        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteTypes.Blue)
+        Truth.assertThat(noteViewModel.uiState.value.note.noteType).isEqualTo(NoteType.Blue)
     }
 
     @Test
@@ -128,11 +127,9 @@ class NoteViewModelTest {
             noteViewModel.dispatch(NoteActions.LoadSelectedNote(VALID_TEST_NOTE.id))
         }
 
-        screenFlow.onCompletion {
-            val screen = screenFlow.replayCache.last()
+        val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(NoteResults.OnLoadNoteSuccess)
-        }
+        Truth.assertThat(screen).isEqualTo(NoteResults.OnLoadNoteSuccess)
     }
 
     @Test
@@ -147,11 +144,9 @@ class NoteViewModelTest {
             noteViewModel.dispatch(NoteActions.LoadSelectedNote(INVALID_TEST_NOTE.id))
         }
 
-        screenFlow.onCompletion {
-            val screen = screenFlow.replayCache.last()
+        val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(NoteResults.OnLoadNoteError)
-        }
+        Truth.assertThat(screen).isEqualTo(NoteResults.OnLoadNoteError)
     }
 
     @Test
@@ -166,11 +161,9 @@ class NoteViewModelTest {
             noteViewModel.dispatch(NoteActions.ClickSaveButton(VALID_TEST_NOTE))
         }
 
-        screenFlow.onCompletion {
-            val screen = screenFlow.replayCache.last()
+        val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(NoteResults.OnSaveSuccess)
-        }
+        Truth.assertThat(screen).isEqualTo(NoteResults.OnSaveSuccess)
     }
 
     @Test
@@ -185,11 +178,9 @@ class NoteViewModelTest {
             noteViewModel.dispatch(NoteActions.ClickSaveButton(INVALID_TEST_NOTE))
         }
 
-        screenFlow.onCompletion {
-            val screen = screenFlow.replayCache.last()
+        val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(NoteResults.OnSaveError)
-        }
+        Truth.assertThat(screen).isEqualTo(NoteResults.OnSaveError)
     }
 
     companion object {
@@ -197,7 +188,7 @@ class NoteViewModelTest {
             id = 1,
             title = "Test Title 1",
             contentText = "Test Content Text 1",
-            noteType = NoteTypes.Primary
+            noteType = NoteType.Primary
         )
 
         private val INVALID_TEST_NOTE = Note()

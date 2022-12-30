@@ -11,8 +11,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusTarget
@@ -28,6 +26,7 @@ import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.ds.*
 import com.henriquevieira.commonsui.textinput.BaseNote
 import com.henriquevieira.commonsui.textinput.BaseNoteTitle
+import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.data.model.Note
 
@@ -40,9 +39,6 @@ fun NoteScreen(
     ConstraintLayout(modifier = Modifier.fillMaxSize().background(Color.White)) {
         val (title, textField, buttonRow, buttonClear, button) = createRefs()
 
-        val text = remember { mutableStateOf(uiState.note.contentText) }
-        val titleText = remember { mutableStateOf(uiState.note.title) }
-
         BaseNoteTitle(
             modifier = Modifier
                 .testTag("TITLE_TAG")
@@ -50,14 +46,19 @@ fun NoteScreen(
                     width = Dimension.matchParent
                     top.linkTo(parent.top)
                 },
-            text = titleText,
-            placeHolder = stringResource(R.string.title)
+            text = uiState.note.title,
+            placeHolder = stringResource(R.string.title),
+            onValueChange = {
+                onUiEvent.invoke(NoteActions.UpdateTitleText(
+                    title = it
+                ))
+            }
         )
 
         BaseNote(
             modifier = Modifier
                 .semantics {
-                    this.contentDescription = text.value.ifEmpty { "Note" }
+                    this.contentDescription = uiState.note.contentText.ifEmpty { "Note" }
                 }
                 .focusTarget()
                 .padding(8.dp)
@@ -68,8 +69,13 @@ fun NoteScreen(
                     top.linkTo(title.bottom)
                     bottom.linkTo(buttonRow.top)
                 },
-            noteTypes = uiState.note.noteType,
-            text = text
+            noteType = uiState.note.noteType,
+            text = uiState.note.contentText,
+            onValueChange = {
+                onUiEvent.invoke(NoteActions.UpdateContentText(
+                    text = it
+                ))
+            }
         )
 
         ButtonRow(modifier = Modifier
@@ -89,8 +95,9 @@ fun NoteScreen(
                 bottom.linkTo(textField.bottom, 16.dp)
                 end.linkTo(textField.end, 16.dp)
             }, onClick = {
-            titleText.value = ""
-            text.value = ""
+            onUiEvent.invoke(NoteActions.ClickClearButton(Note(
+                noteType = uiState.note.noteType
+            )))
         }) {
             Box(modifier = Modifier
                 .size(45.dp)
@@ -120,8 +127,8 @@ fun NoteScreen(
                 onUiEvent(NoteActions.ClickSaveButton(
                     Note(
                         id = uiState.note.id,
-                        title = titleText.value,
-                        contentText = text.value,
+                        title = uiState.note.title,
+                        contentText = uiState.note.contentText,
                         noteType = uiState.note.noteType
                     )
                 ))
@@ -146,7 +153,9 @@ private fun ButtonRow(
             backgroundColor = color_card_default,
             contentDescription = "Primary"
         ) {
-            onUiEvent(NoteActions.PrimaryColorSelected)
+            onUiEvent(NoteActions.NoteTypeClick(
+                noteType = NoteType.Primary
+            ))
         }
 
         CustomCircleIconButton(
@@ -156,7 +165,9 @@ private fun ButtonRow(
             backgroundColor = color_card_red,
             contentDescription = "Red"
         ) {
-            onUiEvent(NoteActions.RedColorSelected)
+            onUiEvent(NoteActions.NoteTypeClick(
+                noteType = NoteType.Red
+            ))
         }
 
         CustomCircleIconButton(
@@ -166,7 +177,9 @@ private fun ButtonRow(
             backgroundColor = color_card_green,
             contentDescription = "Green"
         ) {
-            onUiEvent(NoteActions.GreenColorSelected)
+            onUiEvent(NoteActions.NoteTypeClick(
+                noteType = NoteType.Green
+            ))
         }
 
         CustomCircleIconButton(
@@ -176,7 +189,9 @@ private fun ButtonRow(
             backgroundColor = color_card_yellow,
             contentDescription = "Yellow"
         ) {
-            onUiEvent(NoteActions.YellowColorSelected)
+            onUiEvent(NoteActions.NoteTypeClick(
+                noteType = NoteType.Yellow
+            ))
         }
 
         CustomCircleIconButton(
@@ -186,7 +201,10 @@ private fun ButtonRow(
             backgroundColor = color_card_blue,
             contentDescription = "Blue"
         ) {
-            onUiEvent(NoteActions.BlueColorSelected)
+            onUiEvent(NoteActions.NoteTypeClick(
+                noteType = NoteType.Blue
+
+            ))
         }
     }
 }

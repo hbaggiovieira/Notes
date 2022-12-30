@@ -1,6 +1,6 @@
 package com.henriquevieira.notes.di
 
-import com.henriquevieira.commonsui.textinput.NoteTypes
+import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.core.router.Router
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteRepository
@@ -30,7 +30,7 @@ class FakeAppModule {
                 id = 0,
                 title = "Test Title 1",
                 contentText = "Test Content Text 1",
-                noteType = NoteTypes.Primary
+                noteType = NoteType.Primary
             ))
         }
 
@@ -51,13 +51,13 @@ class FakeAppModule {
                         id = 0,
                         title = "Test Title 1",
                         contentText = "Test Content Text 1",
-                        noteType = NoteTypes.Primary
+                        noteType = NoteType.Primary
                     ),
                     Note(
                         id = 1,
                         title = "Test Title 2",
                         contentText = "Test Content Text 2",
-                        noteType = NoteTypes.Red
+                        noteType = NoteType.Red
                     ),
                 )
             )

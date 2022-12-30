@@ -15,8 +15,9 @@ import com.henriquevieira.commonsui.ds.AppTheme
 @Composable
 fun BaseNoteTitle(
     modifier: Modifier = Modifier,
-    text: MutableState<String>,
+    text: String,
     placeHolder: String = "",
+    onValueChange: ((str: String) -> Unit)? = null
 ) {
     val textFieldColors = TextFieldDefaults.textFieldColors(
         textColor = Color.Black,
@@ -27,10 +28,10 @@ fun BaseNoteTitle(
     AppTheme {
         TextField(
             modifier = modifier,
-            value = text.value,
+            value = text,
             colors = textFieldColors,
             onValueChange = {
-                text.value = it
+                onValueChange?.invoke(it)
             },
             textStyle = LocalTextStyle.current.copy(
                 textAlign = TextAlign.Center,

@@ -14,41 +14,42 @@ import com.henriquevieira.commonsui.utils.noteType
 @Composable
 fun BaseNote(
     modifier: Modifier = Modifier,
-    noteTypes: NoteTypes = NoteTypes.Primary,
-    text: MutableState<String>,
+    noteType: NoteType = NoteType.Primary,
+    text: String,
     label: String? = null,
+    onValueChange: ((str: String) -> Unit)? = null
 ) {
 
-    val textFieldColors = when (noteTypes) {
-        NoteTypes.Primary -> {
+    val textFieldColors = when (noteType) {
+        NoteType.Primary -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
                 containerColor = color_card_default
             )
         }
-        NoteTypes.Red -> {
+        NoteType.Red -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 cursorColor = Color.White,
                 containerColor = color_card_red
             )
         }
-        NoteTypes.Green -> {
+        NoteType.Green -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
                 containerColor = color_card_green
             )
         }
-        NoteTypes.Yellow -> {
+        NoteType.Yellow -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
                 containerColor = color_card_yellow
             )
         }
-        NoteTypes.Blue -> {
+        NoteType.Blue -> {
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 cursorColor = Color.White,
@@ -61,15 +62,15 @@ fun BaseNote(
         TextField(
             modifier = modifier.fillMaxSize()
                 .semantics {
-                    noteType = noteTypes.toString()
+                    this.noteType = noteType.toString()
                 },
-            value = text.value,
+            value = text,
             colors = textFieldColors,
             textStyle = LocalTextStyle.current.copy(
                 fontWeight = FontWeight.Bold
             ),
             onValueChange = {
-                text.value = it
+                onValueChange?.invoke(it)
             },
             label = {
                 label?.let {

@@ -1,7 +1,7 @@
 package com.henriquevieira.notes.features.note.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.henriquevieira.commonsui.textinput.NoteTypes
+import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.base.viewmodel.BaseViewModel
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteUseCase
@@ -9,7 +9,7 @@ import com.henriquevieira.notes.features.note.ui.NoteActions
 import com.henriquevieira.notes.features.note.ui.NoteResults
 import com.henriquevieira.notes.features.note.ui.NoteStates
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,22 +20,25 @@ class NoteViewModel
 ) : BaseViewModel<NoteActions, NoteResults, NoteStates>() {
 
 
+    override val initialState: NoteStates
+        get() = NoteStates()
+
     override fun dispatch(action: NoteActions) {
         when (action) {
-            is NoteActions.PrimaryColorSelected -> {
-                changeColorState(NoteTypes.Primary)
+            is NoteActions.NoteTypeClick -> {
+                changeColorState(action.noteType)
             }
-            is NoteActions.RedColorSelected -> {
-                changeColorState(NoteTypes.Red)
+
+            is NoteActions.UpdateTitleText -> {
+                updateNoteTitle(action.title)
             }
-            is NoteActions.GreenColorSelected -> {
-                changeColorState(NoteTypes.Green)
+
+            is NoteActions.UpdateContentText -> {
+                updateNoteContentText(action.text)
             }
-            is NoteActions.YellowColorSelected -> {
-                changeColorState(NoteTypes.Yellow)
-            }
-            is NoteActions.BlueColorSelected -> {
-                changeColorState(NoteTypes.Blue)
+
+            is NoteActions.ClickClearButton -> {
+                onClickClearButton(action.note)
             }
             is NoteActions.ClickSaveButton -> {
                 onClickSaveButton(action.note)
@@ -46,7 +49,41 @@ class NoteViewModel
         }
     }
 
-    private fun onClickSaveButton(note: Note) = viewModelScope.launch(Dispatchers.IO) {
+    private fun updateNoteTitle(title: String) = viewModelScope.launch {
+        val note = uiState.value.note
+        updateUiState(
+            uiState.value.copy(
+                note = Note(
+                    id = note.id,
+                    title = title,
+                    contentText = note.contentText,
+                    noteType = note.noteType
+                )
+            )
+        )
+    }
+
+    private fun updateNoteContentText(contentText: String) = viewModelScope.launch {
+        val note = uiState.value.note
+        updateUiState(
+            uiState.value.copy(
+                note = Note(
+                    id = note.id,
+                    title = note.title,
+                    contentText = contentText,
+                    noteType = note.noteType
+                )
+            )
+        )
+    }
+
+    private fun onClickClearButton(note: Note) = viewModelScope.launch {
+        updateUiState(uiState.value.copy(
+            note = note
+        ))
+    }
+
+    private fun onClickSaveButton(note: Note) = viewModelScope.launch {
         try {
             updateUiState(uiState.value.copy(
                 note = note
@@ -59,9 +96,9 @@ class NoteViewModel
         }
     }
 
-    private fun loadSelectedNote(noteId: Int) = viewModelScope.launch(Dispatchers.IO) {
+    private fun loadSelectedNote(noteId: Int) = viewModelScope.launch {
         try {
-            noteUseCase.getNoteById(noteId).collect {
+            noteUseCase.getNoteById(noteId).collectLatest {
                 updateUiState(uiState.value.copy(
                     note = it
                 ))
@@ -73,9 +110,8 @@ class NoteViewModel
         }
     }
 
-    private fun changeColorState(noteType: NoteTypes) = viewModelScope.launch {
+    private fun changeColorState(noteType: NoteType) = viewModelScope.launch {
         val note = uiState.value.note
-
         updateUiState(uiState.value.copy(
             note = Note(
                 id = note.id,
@@ -85,7 +121,4 @@ class NoteViewModel
             )
         ))
     }
-
-    override val initialState: NoteStates
-        get() = NoteStates()
 }

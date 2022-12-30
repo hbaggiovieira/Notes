@@ -2,7 +2,7 @@ package com.henriquevieira.notes.features.note
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.henriquevieira.commonsui.textinput.NoteTypes
+import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.utils.assertNoteType
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -90,7 +90,7 @@ class NoteScreenTest {
             .performClick()
 
         composeTestRule.onNodeWithTag(TEXT_FIELD_TAG)
-            .assertNoteType(NoteTypes.Primary.toString())
+            .assertNoteType(NoteType.Primary.toString())
     }
 
     @Test
@@ -101,7 +101,7 @@ class NoteScreenTest {
             .performClick()
 
         composeTestRule.onNodeWithTag(TEXT_FIELD_TAG)
-            .assertNoteType(NoteTypes.Red.toString())
+            .assertNoteType(NoteType.Red.toString())
     }
 
     @Test
@@ -112,7 +112,7 @@ class NoteScreenTest {
             .performClick()
 
         composeTestRule.onNodeWithTag(TEXT_FIELD_TAG)
-            .assertNoteType(NoteTypes.Green.toString())
+            .assertNoteType(NoteType.Green.toString())
     }
 
     @Test
@@ -123,7 +123,7 @@ class NoteScreenTest {
             .performClick()
 
         composeTestRule.onNodeWithTag(TEXT_FIELD_TAG)
-            .assertNoteType(NoteTypes.Yellow.toString())
+            .assertNoteType(NoteType.Yellow.toString())
     }
 
     @Test
@@ -134,7 +134,7 @@ class NoteScreenTest {
             .performClick()
 
         composeTestRule.onNodeWithTag(TEXT_FIELD_TAG)
-            .assertNoteType(NoteTypes.Blue.toString())
+            .assertNoteType(NoteType.Blue.toString())
     }
 
     companion object {
