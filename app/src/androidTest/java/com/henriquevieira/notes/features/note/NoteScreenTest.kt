@@ -60,6 +60,12 @@ class NoteScreenTest {
                 .assertIsDisplayed()
                 .assertHasClickAction()
 
+            onNodeWithTag(TITLE_TAG)
+                .performTextInput("Test title")
+
+            onNodeWithTag(TITLE_TAG)
+                .assertTextEquals("Test title")
+
             onNodeWithTag(TEXT_FIELD_TAG)
                 .performTextInput("Test text")
 
@@ -70,6 +76,10 @@ class NoteScreenTest {
                 .performClick()
 
             onNodeWithTag(TITLE_TAG)
+                .assertTextContains("Title")
+                .assertIsDisplayed()
+
+            onNodeWithTag(TEXT_FIELD_TAG)
                 .assertTextEquals("")
                 .assertIsDisplayed()
         }
