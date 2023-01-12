@@ -96,6 +96,7 @@ fun NoteScreen(
                 end.linkTo(textField.end, 16.dp)
             }, onClick = {
             onUiEvent.invoke(NoteActions.ClickClearButton(Note(
+                id = uiState.note.id,
                 noteType = uiState.note.noteType
             )))
         }) {
