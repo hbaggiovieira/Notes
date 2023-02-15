@@ -17,8 +17,8 @@ import com.henriquevieira.notes.R
 import com.henriquevieira.notes.base.activity.BaseActivity
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.extensions.showToast
-import com.henriquevieira.notes.features.home.ui.HomeActions
-import com.henriquevieira.notes.features.home.ui.HomeResults
+import com.henriquevieira.notes.features.home.ui.HomeAction
+import com.henriquevieira.notes.features.home.ui.HomeResult
 import com.henriquevieira.notes.features.home.ui.HomeScreen
 import com.henriquevieira.notes.features.home.viewmodel.HomeViewModel
 import com.henriquevieira.notes.toggle.FeatureToggleUtils
@@ -38,7 +38,7 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         observe()
 
-        homeViewModel.dispatch(HomeActions.FetchData)
+        homeViewModel.dispatch(HomeAction.FetchData)
 
         setContent {
             AppTheme {
@@ -57,7 +57,7 @@ class HomeActivity : BaseActivity() {
     private fun observe() = lifecycleScope.launch {
         homeViewModel.screen.collect { state ->
             when (state) {
-                is HomeResults.OnCardClick -> {
+                is HomeResult.OnCardClick -> {
                     if (FeatureToggleUtils.validateBuildToggle(BuildConfig.FEATURE_MAIN)) {
                         val bundle = bundleOf(SELECTED_NOTE_KEY to state.noteId)
                         router.navigate(route = Routes.Note, args = bundle)
@@ -66,7 +66,7 @@ class HomeActivity : BaseActivity() {
                     }
                 }
 
-                is HomeResults.OnAddClick -> {
+                is HomeResult.OnAddClick -> {
                     if (FeatureToggleUtils.validateBuildToggle(BuildConfig.FEATURE_MAIN)) {
                         router.navigate(route = Routes.Note)
 
@@ -74,21 +74,27 @@ class HomeActivity : BaseActivity() {
                     }
                 }
 
-                is HomeResults.OnDeleteError -> {
+                is HomeResult.OnListClick -> {
+                    if (FeatureToggleUtils.validateBuildToggle(BuildConfig.FEATURE_LIST)) {
+                        router.navigate(route = Routes.CheckListScreen)
+                    }
+                }
+
+                is HomeResult.OnDeleteError -> {
                     showToast(getString(R.string.delete_error_message))
                 }
-                is HomeResults.OnDeleteSuccess -> {
+                is HomeResult.OnDeleteSuccess -> {
 
-                    homeViewModel.dispatch(HomeActions.FetchData)
+                    homeViewModel.dispatch(HomeAction.FetchData)
 
                     showToast(getString(R.string.delete_success_message))
                 }
 
-                is HomeResults.OnFetchError -> {
+                is HomeResult.OnFetchError -> {
                     showToast(getString(R.string.fetch_error_message))
                 }
 
-                is HomeResults.OnShowAlertDialog -> {
+                is HomeResult.OnShowAlertDialog -> {
                     isShowDialog.value = true
 
                     note.value = state.note
@@ -107,7 +113,7 @@ class HomeActivity : BaseActivity() {
                 confirmButtonLabel = stringResource(R.string.delete_note_dialog_confirm_button_label),
                 dismissButtonLabel = stringResource(R.string.delete_note_dialog_cancel_button_label),
                 onConfirmClick = {
-                    homeViewModel.dispatch(HomeActions.DeleteConfirm(note.value))
+                    homeViewModel.dispatch(HomeAction.DeleteConfirm(note.value))
                     isShowDialog.value = false
                 },
                 onDismissClick = {

@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.henriquevieira.notes.base.viewmodel.BaseViewModel
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.home.ui.HomeActions
-import com.henriquevieira.notes.features.home.ui.HomeResults
-import com.henriquevieira.notes.features.home.ui.HomeStates
+import com.henriquevieira.notes.features.home.ui.HomeAction
+import com.henriquevieira.notes.features.home.ui.HomeResult
+import com.henriquevieira.notes.features.home.ui.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,11 +17,25 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val noteUseCase: NoteUseCase,
-) : BaseViewModel<HomeActions, HomeResults, HomeStates>() {
+) : BaseViewModel<HomeAction, HomeResult, HomeState>() {
 
     private val list = mutableStateListOf<Note>()
 
     private val alertDialogState = mutableStateOf(false)
+
+    override val initialState: HomeState
+        get() = HomeState()
+
+    override fun dispatch(action: HomeAction) {
+        when (action) {
+            is HomeAction.CardClick -> onCardClick(action.noteId)
+            is HomeAction.AddClick -> onAddClick()
+            is HomeAction.ListClick -> onListClick()
+            is HomeAction.CardLongPress -> showDeleteDialog(action.note)
+            is HomeAction.DeleteConfirm -> onDeleteNote(action.note)
+            is HomeAction.FetchData -> fetchData()
+        }
+    }
 
     private fun fetchData() = viewModelScope.launch(Dispatchers.IO) {
         try {
@@ -30,62 +44,47 @@ class HomeViewModel @Inject constructor(
                 list.addAll(it)
             }
 
-            updateUiState(uiState.value.copy(
-                notesList = list,
-            ))
+            updateUiState(
+                uiState.value.copy(
+                    notesList = list,
+                )
+            )
 
         } catch (e: Exception) {
-            emitResult(HomeResults.OnFetchError)
+            emitResult(HomeResult.OnFetchError)
         }
     }
 
     private fun onAddClick() = viewModelScope.launch {
-        emitResult(HomeResults.OnAddClick)
+        emitResult(HomeResult.OnAddClick)
+    }
+
+    private fun onListClick() = viewModelScope.launch {
+        emitResult(HomeResult.OnListClick)
     }
 
     private fun showDeleteDialog(note: Note) = viewModelScope.launch {
         alertDialogState.value = true
 
-        updateUiState(uiState.value.copy(
-            alertDialogState = alertDialogState.value
-        ))
+        updateUiState(
+            uiState.value.copy(
+                alertDialogState = alertDialogState.value
+            )
+        )
 
-        emitResult(HomeResults.OnShowAlertDialog(note))
+        emitResult(HomeResult.OnShowAlertDialog(note))
     }
 
     private fun onDeleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         try {
             noteUseCase.deleteNote(note)
-            emitResult(HomeResults.OnDeleteSuccess)
+            emitResult(HomeResult.OnDeleteSuccess)
         } catch (e: Exception) {
-            emitResult(HomeResults.OnDeleteError)
+            emitResult(HomeResult.OnDeleteError)
         }
     }
 
     private fun onCardClick(noteId: Int) = viewModelScope.launch {
-        emitResult(HomeResults.OnCardClick(noteId))
-    }
-
-    override val initialState: HomeStates
-        get() = HomeStates()
-
-    override fun dispatch(action: HomeActions) {
-        when (action) {
-            is HomeActions.CardClick -> {
-                onCardClick(action.noteId)
-            }
-            is HomeActions.AddClick -> {
-                onAddClick()
-            }
-            is HomeActions.CardLongPress -> {
-                showDeleteDialog(action.note)
-            }
-            is HomeActions.DeleteConfirm -> {
-                onDeleteNote(action.note)
-            }
-            is HomeActions.FetchData -> {
-                fetchData()
-            }
-        }
+        emitResult(HomeResult.OnCardClick(noteId))
     }
 }

@@ -6,8 +6,8 @@ import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteRepository
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.home.ui.HomeActions
-import com.henriquevieira.notes.features.home.ui.HomeResults
+import com.henriquevieira.notes.features.home.ui.HomeAction
+import com.henriquevieira.notes.features.home.ui.HomeResult
 import com.henriquevieira.notes.features.home.viewmodel.HomeViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -69,13 +69,13 @@ class HomeViewModelTest {
         }
 
         runBlocking {
-            viewModel.dispatch(HomeActions.FetchData)
+            viewModel.dispatch(HomeAction.FetchData)
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeResults.OnFetchError)
+            Truth.assertThat(screen).isEqualTo(HomeResult.OnFetchError)
         }
     }
 
@@ -88,13 +88,13 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeActions.AddClick)
+            viewModel.dispatch(HomeAction.AddClick)
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeResults.OnAddClick)
+            Truth.assertThat(screen).isEqualTo(HomeResult.OnAddClick)
         }
     }
 
@@ -107,7 +107,7 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeActions.CardClick(
+            viewModel.dispatch(HomeAction.CardClick(
                 VALID_TEST_NOTE.id
             ))
         }
@@ -115,7 +115,7 @@ class HomeViewModelTest {
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeResults.OnCardClick(VALID_TEST_NOTE.id))
+            Truth.assertThat(screen).isEqualTo(HomeResult.OnCardClick(VALID_TEST_NOTE.id))
         }
     }
 
@@ -128,13 +128,13 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeActions.CardLongPress(VALID_TEST_NOTE))
+            viewModel.dispatch(HomeAction.CardLongPress(VALID_TEST_NOTE))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeResults.OnShowAlertDialog(VALID_TEST_NOTE))
+            Truth.assertThat(screen).isEqualTo(HomeResult.OnShowAlertDialog(VALID_TEST_NOTE))
         }
     }
 
@@ -147,13 +147,13 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeActions.DeleteConfirm(VALID_TEST_NOTE))
+            viewModel.dispatch(HomeAction.DeleteConfirm(VALID_TEST_NOTE))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeResults.OnDeleteSuccess)
+            Truth.assertThat(screen).isEqualTo(HomeResult.OnDeleteSuccess)
         }
     }
 
@@ -166,13 +166,13 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeActions.DeleteConfirm(INVALID_TEST_NOTE))
+            viewModel.dispatch(HomeAction.DeleteConfirm(INVALID_TEST_NOTE))
         }
 
         screenFlow.onCompletion {
             val screen = screenFlow.replayCache.last()
 
-            Truth.assertThat(screen).isEqualTo(HomeResults.OnDeleteError)
+            Truth.assertThat(screen).isEqualTo(HomeResult.OnDeleteError)
         }
     }
 

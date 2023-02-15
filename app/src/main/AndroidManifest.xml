@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.henriquevieira.notes">
 
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+    <uses-permission
+        android:name="com.google.android.gms.permission.AD_ID"
+        tools:node="remove" />
 
     <application
         android:name=".CustomApplication"
@@ -19,8 +21,12 @@
         <activity
             android:name=".features.note.NoteActivity"
             android:exported="false"
-            android:theme="@style/Theme.Notes">
-        </activity>
+            android:theme="@style/Theme.Notes" />
+
+        <activity
+            android:name=".features.checklist.ui.CheckListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Notes" />
 
         <activity
             android:name=".features.home.HomeActivity"

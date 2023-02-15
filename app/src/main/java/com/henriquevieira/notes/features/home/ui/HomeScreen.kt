@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.List
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,20 +25,20 @@ import com.henriquevieira.notes.data.model.Note
 
 @Composable
 fun HomeScreen(
-    uiState: HomeStates,
-    onUiEvent: (event: HomeActions) -> Unit,
+    uiState: HomeState,
+    onUiEvent: (event: HomeAction) -> Unit,
 ) {
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        val (notesList, addButton) = createRefs()
+        val (notesListRef, addButtonRef, listButtonRef) = createRefs()
 
         CustomList(
             modifier = Modifier
                 .testTag("NOTES_LIST_TAG")
-                .constrainAs(notesList) {
+                .constrainAs(notesListRef) {
                     top.linkTo(parent.top)
-                    bottom.linkTo(addButton.top)
+                    bottom.linkTo(addButtonRef.top)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     height = Dimension.fillToConstraints
@@ -49,9 +50,19 @@ fun HomeScreen(
         AddButton(
             modifier = Modifier
                 .testTag("ADD_BUTTON_TAG")
-                .constrainAs(addButton) {
-                    centerHorizontallyTo(parent)
+                .constrainAs(addButtonRef) {
+                    end.linkTo(listButtonRef.start, 4.dp)
                     bottom.linkTo(parent.bottom, 2.dp)
+                },
+            onUiEvent = onUiEvent
+        )
+
+        ListButton(
+            modifier = Modifier.testTag("LIST_BUTTON_TAG")
+                .constrainAs(listButtonRef) {
+                    end.linkTo(parent.end, 4.dp)
+                    top.linkTo(addButtonRef.top)
+                    bottom.linkTo(addButtonRef.bottom)
                 },
             onUiEvent = onUiEvent
         )
@@ -91,8 +102,8 @@ private fun HomeCustomCard(
 @Composable
 private fun CustomList(
     modifier: Modifier = Modifier,
-    uiState: HomeStates,
-    onUiEvent: (event: HomeActions) -> Unit,
+    uiState: HomeState,
+    onUiEvent: (event: HomeAction) -> Unit,
 ) {
     LazyColumn(modifier) {
         uiState.notesList?.let { notes ->
@@ -100,10 +111,10 @@ private fun CustomList(
                 HomeCustomCard(
                     note = notes[index],
                     onLongPress = {
-                        onUiEvent(HomeActions.CardLongPress(notes[index]))
+                        onUiEvent(HomeAction.CardLongPress(notes[index]))
                     },
                     onClick = {
-                        onUiEvent(HomeActions.CardClick(notes[index].id))
+                        onUiEvent(HomeAction.CardClick(notes[index].id))
                     }
                 )
             }
@@ -114,7 +125,7 @@ private fun CustomList(
 @Composable
 private fun AddButton(
     modifier: Modifier = Modifier,
-    onUiEvent: (event: HomeActions) -> Unit,
+    onUiEvent: (event: HomeAction) -> Unit,
 ) {
     CustomCircleIconButton(
         modifier = modifier.testTag("ADD_BUTTON_TAG"),
@@ -123,6 +134,22 @@ private fun AddButton(
         backgroundColor = MaterialTheme.colorScheme.primaryContainer,
         contentDescription = "Add"
     ) {
-        onUiEvent(HomeActions.AddClick)
+        onUiEvent(HomeAction.AddClick)
+    }
+}
+
+@Composable
+private fun ListButton(
+    modifier: Modifier = Modifier,
+    onUiEvent: (event: HomeAction) -> Unit,
+) {
+    CustomCircleIconButton(
+        modifier = modifier.testTag("ADD_BUTTON_TAG"),
+        imageVector = Icons.Rounded.List,
+        imageColor = Color.Black,
+        backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        contentDescription = "Add"
+    ) {
+        onUiEvent(HomeAction.ListClick)
     }
 }
