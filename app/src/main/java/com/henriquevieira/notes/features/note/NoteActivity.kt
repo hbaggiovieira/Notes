@@ -11,9 +11,9 @@ import com.henriquevieira.core.router.Routes
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.base.activity.BaseActivity
 import com.henriquevieira.notes.extensions.showToast
-import com.henriquevieira.notes.features.note.ui.NoteActions
+import com.henriquevieira.notes.features.note.ui.NoteAction
 import com.henriquevieira.notes.features.note.ui.NoteScreen
-import com.henriquevieira.notes.features.note.ui.NoteResults
+import com.henriquevieira.notes.features.note.ui.NoteResult
 import com.henriquevieira.notes.features.note.viewmodel.NoteViewModel
 import com.henriquevieira.notes.features.review.InAppReview
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,14 +39,14 @@ class NoteActivity : BaseActivity() {
         val args = intent.getBundleExtra(ARGS)
         val selectedNoteId = args?.getInt(SELECTED_NOTE_KEY)
         selectedNoteId?.let {
-            noteViewModel.dispatch(action = NoteActions.LoadSelectedNote(selectedNoteId))
+            noteViewModel.dispatch(action = NoteAction.LoadSelectedNote(selectedNoteId))
         }
 
         setContent {
             AppTheme {
                 NoteScreen(
                     uiState = noteViewModel.uiState.collectAsState().value,
-                    onUiEvent = {
+                    onUiAction = {
                         noteViewModel.dispatch(action = it)
                     }
                 )
@@ -60,17 +60,18 @@ class NoteActivity : BaseActivity() {
         lifecycleScope.launch {
             noteViewModel.screen.collect {
                 when (it) {
-                    is NoteResults.OnSaveSuccess -> {
+                    is NoteResult.OnCloseClick -> this@NoteActivity.onBackPressedDispatcher.onBackPressed()
+                    is NoteResult.OnSaveSuccess -> {
                         showToast(getString(R.string.save_success_message))
                         InAppReview(this@NoteActivity).requestInAppReview()
                     }
-                    is NoteResults.OnSaveError -> {
+                    is NoteResult.OnSaveError -> {
                         showToast(getString(R.string.save_error_message))
                     }
-                    is NoteResults.OnLoadNoteError -> {
+                    is NoteResult.OnLoadNoteError -> {
                         showToast(getString(R.string.load_note_error_message))
                     }
-                    is NoteResults.OnLoadNoteSuccess -> {
+                    is NoteResult.OnLoadNoteSuccess -> {
 
                     }
                 }

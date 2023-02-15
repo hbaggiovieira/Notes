@@ -5,8 +5,8 @@ import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.base.viewmodel.BaseViewModel
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.note.ui.NoteActions
-import com.henriquevieira.notes.features.note.ui.NoteResults
+import com.henriquevieira.notes.features.note.ui.NoteAction
+import com.henriquevieira.notes.features.note.ui.NoteResult
 import com.henriquevieira.notes.features.note.ui.NoteStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -17,36 +17,43 @@ import javax.inject.Inject
 class NoteViewModel
 @Inject constructor(
     private val noteUseCase: NoteUseCase,
-) : BaseViewModel<NoteActions, NoteResults, NoteStates>() {
+) : BaseViewModel<NoteAction, NoteResult, NoteStates>() {
 
 
     override val initialState: NoteStates
         get() = NoteStates()
 
-    override fun dispatch(action: NoteActions) {
+    override fun dispatch(action: NoteAction) {
         when (action) {
-            is NoteActions.NoteTypeClick -> {
+            is NoteAction.CloseButtonClick -> {
+                onCloseButtonClick()
+            }
+            is NoteAction.NoteTypeClick -> {
                 changeColorState(action.noteType)
             }
 
-            is NoteActions.UpdateTitleText -> {
+            is NoteAction.UpdateTitleText -> {
                 updateNoteTitle(action.title)
             }
 
-            is NoteActions.UpdateContentText -> {
+            is NoteAction.UpdateContentText -> {
                 updateNoteContentText(action.text)
             }
 
-            is NoteActions.ClickClearButton -> {
+            is NoteAction.ClickClearButton -> {
                 onClickClearButton(action.note)
             }
-            is NoteActions.ClickSaveButton -> {
+            is NoteAction.ClickSaveButton -> {
                 onClickSaveButton(action.note)
             }
-            is NoteActions.LoadSelectedNote -> {
+            is NoteAction.LoadSelectedNote -> {
                 loadSelectedNote(action.noteId)
             }
         }
+    }
+
+    private fun onCloseButtonClick() = viewModelScope.launch {
+        emitResult(NoteResult.OnCloseClick)
     }
 
     private fun updateNoteTitle(title: String) = viewModelScope.launch {
@@ -89,10 +96,10 @@ class NoteViewModel
                 note = note
             ))
             noteUseCase.saveNote(note)
-            emitResult(NoteResults.OnSaveSuccess)
+            emitResult(NoteResult.OnSaveSuccess)
         } catch (e: Exception) {
             e.printStackTrace()
-            emitResult(NoteResults.OnSaveError)
+            emitResult(NoteResult.OnSaveError)
         }
     }
 
@@ -104,9 +111,9 @@ class NoteViewModel
                 ))
             }
 
-            emitResult(NoteResults.OnLoadNoteSuccess)
+            emitResult(NoteResult.OnLoadNoteSuccess)
         } catch (e: Exception) {
-            emitResult(NoteResults.OnLoadNoteError)
+            emitResult(NoteResult.OnLoadNoteError)
         }
     }
 

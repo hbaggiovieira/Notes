@@ -20,31 +20,41 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.card.CustomCard
+import com.henriquevieira.commonsui.header.CustomHeader
 import com.henriquevieira.commonsui.utils.ColorUtils
 import com.henriquevieira.notes.data.model.Note
 
 @Composable
 fun HomeScreen(
     uiState: HomeState,
-    onUiEvent: (event: HomeAction) -> Unit,
+    onUiAction: (event: HomeAction) -> Unit,
 ) {
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        val (notesListRef, addButtonRef, listButtonRef) = createRefs()
+        val (headerRef, notesListRef, addButtonRef, listButtonRef) = createRefs()
+
+        CustomHeader(
+            title = "Notes",
+            modifier = Modifier.constrainAs(headerRef) {
+                top.linkTo(parent.top)
+                width = Dimension.matchParent
+            },
+            onCloseButtonClick = { onUiAction.invoke(HomeAction.CloseClick) }
+        )
 
         CustomList(
             modifier = Modifier
                 .testTag("NOTES_LIST_TAG")
                 .constrainAs(notesListRef) {
-                    top.linkTo(parent.top)
+                    top.linkTo(headerRef.bottom)
                     bottom.linkTo(addButtonRef.top)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     height = Dimension.fillToConstraints
                 },
             uiState = uiState,
-            onUiEvent = onUiEvent
+            onUiEvent = onUiAction
         )
 
         AddButton(
@@ -54,7 +64,7 @@ fun HomeScreen(
                     end.linkTo(listButtonRef.start, 4.dp)
                     bottom.linkTo(parent.bottom, 2.dp)
                 },
-            onUiEvent = onUiEvent
+            onUiEvent = onUiAction
         )
 
         ListButton(
@@ -64,7 +74,7 @@ fun HomeScreen(
                     top.linkTo(addButtonRef.top)
                     bottom.linkTo(addButtonRef.bottom)
                 },
-            onUiEvent = onUiEvent
+            onUiEvent = onUiAction
         )
     }
 }

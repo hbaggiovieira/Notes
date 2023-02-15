@@ -31,6 +31,7 @@ class HomeViewModel @Inject constructor(
             is HomeAction.CardClick -> onCardClick(action.noteId)
             is HomeAction.AddClick -> onAddClick()
             is HomeAction.ListClick -> onListClick()
+            is HomeAction.CloseClick -> onCloseClick()
             is HomeAction.CardLongPress -> showDeleteDialog(action.note)
             is HomeAction.DeleteConfirm -> onDeleteNote(action.note)
             is HomeAction.FetchData -> fetchData()
@@ -55,6 +56,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun onCloseClick() = viewModelScope.launch {
+        emitResult(HomeResult.OnCloseClick)
+    }
     private fun onAddClick() = viewModelScope.launch {
         emitResult(HomeResult.OnAddClick)
     }

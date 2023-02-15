@@ -9,4 +9,5 @@ sealed class HomeAction {
     object FetchData : HomeAction()
     object AddClick : HomeAction()
     object ListClick : HomeAction()
+    object CloseClick : HomeAction()
 }

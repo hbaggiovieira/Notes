@@ -44,7 +44,7 @@ class HomeActivity : BaseActivity() {
             AppTheme {
                 HomeScreen(
                     uiState = homeViewModel.uiState.collectAsState().value,
-                    onUiEvent = {
+                    onUiAction = {
                         homeViewModel.dispatch(action = it)
                     }
                 )
@@ -65,6 +65,8 @@ class HomeActivity : BaseActivity() {
                         finish()
                     }
                 }
+
+                is HomeResult.OnCloseClick -> this@HomeActivity.onBackPressedDispatcher.onBackPressed()
 
                 is HomeResult.OnAddClick -> {
                     if (FeatureToggleUtils.validateBuildToggle(BuildConfig.FEATURE_MAIN)) {

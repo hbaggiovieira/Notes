@@ -29,7 +29,14 @@ class CheckListViewModel @Inject constructor() :
             is CheckListAction.DeleteItem -> {
                 onDeleteItem(action.selectedItem)
             }
+            is CheckListAction.CloseButtonClick -> {
+                onCloseButtonClick()
+            }
         }
+    }
+
+    private fun onCloseButtonClick() = viewModelScope.launch {
+        emitResult(CheckListResult.OnCloseButtonClick)
     }
 
     private fun onDeleteItem(selectedItem: CheckListState.Item) {

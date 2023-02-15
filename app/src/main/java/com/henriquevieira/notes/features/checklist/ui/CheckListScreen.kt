@@ -1,7 +1,10 @@
 package com.henriquevieira.notes.features.checklist.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
@@ -16,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.henriquevieira.commonsui.ds.AppTheme
+import com.henriquevieira.commonsui.header.CustomHeader
 import com.henriquevieira.notes.features.checklist.mvi.CheckListAction
 import com.henriquevieira.notes.features.checklist.mvi.CheckListState
 
@@ -27,13 +31,25 @@ fun CheckListScreen(
     AppTheme {
         ConstraintLayout(
             modifier = Modifier
-                .background(color = Color.White)
                 .fillMaxSize()
         ) {
+            val (headerRef, listRef) = createRefs()
+
+            CustomHeader(
+                title = "Checklist",
+                modifier = Modifier.constrainAs(headerRef) {
+                    top.linkTo(parent.top)
+                    width = Dimension.matchParent
+                },
+                onCloseButtonClick = { onUiAction.invoke(CheckListAction.CloseButtonClick) }
+            )
+
             ListField(
-                modifier = Modifier,
                 uiState = uiState,
-                onUiAction = onUiAction
+                onUiAction = onUiAction,
+                modifier = Modifier.constrainAs(listRef) {
+                    top.linkTo(headerRef.bottom, 16.dp)
+                }
             )
         }
     }
@@ -84,13 +100,15 @@ private fun ListField(
                             centerVerticallyTo(parent)
                         })
 
-                    Divider(modifier = Modifier
-                        .size(1.dp)
-                        .fillMaxWidth()
-                        .constrainAs(dividerRef) {
-                            top.linkTo(checkBoxRef.bottom, 1.dp)
-                            bottom.linkTo(parent.bottom)
-                        })
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .constrainAs(dividerRef) {
+                                top.linkTo(checkBoxRef.bottom, 1.dp)
+                                bottom.linkTo(parent.bottom)
+                            },
+                        thickness = 1.dp
+                    )
                 }
             }
         }
