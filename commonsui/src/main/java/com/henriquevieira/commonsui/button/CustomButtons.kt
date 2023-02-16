@@ -20,6 +20,7 @@ fun CustomCircleIconButton(
     imageColor: Color = MaterialTheme.colorScheme.primary,
     backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer,
     contentDescription: String = "",
+    isEnabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     IconButton(
@@ -29,6 +30,7 @@ fun CustomCircleIconButton(
         onClick = {
             onClick()
         },
+        enabled = isEnabled,
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = imageColor,
             containerColor = backgroundColor

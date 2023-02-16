@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.sharp.ArrowBack
 import androidx.compose.material.icons.sharp.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -27,23 +26,21 @@ import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.commonsui.header.CustomHeader
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.data.model.CheckListItem
-import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.features.checklist.mvi.CheckListAction
 import com.henriquevieira.notes.features.checklist.mvi.CheckListState
-import com.henriquevieira.notes.features.note.mvi.NoteAction
 
 @Composable
 fun CheckListScreen(
     modifier: Modifier = Modifier,
     uiState: CheckListState,
-    onUiAction: (action: CheckListAction) -> Unit
+    onUiAction: (action: CheckListAction) -> Unit,
 ) {
     AppTheme {
         ConstraintLayout(
             modifier = modifier
                 .fillMaxSize()
         ) {
-            val (headerRef, listRef, addButtonRef, progressBarRef) = createRefs()
+            val (headerRef, listRef, addButtonRef, saveButtonRef) = createRefs()
 
             CustomHeader(
                 title = "Checklist",
@@ -51,7 +48,8 @@ fun CheckListScreen(
                     top.linkTo(parent.top)
                     width = Dimension.matchParent
                 },
-                onCloseButtonClick = { onUiAction.invoke(CheckListAction.CloseButtonClick) }
+                isLoading = uiState.isLoading,
+                onCloseButtonClick = { onUiAction.invoke(CheckListAction.Close) }
             )
 
             ListField(
@@ -64,19 +62,30 @@ fun CheckListScreen(
                 }
             )
 
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .testTag("SAVE_BUTTON_TAG")
+                    .constrainAs(saveButtonRef) {
+                        start.linkTo(parent.start)
+                        end.linkTo(addButtonRef.start, 4.dp)
+                        bottom.linkTo(parent.bottom)
+                    },
+                content = {
+                    Text(stringResource(R.string.save))
+                },
+                onClick = { onUiAction(CheckListAction.Save) }
+            )
+
             AddButton(
                 onUiEvent = onUiAction,
                 modifier = Modifier.constrainAs(addButtonRef) {
                     bottom.linkTo(parent.bottom)
-                    centerHorizontallyTo(parent)
-                }.padding(4.dp)
+                    end.linkTo(parent.end)
+                }.padding(4.dp),
+                uiState = uiState
             )
-
-            if (uiState.isLoading) {
-                CustomProgress(modifier = Modifier.constrainAs(progressBarRef) {
-                    centerTo(parent)
-                })
-            }
         }
     }
 }
@@ -88,64 +97,67 @@ private fun ListField(
     onUiAction: (action: CheckListAction) -> Unit,
 ) {
     LazyColumn(modifier) {
-        uiState.itemsList?.let { items ->
-            items(items.size) { index ->
-                ConstraintLayout(
-                    Modifier
+        items(uiState.itemsList.size) { index ->
+            val isChecked = remember { mutableStateOf(uiState.itemsList[index].isChecked) }
+
+            ConstraintLayout(
+                Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .padding(5.dp)
+                    .background(color = if (isChecked.value) Color.LightGray else Color.White)
+            ) {
+                val (checkBoxRef, contentRef, deleteButtonRef, dividerRef) = createRefs()
+                Checkbox(
+                    checked = isChecked.value,
+                    onCheckedChange = {
+                        isChecked.value = it
+
+                        onUiAction.invoke(
+                            CheckListAction.ToggleCheck(
+                                index = index,
+                                isChecked = it
+                            )
+                        )
+                    },
+                    enabled = !uiState.isLoading,
+                    modifier = Modifier.constrainAs(checkBoxRef) {
+                        start.linkTo(parent.start)
+                        height = Dimension.fillToConstraints
+                        centerVerticallyTo(parent)
+                    }
+                )
+
+                Text(
+                    text = uiState.itemsList[index].content,
+                    modifier = Modifier.constrainAs(contentRef) {
+                        start.linkTo(checkBoxRef.end, 8.dp)
+                        centerVerticallyTo(parent)
+                    })
+
+                IconButton(
+                    content = {
+                        Icon(
+                            imageVector = Icons.Sharp.Delete,
+                            contentDescription = "Delete"
+                        )
+                    }, onClick = {
+                        onUiAction.invoke(CheckListAction.DeleteItem(index = index))
+                    }, modifier = Modifier.constrainAs(deleteButtonRef) {
+                        end.linkTo(parent.end)
+                        centerVerticallyTo(parent)
+                    }, enabled = !uiState.isLoading
+                )
+
+                Divider(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp)
-                        .padding(5.dp)
-                        .background(color = if (uiState.itemsList[index].isChecked) Color.LightGray else Color.White)
-                ) {
-                    val (checkBoxRef, contentRef, deleteButtonRef, dividerRef) = createRefs()
-
-                    Checkbox(
-                        checked = uiState.itemsList[index].isChecked,
-                        onCheckedChange = {
-                            onUiAction.invoke(
-                                CheckListAction.ClickCheckBox(
-                                    selectedItem = uiState.itemsList[index].copy(isChecked = it)
-                                )
-                            )
+                        .constrainAs(dividerRef) {
+                            top.linkTo(checkBoxRef.bottom, 1.dp)
+                            bottom.linkTo(parent.bottom)
                         },
-                        enabled = true,
-                        modifier = Modifier.constrainAs(checkBoxRef) {
-                            start.linkTo(parent.start)
-                            height = Dimension.fillToConstraints
-                            centerVerticallyTo(parent)
-                        }
-                    )
-
-                    Text(
-                        text = items[index].content,
-                        modifier = Modifier.constrainAs(contentRef) {
-                            start.linkTo(checkBoxRef.end, 8.dp)
-                            centerVerticallyTo(parent)
-                        })
-
-                    IconButton(
-                        content = {
-                            Icon(
-                                imageVector = Icons.Sharp.Delete,
-                                contentDescription = "Delete"
-                            )
-                        }, onClick = {
-                            onUiAction.invoke(CheckListAction.DeleteItem(uiState.itemsList[index]))
-                        }, modifier = Modifier.constrainAs(deleteButtonRef) {
-                            end.linkTo(parent.end)
-                            centerVerticallyTo(parent)
-                        })
-
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .constrainAs(dividerRef) {
-                                top.linkTo(checkBoxRef.bottom, 1.dp)
-                                bottom.linkTo(parent.bottom)
-                            },
-                        thickness = 1.dp
-                    )
-                }
+                    thickness = 1.dp
+                )
             }
         }
     }
@@ -154,24 +166,20 @@ private fun ListField(
 @Composable
 private fun AddButton(
     modifier: Modifier = Modifier,
+    uiState: CheckListState,
     onUiEvent: (event: CheckListAction) -> Unit,
 ) {
     CustomCircleIconButton(
         modifier = modifier.testTag("ADD_BUTTON_TAG"),
         imageVector = Icons.Rounded.Add,
         imageColor = Color.Black,
+        isEnabled = !uiState.isLoading,
         backgroundColor = MaterialTheme.colorScheme.primaryContainer,
         contentDescription = "Add"
     ) {
-        onUiEvent(CheckListAction.ClickAddItem)
+        onUiEvent(CheckListAction.OpenAddItem)
     }
 }
-
-@Composable
-private fun CustomProgress(modifier: Modifier) {
-    CircularProgressIndicator(modifier = modifier)
-}
-
 
 @Preview
 @Composable

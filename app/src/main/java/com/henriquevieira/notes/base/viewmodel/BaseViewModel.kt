@@ -23,7 +23,7 @@ abstract class BaseViewModel <A, R, S> : ViewModel(){
         _screen.emit(screenResult)
     }
 
-    protected fun updateUiState(uiState: S) = viewModelScope.launch {
+    protected fun updateUiState(uiState: S) {
         _uiState.value = uiState
     }
 }

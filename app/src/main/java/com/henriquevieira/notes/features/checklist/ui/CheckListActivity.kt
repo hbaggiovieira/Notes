@@ -32,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.commonsui.ds.color_card_green
+import com.henriquevieira.notes.R
 import com.henriquevieira.notes.base.activity.BaseActivity
 import com.henriquevieira.notes.extensions.showToast
 import com.henriquevieira.notes.features.checklist.mvi.CheckListAction
@@ -48,7 +49,7 @@ class CheckListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         observe()
-        viewModel.dispatch(CheckListAction.FetchData(isInit = true))
+        viewModel.dispatch(CheckListAction.Init)
         setContent {
             AppTheme {
                 ConstraintLayout {
@@ -75,10 +76,10 @@ class CheckListActivity : BaseActivity() {
     private fun observe() = lifecycleScope.launch {
         viewModel.screen.collect { state ->
             when (state) {
-                is CheckListResult.OnCloseButtonClick -> this@CheckListActivity.onBackPressedDispatcher.onBackPressed()
-                is CheckListResult.OnLoadingChanged -> lockScreen(state.isLoading)
-                is CheckListResult.OnClickAddItem -> showAddItemDialog.value = true
-                is CheckListResult.OnError -> showToast("Error")
+                is CheckListResult.OnClose -> this@CheckListActivity.onBackPressedDispatcher.onBackPressed()
+                is CheckListResult.OnOpenAddItem -> showAddItemDialog.value = true
+                is CheckListResult.OnError -> showToast(getString(R.string.fetch_error_message))
+                is CheckListResult.OnSaveSuccess -> showToast(getString(R.string.save_success_message))
             }
         }
     }
@@ -126,7 +127,7 @@ class CheckListActivity : BaseActivity() {
                         imeAction = ImeAction.Done
                     ),
                     keyboardActions = KeyboardActions(onDone = {
-                        viewModel.dispatch(CheckListAction.ConfirmAddItem(text.value))
+                        viewModel.dispatch(CheckListAction.AddItem(text.value))
                         showAddItemDialog.value = false
                     }),
                     textStyle = LocalTextStyle.current.copy(
@@ -147,7 +148,7 @@ class CheckListActivity : BaseActivity() {
                     imageColor = color_card_green,
                     backgroundColor = Color.White,
                     onClick = {
-                        viewModel.dispatch(CheckListAction.ConfirmAddItem(text.value))
+                        viewModel.dispatch(CheckListAction.AddItem(text.value))
                         showAddItemDialog.value = false
                     }
                 )
