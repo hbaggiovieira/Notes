@@ -43,7 +43,7 @@ fun CheckListScreen(
             modifier = modifier
                 .fillMaxSize()
         ) {
-            val (headerRef, listRef, addButtonRef, saveButtonRef, progressBarRef) = createRefs()
+            val (headerRef, listRef, addButtonRef, progressBarRef) = createRefs()
 
             CustomHeader(
                 title = "Checklist",
@@ -59,7 +59,7 @@ fun CheckListScreen(
                 onUiAction = onUiAction,
                 modifier = Modifier.constrainAs(listRef) {
                     top.linkTo(headerRef.bottom)
-                    bottom.linkTo(saveButtonRef.top)
+                    bottom.linkTo(addButtonRef.top)
                     height = Dimension.fillToConstraints
                 }
             )
@@ -67,24 +67,9 @@ fun CheckListScreen(
             AddButton(
                 onUiEvent = onUiAction,
                 modifier = Modifier.constrainAs(addButtonRef) {
-                    bottom.linkTo(saveButtonRef.top)
-                    end.linkTo(parent.end, 8.dp)
-                }
-            )
-
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .testTag("SAVE_BUTTON_TAG")
-                    .constrainAs(saveButtonRef) {
-                        centerHorizontallyTo(parent)
-                        bottom.linkTo(parent.bottom)
-                    },
-                content = {
-                    Text(stringResource(R.string.save))
-                },
-                onClick = { onUiAction(CheckListAction.SaveButtonClick) }
+                    bottom.linkTo(parent.bottom)
+                    centerHorizontallyTo(parent)
+                }.padding(4.dp)
             )
 
             if (uiState.isLoading) {
@@ -105,21 +90,18 @@ private fun ListField(
     LazyColumn(modifier) {
         uiState.itemsList?.let { items ->
             items(items.size) { index ->
-                val isChecked = remember { mutableStateOf(uiState.itemsList[index].isChecked) }
                 ConstraintLayout(
                     Modifier
                         .fillMaxWidth()
                         .height(50.dp)
                         .padding(5.dp)
-                        .background(color = if (isChecked.value) Color.LightGray else Color.White)
+                        .background(color = if (uiState.itemsList[index].isChecked) Color.LightGray else Color.White)
                 ) {
                     val (checkBoxRef, contentRef, deleteButtonRef, dividerRef) = createRefs()
 
                     Checkbox(
-                        checked = isChecked.value,
+                        checked = uiState.itemsList[index].isChecked,
                         onCheckedChange = {
-                            isChecked.value = it
-
                             onUiAction.invoke(
                                 CheckListAction.ClickCheckBox(
                                     selectedItem = uiState.itemsList[index].copy(isChecked = it)

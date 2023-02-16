@@ -33,6 +33,7 @@ import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.commonsui.ds.color_card_green
 import com.henriquevieira.notes.base.activity.BaseActivity
+import com.henriquevieira.notes.extensions.showToast
 import com.henriquevieira.notes.features.checklist.mvi.CheckListAction
 import com.henriquevieira.notes.features.checklist.mvi.CheckListResult
 import com.henriquevieira.notes.features.checklist.viewmodel.CheckListViewModel
@@ -47,7 +48,7 @@ class CheckListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         observe()
-        viewModel.dispatch(CheckListAction.FetchData)
+        viewModel.dispatch(CheckListAction.FetchData(isInit = true))
         setContent {
             AppTheme {
                 ConstraintLayout {
@@ -63,7 +64,8 @@ class CheckListActivity : BaseActivity() {
                     )
 
                     AddItemDialog(Modifier.constrainAs(addDialogRef) {
-                        centerTo(parent)
+                        top.linkTo(parent.top, 24.dp)
+                        centerHorizontallyTo(parent)
                     })
                 }
             }
@@ -76,6 +78,7 @@ class CheckListActivity : BaseActivity() {
                 is CheckListResult.OnCloseButtonClick -> this@CheckListActivity.onBackPressedDispatcher.onBackPressed()
                 is CheckListResult.OnLoadingChanged -> lockScreen(state.isLoading)
                 is CheckListResult.OnClickAddItem -> showAddItemDialog.value = true
+                is CheckListResult.OnError -> showToast("Error")
             }
         }
     }
@@ -136,6 +139,7 @@ class CheckListActivity : BaseActivity() {
                 CustomCircleIconButton(
                     modifier = Modifier.constrainAs(confirmButtonRef) {
                         top.linkTo(textFieldRef.bottom, 8.dp)
+                        bottom.linkTo(parent.bottom, 8.dp)
                         start.linkTo(parent.start)
                         end.linkTo(cancelButtonRef.start)
                     },
@@ -151,6 +155,7 @@ class CheckListActivity : BaseActivity() {
                 CustomCircleIconButton(
                     modifier = Modifier.constrainAs(cancelButtonRef) {
                         top.linkTo(textFieldRef.bottom, 8.dp)
+                        bottom.linkTo(parent.bottom, 8.dp)
                         start.linkTo(confirmButtonRef.end)
                         end.linkTo(parent.end)
                     },
