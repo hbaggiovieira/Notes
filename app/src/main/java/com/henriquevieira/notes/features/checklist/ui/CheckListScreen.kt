@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.sharp.ArrowBack
+import androidx.compose.material.icons.sharp.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -32,12 +34,13 @@ import com.henriquevieira.notes.features.note.mvi.NoteAction
 
 @Composable
 fun CheckListScreen(
+    modifier: Modifier = Modifier,
     uiState: CheckListState,
-    onUiAction: (action: CheckListAction) -> Unit,
+    onUiAction: (action: CheckListAction) -> Unit
 ) {
     AppTheme {
         ConstraintLayout(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
         ) {
             val (headerRef, listRef, addButtonRef, saveButtonRef, progressBarRef) = createRefs()
@@ -110,7 +113,7 @@ private fun ListField(
                         .padding(5.dp)
                         .background(color = if (isChecked.value) Color.LightGray else Color.White)
                 ) {
-                    val (checkBoxRef, contentRef, dividerRef) = createRefs()
+                    val (checkBoxRef, contentRef, deleteButtonRef, dividerRef) = createRefs()
 
                     Checkbox(
                         checked = isChecked.value,
@@ -125,7 +128,7 @@ private fun ListField(
                         },
                         enabled = true,
                         modifier = Modifier.constrainAs(checkBoxRef) {
-                            start.linkTo(parent.start, 4.dp)
+                            start.linkTo(parent.start)
                             height = Dimension.fillToConstraints
                             centerVerticallyTo(parent)
                         }
@@ -135,6 +138,19 @@ private fun ListField(
                         text = items[index].content,
                         modifier = Modifier.constrainAs(contentRef) {
                             start.linkTo(checkBoxRef.end, 8.dp)
+                            centerVerticallyTo(parent)
+                        })
+
+                    IconButton(
+                        content = {
+                            Icon(
+                                imageVector = Icons.Sharp.Delete,
+                                contentDescription = "Delete"
+                            )
+                        }, onClick = {
+                            onUiAction.invoke(CheckListAction.DeleteItem(uiState.itemsList[index]))
+                        }, modifier = Modifier.constrainAs(deleteButtonRef) {
+                            end.linkTo(parent.end)
                             centerVerticallyTo(parent)
                         })
 

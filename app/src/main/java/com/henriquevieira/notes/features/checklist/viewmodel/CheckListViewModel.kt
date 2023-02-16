@@ -11,8 +11,8 @@ import com.henriquevieira.notes.features.checklist.mvi.CheckListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class CheckListViewModel @Inject constructor(
@@ -21,7 +21,6 @@ class CheckListViewModel @Inject constructor(
     BaseViewModel<CheckListAction, CheckListResult, CheckListState>() {
     private val list = mutableStateListOf<CheckListItem>()
 
-    //ToDo Get From Database
     override val initialState: CheckListState
         get() = CheckListState()
 
@@ -43,7 +42,14 @@ class CheckListViewModel @Inject constructor(
             is CheckListAction.SaveButtonClick -> {
                 onSaveButtonClick()
             }
+            is CheckListAction.ConfirmAddItem -> {
+                onConfirmAddItem(action.contentText)
+            }
         }
+    }
+
+    private fun onClickAddItem() = viewModelScope.launch {
+        emitResult(CheckListResult.OnClickAddItem)
     }
 
     private fun onSaveButtonClick() = viewModelScope.launch {
@@ -75,11 +81,11 @@ class CheckListViewModel @Inject constructor(
         }
     }
 
-    private fun onClickAddItem() = viewModelScope.launch {
+    private fun onConfirmAddItem(text: String) = viewModelScope.launch {
         toggleLoading(true)
 
         try {
-            list.add(CheckListItem(content = Random.nextInt().toString()))
+            list.add(CheckListItem(content = text))
 
             updateUiState(uiState.value.copy(itemsList = list))
         } catch (e: Exception) {
@@ -104,7 +110,7 @@ class CheckListViewModel @Inject constructor(
         }
     }
 
-    private fun fetchData() = viewModelScope.launch {
+    private fun fetchData() = viewModelScope.launch (Dispatchers.IO) {
         toggleLoading(true)
 
         try {
@@ -114,7 +120,9 @@ class CheckListViewModel @Inject constructor(
                 list.addAll(it)
             }
 
-            updateUiState(uiState.value.copy(itemsList = list))
+            withContext(Dispatchers.Main) {
+                updateUiState(uiState.value.copy(itemsList = list))
+            }
         } catch (e: Exception) {
             //ToDo
         } finally {

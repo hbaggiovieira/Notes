@@ -9,5 +9,6 @@ sealed class CheckListAction {
     data class ClickCheckBox (val selectedItem: CheckListItem): CheckListAction()
     data class DeleteItem (val selectedItem: CheckListItem): CheckListAction()
     object ClickAddItem: CheckListAction()
+    data class ConfirmAddItem(val contentText: String): CheckListAction()
     object CloseButtonClick: CheckListAction()
 }
