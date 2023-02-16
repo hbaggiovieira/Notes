@@ -3,6 +3,7 @@ package com.henriquevieira.notes.features.note
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.henriquevieira.commonsui.textinput.NoteType
+import com.henriquevieira.notes.features.note.ui.NoteActivity
 import com.henriquevieira.notes.utils.assertNoteType
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

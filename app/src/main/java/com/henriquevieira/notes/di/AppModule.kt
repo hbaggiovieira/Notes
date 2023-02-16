@@ -9,7 +9,10 @@ import com.henriquevieira.notes.data.preferences.CustomSharedPreferencesKeys
 import com.henriquevieira.notes.data.room.AppDatabase
 import com.henriquevieira.notes.data.source.NoteDataSourceImpl
 import com.henriquevieira.notes.data.repository.NoteRepositoryImpl
+import com.henriquevieira.notes.data.repository.checklist.CheckListRepositoryImpl
+import com.henriquevieira.notes.data.source.checklist.CheckListDataSourceImpl
 import com.henriquevieira.notes.domain.NoteRepository
+import com.henriquevieira.notes.domain.checklist.CheckListRepository
 import com.henriquevieira.notes.features.router.RouterHandler
 import dagger.Module
 import dagger.Provides
@@ -24,23 +27,26 @@ class AppModule {
 
     @Singleton
     @Provides
+    fun provideCheckListRepository(@ApplicationContext appContext: Context): CheckListRepository =
+        CheckListRepositoryImpl(
+            checkListDataSource = CheckListDataSourceImpl(provideAppDatabase(appContext))
+        )
+
+    @Singleton
+    @Provides
     fun provideNoteRepository(@ApplicationContext appContext: Context): NoteRepository =
         NoteRepositoryImpl(
-            noteDataSource = NoteDataSourceImpl(
-                Room.databaseBuilder(
-                    appContext,
-                    AppDatabase::class.java,
-                    "notes"
-                ).build()
-            )
+            noteDataSource = NoteDataSourceImpl(provideAppDatabase(appContext))
         )
 
     @Singleton
     @Provides
     fun provideCustomSharedPreferencesHandler(@ApplicationContext appContext: Context): CustomSharedPreferences {
         val sharedPreferences =
-            appContext.getSharedPreferences(CustomSharedPreferencesKeys.PREFERENCES_NAME,
-                Context.MODE_PRIVATE)
+            appContext.getSharedPreferences(
+                CustomSharedPreferencesKeys.PREFERENCES_NAME,
+                Context.MODE_PRIVATE
+            )
         return CustomSharedPreferencesHandler(sharedPreferences)
     }
 
@@ -50,13 +56,12 @@ class AppModule {
         return RouterHandler(appContext)
     }
 
-    @Singleton
-    @Provides
-    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+
+    private fun provideAppDatabase(appContext: Context): AppDatabase {
         return Room.databaseBuilder(
             appContext,
             AppDatabase::class.java,
             "notes"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 }

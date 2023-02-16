@@ -30,6 +30,8 @@ import com.henriquevieira.commonsui.textinput.BaseNoteTitle
 import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.data.model.Note
+import com.henriquevieira.notes.features.note.mvi.NoteAction
+import com.henriquevieira.notes.features.note.mvi.NoteStates
 
 @Composable
 fun NoteScreen(
@@ -59,7 +61,8 @@ fun NoteScreen(
             text = uiState.note.title,
             placeHolder = stringResource(R.string.title),
             onValueChange = {
-                onUiAction.invoke(NoteAction.UpdateTitleText(
+                onUiAction.invoke(
+                    NoteAction.UpdateTitleText(
                     title = it
                 ))
             }
@@ -82,7 +85,8 @@ fun NoteScreen(
             noteType = uiState.note.noteType,
             text = uiState.note.contentText,
             onValueChange = {
-                onUiAction.invoke(NoteAction.UpdateContentText(
+                onUiAction.invoke(
+                    NoteAction.UpdateContentText(
                     text = it
                 ))
             }
@@ -105,7 +109,8 @@ fun NoteScreen(
                 bottom.linkTo(textField.bottom, 16.dp)
                 end.linkTo(textField.end, 16.dp)
             }, onClick = {
-            onUiAction.invoke(NoteAction.ClickClearButton(Note(
+            onUiAction.invoke(
+                NoteAction.ClickClearButton(Note(
                 id = uiState.note.id,
                 noteType = uiState.note.noteType
             )))
@@ -135,7 +140,8 @@ fun NoteScreen(
                 Text(stringResource(R.string.save))
             },
             onClick = {
-                onUiAction(NoteAction.ClickSaveButton(
+                onUiAction(
+                    NoteAction.ClickSaveButton(
                     Note(
                         id = uiState.note.id,
                         title = uiState.note.title,
@@ -164,7 +170,8 @@ private fun ButtonRow(
             backgroundColor = color_card_default,
             contentDescription = "Primary"
         ) {
-            onUiEvent(NoteAction.NoteTypeClick(
+            onUiEvent(
+                NoteAction.NoteTypeClick(
                 noteType = NoteType.Primary
             ))
         }
@@ -176,7 +183,8 @@ private fun ButtonRow(
             backgroundColor = color_card_red,
             contentDescription = "Red"
         ) {
-            onUiEvent(NoteAction.NoteTypeClick(
+            onUiEvent(
+                NoteAction.NoteTypeClick(
                 noteType = NoteType.Red
             ))
         }
@@ -188,7 +196,8 @@ private fun ButtonRow(
             backgroundColor = color_card_green,
             contentDescription = "Green"
         ) {
-            onUiEvent(NoteAction.NoteTypeClick(
+            onUiEvent(
+                NoteAction.NoteTypeClick(
                 noteType = NoteType.Green
             ))
         }
@@ -200,7 +209,8 @@ private fun ButtonRow(
             backgroundColor = color_card_yellow,
             contentDescription = "Yellow"
         ) {
-            onUiEvent(NoteAction.NoteTypeClick(
+            onUiEvent(
+                NoteAction.NoteTypeClick(
                 noteType = NoteType.Yellow
             ))
         }
@@ -212,7 +222,8 @@ private fun ButtonRow(
             backgroundColor = color_card_blue,
             contentDescription = "Blue"
         ) {
-            onUiEvent(NoteAction.NoteTypeClick(
+            onUiEvent(
+                NoteAction.NoteTypeClick(
                 noteType = NoteType.Blue
 
             ))

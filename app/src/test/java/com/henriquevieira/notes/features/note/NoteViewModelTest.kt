@@ -6,8 +6,8 @@ import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteRepository
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.note.ui.NoteAction
-import com.henriquevieira.notes.features.note.ui.NoteResult
+import com.henriquevieira.notes.features.note.mvi.NoteAction
+import com.henriquevieira.notes.features.note.mvi.NoteResult
 import com.henriquevieira.notes.features.note.viewmodel.NoteViewModel
 import io.mockk.coEvery
 import io.mockk.mockk

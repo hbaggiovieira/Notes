@@ -6,8 +6,8 @@ import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteRepository
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.home.ui.HomeAction
-import com.henriquevieira.notes.features.home.ui.HomeResult
+import com.henriquevieira.notes.features.home.mvi.HomeAction
+import com.henriquevieira.notes.features.home.mvi.HomeResult
 import com.henriquevieira.notes.features.home.viewmodel.HomeViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -107,7 +107,8 @@ class HomeViewModelTest {
         )
 
         runBlocking {
-            viewModel.dispatch(HomeAction.CardClick(
+            viewModel.dispatch(
+                HomeAction.CardClick(
                 VALID_TEST_NOTE.id
             ))
         }

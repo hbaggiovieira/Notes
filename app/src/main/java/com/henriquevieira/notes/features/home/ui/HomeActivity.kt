@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.features.home
+package com.henriquevieira.notes.features.home.ui
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -17,9 +17,8 @@ import com.henriquevieira.notes.R
 import com.henriquevieira.notes.base.activity.BaseActivity
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.extensions.showToast
-import com.henriquevieira.notes.features.home.ui.HomeAction
-import com.henriquevieira.notes.features.home.ui.HomeResult
-import com.henriquevieira.notes.features.home.ui.HomeScreen
+import com.henriquevieira.notes.features.home.mvi.HomeAction
+import com.henriquevieira.notes.features.home.mvi.HomeResult
 import com.henriquevieira.notes.features.home.viewmodel.HomeViewModel
 import com.henriquevieira.notes.toggle.FeatureToggleUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,9 +43,7 @@ class HomeActivity : BaseActivity() {
             AppTheme {
                 HomeScreen(
                     uiState = homeViewModel.uiState.collectAsState().value,
-                    onUiAction = {
-                        homeViewModel.dispatch(action = it)
-                    }
+                    onUiAction = { homeViewModel.dispatch(action = it) }
                 )
 
                 AlertDialog()

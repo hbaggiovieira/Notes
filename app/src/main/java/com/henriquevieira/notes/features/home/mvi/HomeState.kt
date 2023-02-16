@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.features.home.ui
+package com.henriquevieira.notes.features.home.mvi
 
 import com.henriquevieira.notes.data.model.Note
 

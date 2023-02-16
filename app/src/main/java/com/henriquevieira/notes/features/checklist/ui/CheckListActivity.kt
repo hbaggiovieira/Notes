@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
 import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.notes.base.activity.BaseActivity
+import com.henriquevieira.notes.features.checklist.mvi.CheckListAction
 import com.henriquevieira.notes.features.checklist.mvi.CheckListResult
 import com.henriquevieira.notes.features.checklist.viewmodel.CheckListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,9 +18,8 @@ class CheckListActivity : BaseActivity() {
     private val viewModel: CheckListViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         observe()
-
+        viewModel.dispatch(CheckListAction.FetchData)
         setContent {
             AppTheme {
                 CheckListScreen(
@@ -34,6 +34,7 @@ class CheckListActivity : BaseActivity() {
         viewModel.screen.collect { state ->
             when (state) {
                 is CheckListResult.OnCloseButtonClick -> this@CheckListActivity.onBackPressedDispatcher.onBackPressed()
+                is CheckListResult.OnLoadingChanged -> lockScreen(state.isLoading)
             }
         }
     }

@@ -5,9 +5,9 @@ import com.henriquevieira.commonsui.textinput.NoteType
 import com.henriquevieira.notes.base.viewmodel.BaseViewModel
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.note.ui.NoteAction
-import com.henriquevieira.notes.features.note.ui.NoteResult
-import com.henriquevieira.notes.features.note.ui.NoteStates
+import com.henriquevieira.notes.features.note.mvi.NoteAction
+import com.henriquevieira.notes.features.note.mvi.NoteResult
+import com.henriquevieira.notes.features.note.mvi.NoteStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

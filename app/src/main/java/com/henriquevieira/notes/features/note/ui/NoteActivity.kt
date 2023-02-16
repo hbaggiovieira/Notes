@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.features.note
+package com.henriquevieira.notes.features.note.ui
 
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
@@ -11,9 +11,8 @@ import com.henriquevieira.core.router.Routes
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.base.activity.BaseActivity
 import com.henriquevieira.notes.extensions.showToast
-import com.henriquevieira.notes.features.note.ui.NoteAction
-import com.henriquevieira.notes.features.note.ui.NoteScreen
-import com.henriquevieira.notes.features.note.ui.NoteResult
+import com.henriquevieira.notes.features.note.mvi.NoteAction
+import com.henriquevieira.notes.features.note.mvi.NoteResult
 import com.henriquevieira.notes.features.note.viewmodel.NoteViewModel
 import com.henriquevieira.notes.features.review.InAppReview
 import dagger.hilt.android.AndroidEntryPoint

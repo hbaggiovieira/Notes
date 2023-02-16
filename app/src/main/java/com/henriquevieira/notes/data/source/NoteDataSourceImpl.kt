@@ -6,8 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class NoteDataSourceImpl
-@Inject constructor(
+class NoteDataSourceImpl @Inject constructor(
     private val appDatabase: AppDatabase,
 ) : NoteDataSource {
     override suspend fun getNotes(): Flow<List<Note>> = flow {

@@ -19,7 +19,7 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".features.note.NoteActivity"
+            android:name=".features.note.ui.NoteActivity"
             android:exported="false"
             android:theme="@style/Theme.Notes" />
 
@@ -29,7 +29,7 @@
             android:theme="@style/Theme.Notes" />
 
         <activity
-            android:name=".features.home.HomeActivity"
+            android:name=".features.home.ui.HomeActivity"
             android:exported="true"
             android:theme="@style/Theme.Notes">
             <intent-filter>

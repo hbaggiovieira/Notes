@@ -23,6 +23,8 @@ import com.henriquevieira.commonsui.card.CustomCard
 import com.henriquevieira.commonsui.header.CustomHeader
 import com.henriquevieira.commonsui.utils.ColorUtils
 import com.henriquevieira.notes.data.model.Note
+import com.henriquevieira.notes.features.home.mvi.HomeAction
+import com.henriquevieira.notes.features.home.mvi.HomeState
 
 @Composable
 fun HomeScreen(

@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.henriquevieira.notes.base.viewmodel.BaseViewModel
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.domain.NoteUseCase
-import com.henriquevieira.notes.features.home.ui.HomeAction
-import com.henriquevieira.notes.features.home.ui.HomeResult
-import com.henriquevieira.notes.features.home.ui.HomeState
+import com.henriquevieira.notes.features.home.mvi.HomeAction
+import com.henriquevieira.notes.features.home.mvi.HomeResult
+import com.henriquevieira.notes.features.home.mvi.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,6 +52,7 @@ class HomeViewModel @Inject constructor(
             )
 
         } catch (e: Exception) {
+            e.printStackTrace()
             emitResult(HomeResult.OnFetchError)
         }
     }

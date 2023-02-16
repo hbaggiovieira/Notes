@@ -6,9 +6,8 @@ import com.henriquevieira.notes.domain.NoteRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class NoteRepositoryImpl
-@Inject constructor(
-    private val noteDataSource: NoteDataSource
+class NoteRepositoryImpl @Inject constructor(
+    private val noteDataSource: NoteDataSource,
 ) : NoteRepository {
     override suspend fun getNotes(): Flow<List<Note>> {
         return noteDataSource.getNotes()

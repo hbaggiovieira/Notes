@@ -2,6 +2,7 @@ package com.henriquevieira.notes.features.home
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import com.henriquevieira.notes.features.home.ui.HomeActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
