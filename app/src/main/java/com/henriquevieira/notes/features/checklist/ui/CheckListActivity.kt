@@ -1,7 +1,6 @@
 package com.henriquevieira.notes.features.checklist.ui
 
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.BorderStroke
@@ -35,6 +34,7 @@ import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.commonsui.ds.color_card_green
 import com.henriquevieira.notes.R
 import com.henriquevieira.notes.base.activity.BaseActivity
+import com.henriquevieira.notes.extensions.blockActionWhileLoading
 import com.henriquevieira.notes.extensions.showToast
 import com.henriquevieira.notes.features.checklist.mvi.CheckListAction
 import com.henriquevieira.notes.features.checklist.mvi.CheckListResult
@@ -75,7 +75,7 @@ class CheckListActivity : BaseActivity() {
     }
 
     private fun observe() = lifecycleScope.launch {
-        blockActionWhileLoading(viewModel.uiState.value.isLoading)
+        this@CheckListActivity.blockActionWhileLoading(viewModel.uiState.value.isLoading)
 
         viewModel.screen.collect { state ->
             when (state) {
@@ -169,19 +169,6 @@ class CheckListActivity : BaseActivity() {
                     onClick = { showAddItemDialog.value = false }
                 )
             }
-        }
-    }
-
-    private fun blockActionWhileLoading(isLoading: Boolean) {
-        if (isLoading) {
-            // disable all views
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-            );
-        } else {
-            // enable all views
-            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
 }

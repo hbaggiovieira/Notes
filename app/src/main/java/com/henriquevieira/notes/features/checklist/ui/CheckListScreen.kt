@@ -65,12 +65,13 @@ fun CheckListScreen(
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
                     .testTag("SAVE_BUTTON_TAG")
+                    .padding(16.dp)
                     .constrainAs(saveButtonRef) {
-                        start.linkTo(parent.start)
+                        start.linkTo(parent.start, 4.dp)
                         end.linkTo(addButtonRef.start, 4.dp)
                         bottom.linkTo(parent.bottom)
+                        width = Dimension.fillToConstraints
                     },
                 content = {
                     Text(stringResource(R.string.save))
@@ -80,11 +81,14 @@ fun CheckListScreen(
 
             AddButton(
                 onUiEvent = onUiAction,
-                modifier = Modifier.constrainAs(addButtonRef) {
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                }.padding(4.dp),
-                uiState = uiState
+                modifier = Modifier
+                    .testTag("ADD_BUTTON_TAG")
+                    .padding(16.dp)
+                    .constrainAs(addButtonRef) {
+                        end.linkTo(parent.end, 8.dp)
+                        width = Dimension.fillToConstraints
+                        bottom.linkTo(parent.bottom)
+                    }
             )
         }
     }
@@ -165,7 +169,6 @@ private fun ListField(
 @Composable
 private fun AddButton(
     modifier: Modifier = Modifier,
-    uiState: CheckListState,
     onUiEvent: (event: CheckListAction) -> Unit,
 ) {
     CustomCircleIconButton(

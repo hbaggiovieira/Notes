@@ -13,18 +13,6 @@ class CheckListRepositoryImpl @Inject constructor(
         return checkListDataSource.getCheckList()
     }
 
-    override suspend fun saveItem(item: CheckListItem) {
-        checkListDataSource.saveItem(item)
-    }
-
-    override suspend fun getItemById(itemId: Int): Flow<CheckListItem> {
-        return checkListDataSource.getItemById(itemId)
-    }
-
-    override suspend fun deleteItem(item: CheckListItem) {
-        checkListDataSource.deleteItem(item)
-    }
-
     override suspend fun replaceDatabase(items: List<CheckListItem>) {
         checkListDataSource.replaceDatabase(items)
     }

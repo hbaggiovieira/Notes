@@ -11,6 +11,5 @@ import com.henriquevieira.notes.features.checklist.data.room.CheckListDao
 @Database(entities = [Note::class, CheckListItem::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
-
     abstract fun checkListDao(): CheckListDao
 }

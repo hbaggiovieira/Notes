@@ -48,51 +48,30 @@ class CheckListViewModel @Inject constructor(
     }
 
     private fun deleteItem(id: Int) {
-        updateUiState(uiState.value.copy(isLoading = true))
-        try {
-            val newList = uiState.value.itemsList.toMutableList()
-            deleteById(newList, id)
-            updateUiState(uiState.value.copy(itemsList = newList))
-        } catch (e: Exception) {
-            emitResult(CheckListResult.OnError("Delete error"))
-        } finally {
-            updateUiState(uiState.value.copy(isLoading = false))
-        }
+        val newList = uiState.value.itemsList.toMutableList()
+        deleteById(newList, id)
+        updateUiState(uiState.value.copy(itemsList = newList))
     }
 
     private fun addItem(item: CheckListItem) {
-        updateUiState(uiState.value.copy(isLoading = true))
-        try {
-            val newList = uiState.value.itemsList.toMutableList()
-            newList.add(item)
-            updateUiState(uiState.value.copy(itemsList = newList))
-        } catch (e: Exception) {
-            emitResult(CheckListResult.OnError("Update error"))
-        } finally {
-            updateUiState(uiState.value.copy(isLoading = false))
-        }
+        val newList = uiState.value.itemsList.toMutableList()
+        newList.add(item)
+        updateUiState(uiState.value.copy(itemsList = newList))
     }
 
     private fun checkItem(index: Int, isChecked: Boolean) {
-        updateUiState(uiState.value.copy(isLoading = true))
-        try {
-            val newList = uiState.value.itemsList.toMutableList()
-            newList.set(
-                index = index,
-                element = uiState.value.itemsList[index].copy(isChecked = isChecked)
-            )
-            updateUiState(uiState.value.copy(itemsList = newList))
-        } catch (e: Exception) {
-            emitResult(CheckListResult.OnError("Update error"))
-        } finally {
-            updateUiState(uiState.value.copy(isLoading = false))
-        }
+        val newList = uiState.value.itemsList.toMutableList()
+        newList.set(
+            index = index, element = uiState.value.itemsList[index].copy(isChecked = isChecked)
+        )
+        updateUiState(uiState.value.copy(itemsList = newList))
     }
 
     private fun onSaveButtonClick() = viewModelScope.launch {
         updateUiState(uiState.value.copy(isLoading = true))
         try {
             checkListUseCase.replaceDatabase(uiState.value.itemsList)
+            emitResult(CheckListResult.OnSaveSuccess)
         } catch (e: Exception) {
             emitResult(CheckListResult.OnError("Save error"))
         } finally {

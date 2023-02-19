@@ -34,7 +34,7 @@ fun HomeScreen(
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        val (headerRef, notesListRef, addButtonRef, listButtonRef) = createRefs()
+        val (headerRef, notesListRef, addButtonRef, listButtonRef, newAlertRef) = createRefs()
 
         CustomHeader(
             title = "Notes",
@@ -69,6 +69,15 @@ fun HomeScreen(
             onUiEvent = onUiAction
         )
 
+        Text(
+            text = "NEW",
+            color = Color.Red,
+            modifier = Modifier.constrainAs(newAlertRef){
+                bottom.linkTo(listButtonRef.top, 1.dp)
+                start.linkTo(listButtonRef.start)
+                end.linkTo(listButtonRef.end)
+            }
+        )
         ListButton(
             modifier = Modifier.testTag("LIST_BUTTON_TAG")
                 .constrainAs(listButtonRef) {
