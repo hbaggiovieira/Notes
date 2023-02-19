@@ -19,6 +19,7 @@ object FeatureToggleConfig {
 
     fun getReleaseFeatureToggles(): Array<String> = arrayOf(
         FEATURE_HOME,
-        FEATURE_MAIN
+        FEATURE_MAIN,
+        FEATURE_LIST
     )
 }
