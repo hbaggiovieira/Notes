@@ -66,7 +66,7 @@ fun CheckListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .testTag("SAVE_BUTTON_TAG")
-                    .padding(16.dp)
+                    .padding(8.dp)
                     .constrainAs(saveButtonRef) {
                         start.linkTo(parent.start, 4.dp)
                         end.linkTo(addButtonRef.start, 4.dp)
@@ -83,7 +83,7 @@ fun CheckListScreen(
                 onUiEvent = onUiAction,
                 modifier = Modifier
                     .testTag("ADD_BUTTON_TAG")
-                    .padding(16.dp)
+                    .padding(8.dp)
                     .constrainAs(addButtonRef) {
                         end.linkTo(parent.end, 8.dp)
                         width = Dimension.fillToConstraints

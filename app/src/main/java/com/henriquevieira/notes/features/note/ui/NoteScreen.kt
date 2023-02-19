@@ -130,7 +130,7 @@ fun NoteScreen(
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(8.dp)
                 .testTag("SAVE_BUTTON_TAG")
                 .constrainAs(button) {
                     centerHorizontallyTo(parent)

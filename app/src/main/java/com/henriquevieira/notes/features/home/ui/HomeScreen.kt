@@ -62,9 +62,10 @@ fun HomeScreen(
         AddButton(
             modifier = Modifier
                 .testTag("ADD_BUTTON_TAG")
+                .padding(8.dp)
                 .constrainAs(addButtonRef) {
-                    end.linkTo(listButtonRef.start, 4.dp)
-                    bottom.linkTo(parent.bottom, 2.dp)
+                    end.linkTo(listButtonRef.start)
+                    bottom.linkTo(parent.bottom)
                 },
             onUiEvent = onUiAction
         )
@@ -72,7 +73,7 @@ fun HomeScreen(
         Text(
             text = "NEW",
             color = Color.Red,
-            modifier = Modifier.constrainAs(newAlertRef){
+            modifier = Modifier.constrainAs(newAlertRef) {
                 bottom.linkTo(listButtonRef.top, 1.dp)
                 start.linkTo(listButtonRef.start)
                 end.linkTo(listButtonRef.end)
@@ -80,10 +81,11 @@ fun HomeScreen(
         )
         ListButton(
             modifier = Modifier.testTag("LIST_BUTTON_TAG")
+                .padding(8.dp)
                 .constrainAs(listButtonRef) {
-                    end.linkTo(parent.end, 4.dp)
+                    end.linkTo(parent.end)
                     top.linkTo(addButtonRef.top)
-                    bottom.linkTo(addButtonRef.bottom)
+                    bottom.linkTo(parent.bottom)
                 },
             onUiEvent = onUiAction
         )
