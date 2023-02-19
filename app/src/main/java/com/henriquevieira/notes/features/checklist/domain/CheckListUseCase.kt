@@ -11,4 +11,5 @@ class CheckListUseCase @Inject constructor(
     suspend fun saveItem(item: CheckListItem) = checkListRepository.saveItem(item)
     suspend fun getItemById(itemId: Int) = checkListRepository.getItemById(itemId)
     suspend fun deleteItem(item: CheckListItem) = checkListRepository.deleteItem(item)
+    suspend fun replaceDatabase(items: List<CheckListItem>) = checkListRepository.replaceDatabase(items)
 }

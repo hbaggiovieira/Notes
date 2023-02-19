@@ -16,21 +16,19 @@ class CheckListViewModel @Inject constructor(
     private val checkListUseCase: CheckListUseCase,
 ) : BaseViewModel<CheckListAction, CheckListResult, CheckListState>() {
 
-    private val mList = mutableListOf<CheckListItem>()
-
     override val initialState: CheckListState
         get() = CheckListState()
 
     override fun dispatch(action: CheckListAction) {
         when (action) {
             is CheckListAction.Init -> init()
-            is CheckListAction.Close -> onClose()
+            is CheckListAction.Close -> emitResult(CheckListResult.OnClose)
             is CheckListAction.ToggleCheck -> checkItem(
                 index = action.index,
                 isChecked = action.isChecked
             )
             is CheckListAction.OpenAddItem -> emitResult(CheckListResult.OnOpenAddItem)
-            is CheckListAction.DeleteItem -> deleteItem(action.index)
+            is CheckListAction.DeleteItem -> deleteItem(action.id)
             is CheckListAction.AddItem -> addItem(CheckListItem(content = action.contentText))
             is CheckListAction.Save -> onSaveButtonClick()
         }
@@ -39,8 +37,9 @@ class CheckListViewModel @Inject constructor(
     private fun init() = viewModelScope.launch {
         updateUiState(uiState.value.copy(isLoading = true))
         try {
-            checkListUseCase.getCheckList().collect { data -> mList.addAll(data) }
-            updateUiState(uiState.value.copy(itemsList = mList))
+            checkListUseCase.getCheckList().collect { data ->
+                updateUiState(uiState.value.copy(itemsList = data))
+            }
         } catch (e: Exception) {
             emitResult(CheckListResult.OnError("Fetch error"))
         } finally {
@@ -48,12 +47,12 @@ class CheckListViewModel @Inject constructor(
         }
     }
 
-    private fun deleteItem(index: Int) {
+    private fun deleteItem(id: Int) {
         updateUiState(uiState.value.copy(isLoading = true))
         try {
-            mList.removeAt(index = index)
-//            checkListUseCase.deleteItem(item)
-            updateUiState(uiState.value.copy(itemsList = mList))
+            val newList = uiState.value.itemsList.toMutableList()
+            deleteById(newList, id)
+            updateUiState(uiState.value.copy(itemsList = newList))
         } catch (e: Exception) {
             emitResult(CheckListResult.OnError("Delete error"))
         } finally {
@@ -64,8 +63,9 @@ class CheckListViewModel @Inject constructor(
     private fun addItem(item: CheckListItem) {
         updateUiState(uiState.value.copy(isLoading = true))
         try {
-            mList.add(item)
-            updateUiState(uiState.value.copy(itemsList = mList))
+            val newList = uiState.value.itemsList.toMutableList()
+            newList.add(item)
+            updateUiState(uiState.value.copy(itemsList = newList))
         } catch (e: Exception) {
             emitResult(CheckListResult.OnError("Update error"))
         } finally {
@@ -76,8 +76,12 @@ class CheckListViewModel @Inject constructor(
     private fun checkItem(index: Int, isChecked: Boolean) {
         updateUiState(uiState.value.copy(isLoading = true))
         try {
-            mList.set(index = index, element = mList[index].copy(isChecked = isChecked))
-            updateUiState(uiState.value.copy(itemsList = mList))
+            val newList = uiState.value.itemsList.toMutableList()
+            newList.set(
+                index = index,
+                element = uiState.value.itemsList[index].copy(isChecked = isChecked)
+            )
+            updateUiState(uiState.value.copy(itemsList = newList))
         } catch (e: Exception) {
             emitResult(CheckListResult.OnError("Update error"))
         } finally {
@@ -88,14 +92,7 @@ class CheckListViewModel @Inject constructor(
     private fun onSaveButtonClick() = viewModelScope.launch {
         updateUiState(uiState.value.copy(isLoading = true))
         try {
-            mList.forEach {
-                if (!uiState.value.itemsList.contains(it)) {
-                    checkListUseCase.deleteItem(it)
-                }
-
-                checkListUseCase.saveItem(it)
-                updateUiState(uiState.value.copy(itemsList = mList))
-            }
+            checkListUseCase.replaceDatabase(uiState.value.itemsList)
         } catch (e: Exception) {
             emitResult(CheckListResult.OnError("Save error"))
         } finally {
@@ -103,17 +100,8 @@ class CheckListViewModel @Inject constructor(
         }
     }
 
-    private fun onClose() = viewModelScope.launch {
-//        updateUiState(uiState.value.copy(isLoading = true))
-//        try {
-//            mList.forEach {
-//                checkListUseCase.saveItem(it)
-//            }
-//        } catch (e: Exception) {
-//            emitResult(CheckListResult.OnError("Save error"))
-//        } finally {
-//            emitResult(CheckListResult.OnClose)
-//            updateUiState(uiState.value.copy(isLoading = false))
-//        }
+    fun deleteById(checkList: MutableList<CheckListItem>, id: Int) {
+        val toDelete = checkList.find { it.id == id }
+        checkList.remove(toDelete)
     }
 }

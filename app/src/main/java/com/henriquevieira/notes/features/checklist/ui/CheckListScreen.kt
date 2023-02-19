@@ -109,7 +109,7 @@ private fun ListField(
             ) {
                 val (checkBoxRef, contentRef, deleteButtonRef, dividerRef) = createRefs()
                 Checkbox(
-                    checked = isChecked.value,
+                    checked = uiState.itemsList[index].isChecked,
                     onCheckedChange = {
                         isChecked.value = it
 
@@ -120,7 +120,6 @@ private fun ListField(
                             )
                         )
                     },
-                    enabled = !uiState.isLoading,
                     modifier = Modifier.constrainAs(checkBoxRef) {
                         start.linkTo(parent.start)
                         height = Dimension.fillToConstraints
@@ -142,11 +141,11 @@ private fun ListField(
                             contentDescription = "Delete"
                         )
                     }, onClick = {
-                        onUiAction.invoke(CheckListAction.DeleteItem(index = index))
+                        onUiAction.invoke(CheckListAction.DeleteItem(uiState.itemsList[index].id))
                     }, modifier = Modifier.constrainAs(deleteButtonRef) {
                         end.linkTo(parent.end)
                         centerVerticallyTo(parent)
-                    }, enabled = !uiState.isLoading
+                    }
                 )
 
                 Divider(
@@ -173,7 +172,6 @@ private fun AddButton(
         modifier = modifier.testTag("ADD_BUTTON_TAG"),
         imageVector = Icons.Rounded.Add,
         imageColor = Color.Black,
-        isEnabled = !uiState.isLoading,
         backgroundColor = MaterialTheme.colorScheme.primaryContainer,
         contentDescription = "Add"
     ) {

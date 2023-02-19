@@ -26,4 +26,7 @@ class CheckListDataSourceImpl @Inject constructor(
     override suspend fun deleteItem(item: CheckListItem) {
         appDataBase.checkListDao().delete(item)
     }
+    override suspend fun replaceDatabase(items: List<CheckListItem>) {
+        appDataBase.checkListDao().replaceDatabase(items)
+    }
 }

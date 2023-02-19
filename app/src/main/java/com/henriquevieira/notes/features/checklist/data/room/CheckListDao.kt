@@ -16,4 +16,16 @@ interface CheckListDao {
 
     @Delete
     suspend fun delete(checkListItem: CheckListItem)
+    @Query("DELETE FROM checklistitem")
+    suspend fun deleteAll()
+
+    //ToDo fix this method
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun replaceDatabase(items: List<CheckListItem>) {
+        deleteAll()
+
+        items.forEach {
+            saveItem(it)
+        }
+    }
 }

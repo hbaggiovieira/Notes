@@ -8,4 +8,5 @@ interface CheckListDataSource {
     suspend fun saveItem(item: CheckListItem)
     suspend fun getItemById(itemId: Int): Flow<CheckListItem>
     suspend fun deleteItem(item: CheckListItem)
+    suspend fun replaceDatabase(items: List<CheckListItem>)
 }

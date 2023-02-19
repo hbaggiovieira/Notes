@@ -24,4 +24,8 @@ class CheckListRepositoryImpl @Inject constructor(
     override suspend fun deleteItem(item: CheckListItem) {
         checkListDataSource.deleteItem(item)
     }
+
+    override suspend fun replaceDatabase(items: List<CheckListItem>) {
+        checkListDataSource.replaceDatabase(items)
+    }
 }
