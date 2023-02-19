@@ -1,8 +1,8 @@
-package com.henriquevieira.notes.data.repository.checklist
+package com.henriquevieira.notes.features.checklist.data.repository
 
-import com.henriquevieira.notes.data.model.CheckListItem
-import com.henriquevieira.notes.data.source.checklist.CheckListDataSource
-import com.henriquevieira.notes.domain.checklist.CheckListRepository
+import com.henriquevieira.notes.features.checklist.data.model.CheckListItem
+import com.henriquevieira.notes.features.checklist.data.source.CheckListDataSource
+import com.henriquevieira.notes.features.checklist.domain.CheckListRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

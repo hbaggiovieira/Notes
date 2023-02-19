@@ -1,4 +1,4 @@
-package com.henriquevieira.notes.data.model
+package com.henriquevieira.notes.features.checklist.data.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo

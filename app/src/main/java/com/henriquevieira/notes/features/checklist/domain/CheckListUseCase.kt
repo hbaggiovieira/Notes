@@ -1,6 +1,7 @@
-package com.henriquevieira.notes.domain.checklist
+package com.henriquevieira.notes.features.checklist.domain
 
-import com.henriquevieira.notes.data.model.CheckListItem
+import com.henriquevieira.notes.features.checklist.data.model.CheckListItem
+import com.henriquevieira.notes.features.checklist.domain.CheckListRepository
 import javax.inject.Inject
 
 class CheckListUseCase @Inject constructor(

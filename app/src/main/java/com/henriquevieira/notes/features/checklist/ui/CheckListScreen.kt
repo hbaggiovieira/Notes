@@ -25,7 +25,7 @@ import com.henriquevieira.commonsui.button.CustomCircleIconButton
 import com.henriquevieira.commonsui.ds.AppTheme
 import com.henriquevieira.commonsui.header.CustomHeader
 import com.henriquevieira.notes.R
-import com.henriquevieira.notes.data.model.CheckListItem
+import com.henriquevieira.notes.features.checklist.data.model.CheckListItem
 import com.henriquevieira.notes.features.checklist.mvi.CheckListAction
 import com.henriquevieira.notes.features.checklist.mvi.CheckListState
 

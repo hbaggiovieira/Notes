@@ -2,9 +2,9 @@ package com.henriquevieira.notes.features.checklist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
-import com.henriquevieira.notes.data.model.CheckListItem
-import com.henriquevieira.notes.domain.checklist.CheckListRepository
-import com.henriquevieira.notes.domain.checklist.CheckListUseCase
+import com.henriquevieira.notes.features.checklist.data.model.CheckListItem
+import com.henriquevieira.notes.features.checklist.domain.CheckListRepository
+import com.henriquevieira.notes.features.checklist.domain.CheckListUseCase
 import com.henriquevieira.notes.features.checklist.mvi.CheckListAction
 import com.henriquevieira.notes.features.checklist.viewmodel.CheckListViewModel
 import io.mockk.coEvery

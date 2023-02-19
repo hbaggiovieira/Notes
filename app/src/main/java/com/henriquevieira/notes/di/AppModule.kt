@@ -9,10 +9,10 @@ import com.henriquevieira.notes.data.preferences.CustomSharedPreferencesKeys
 import com.henriquevieira.notes.data.room.AppDatabase
 import com.henriquevieira.notes.data.source.NoteDataSourceImpl
 import com.henriquevieira.notes.data.repository.NoteRepositoryImpl
-import com.henriquevieira.notes.data.repository.checklist.CheckListRepositoryImpl
-import com.henriquevieira.notes.data.source.checklist.CheckListDataSourceImpl
+import com.henriquevieira.notes.features.checklist.data.repository.CheckListRepositoryImpl
+import com.henriquevieira.notes.features.checklist.data.source.CheckListDataSourceImpl
 import com.henriquevieira.notes.domain.NoteRepository
-import com.henriquevieira.notes.domain.checklist.CheckListRepository
+import com.henriquevieira.notes.features.checklist.domain.CheckListRepository
 import com.henriquevieira.notes.features.router.RouterHandler
 import dagger.Module
 import dagger.Provides

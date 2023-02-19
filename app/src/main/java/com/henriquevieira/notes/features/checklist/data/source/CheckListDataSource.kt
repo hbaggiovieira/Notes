@@ -1,6 +1,6 @@
-package com.henriquevieira.notes.data.source.checklist
+package com.henriquevieira.notes.features.checklist.data.source
 
-import com.henriquevieira.notes.data.model.CheckListItem
+import com.henriquevieira.notes.features.checklist.data.model.CheckListItem
 import kotlinx.coroutines.flow.Flow
 
 interface CheckListDataSource {

@@ -1,7 +1,5 @@
 package com.henriquevieira.notes.features.checklist.mvi
 
-import com.henriquevieira.notes.data.model.CheckListItem
-
 sealed class CheckListAction {
 
 //    object SaveButtonClick: CheckListAction()

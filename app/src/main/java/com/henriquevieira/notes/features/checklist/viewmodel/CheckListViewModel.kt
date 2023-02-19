@@ -2,8 +2,8 @@ package com.henriquevieira.notes.features.checklist.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.henriquevieira.notes.base.viewmodel.BaseViewModel
-import com.henriquevieira.notes.data.model.CheckListItem
-import com.henriquevieira.notes.domain.checklist.CheckListUseCase
+import com.henriquevieira.notes.features.checklist.data.model.CheckListItem
+import com.henriquevieira.notes.features.checklist.domain.CheckListUseCase
 import com.henriquevieira.notes.features.checklist.mvi.CheckListAction
 import com.henriquevieira.notes.features.checklist.mvi.CheckListResult
 import com.henriquevieira.notes.features.checklist.mvi.CheckListState

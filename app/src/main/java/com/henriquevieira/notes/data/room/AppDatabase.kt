@@ -2,8 +2,9 @@ package com.henriquevieira.notes.data.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.henriquevieira.notes.data.model.CheckListItem
+import com.henriquevieira.notes.features.checklist.data.model.CheckListItem
 import com.henriquevieira.notes.data.model.Note
+import com.henriquevieira.notes.features.checklist.data.room.CheckListDao
 
 
 //ToDo Update database version

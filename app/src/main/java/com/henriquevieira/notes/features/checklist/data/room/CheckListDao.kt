@@ -1,7 +1,7 @@
-package com.henriquevieira.notes.data.room
+package com.henriquevieira.notes.features.checklist.data.room
 
 import androidx.room.*
-import com.henriquevieira.notes.data.model.CheckListItem
+import com.henriquevieira.notes.features.checklist.data.model.CheckListItem
 
 @Dao
 interface CheckListDao {
