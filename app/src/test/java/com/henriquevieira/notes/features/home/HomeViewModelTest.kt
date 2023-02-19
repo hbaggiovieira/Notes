@@ -177,8 +177,6 @@ class HomeViewModelTest {
         }
     }
 
-    //ToDo Create tests
-
     companion object {
         private val VALID_TEST_NOTE = Note(
             id = 1,

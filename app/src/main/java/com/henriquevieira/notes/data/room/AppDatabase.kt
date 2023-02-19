@@ -6,8 +6,6 @@ import com.henriquevieira.notes.features.checklist.data.model.CheckListItem
 import com.henriquevieira.notes.data.model.Note
 import com.henriquevieira.notes.features.checklist.data.room.CheckListDao
 
-
-//ToDo Update database version
 @Database(entities = [Note::class, CheckListItem::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao

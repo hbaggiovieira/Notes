@@ -6,8 +6,8 @@ object Config {
 
     const val buildToolsVersion = "33.0.1"
 
-    const val versionCode = 10
-    const val versionName = "1.3"
+    const val versionCode = 11
+    const val versionName = "2.0"
 
     const val applicationId = "com.henriquevieira.notes"
 
